@@ -1,0 +1,12 @@
+@font-face {
+  font-family: "Sohne-Buch";
+  src: src("Sohne-Buch.tff") format("ttf");
+}
+@font-face {
+  font-family: "Sohne-Halbfett";
+  src: src("Sohne-Halbfett.woff") format("woff");
+}
+@font-face {
+  font-family: "Sohne-Kraftig";
+  src: local("Sohne-Kraftig") src("Sohne-Kraftig.woff") format("woff");
+}
