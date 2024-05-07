@@ -8,6 +8,7 @@ import Button from "@/src/components/atoms/Button";
 import Card from "@/src/components/atoms/Card";
 import { default as Link } from "next/link";
 import TableCouponIds from "@/src/components/organisms/TableIds/TableIds";
+import { createRequestVals } from "@/src/helper/utility";
 
 export default function DettaglioCliente({ router = {}, user, permission }) {
   const { slug } = router.query || {};
@@ -15,6 +16,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
   const [dbVals, setDbVals] = useState({});
   const [keys, setKeys] = useState([]);
   const [modifying, setModifying] = useState(false);
+  const [mostraImportazione, setMostraImportazione] = useState(true);
 
   useEffect(() => {
     if (!slug) return;
@@ -35,7 +37,22 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
         toggle={modifying}
       />
 
-      <PageTitle className="pt-10" page right={<></>}>
+      <PageTitle
+        className="pt-10"
+        page
+        right={
+          <>
+            <input
+              onChange={() => {
+                setMostraImportazione(!mostraImportazione);
+              }}
+              checked={mostraImportazione}
+              type="checkbox"
+            />
+            Mostra importati
+          </>
+        }
+      >
         <div className="m-0 p-0 ">
           <Link className="mt-0 mr-16" href="/ricerca">
             <div className="btn btn-outline-secondary button_header_inner">
@@ -44,13 +61,45 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
           </Link>
 
           <h4 className="d-inline font-24 lh-24 bolder">
-            {vals.name} {vals.cognome}
+            {vals.nome_cognome_import}
           </h4>
         </div>
       </PageTitle>
 
       <Card className="mb-32 p-24">
         <h2 className="bold lh-24">Anagrafica</h2>
+
+        {mostraImportazione ? (
+          <>
+            {" "}
+            <div className="row mt-24">
+              <div className="col-6 pl-0 pr-16">
+                <label className="font-18 lh-24 bold">Nome e Cognome</label>
+                <input
+                  className="w-100"
+                  value={vals.nome_cognome_import}
+                  id="nome_cognome_import"
+                />
+              </div>
+              <div className="col-6 pl-16 pr-0">
+                <label className="font-18 lh-24 bold">Telefono</label>
+                <input
+                  className="w-100"
+                  value={vals.telefono_principale}
+                  id="telefono_principale"
+                />
+              </div>
+            </div>
+            <div className="row mt-24">
+              <textarea
+                className="note"
+                value={vals.anagrafica_import}
+              ></textarea>
+            </div>{" "}
+          </>
+        ) : (
+          <></>
+        )}
 
         <div className="row mt-24">
           <div className="col-6 pl-0 pr-16">
@@ -82,11 +131,11 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Telefono</label>
             <input
               className="w-100"
-              value={vals.telefono}
+              value={vals.telefono_principale}
               onChange={(e) => {
-                handleInput("telefono", e.target.value);
+                handleInput("telefono_principale", e.target.value);
               }}
-              id="telefono"
+              id="telefono_principale"
             />
           </div>
         </div>
@@ -147,11 +196,11 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Codice Fiscale</label>
             <input
               className="w-100"
-              value={vals.fiscalcode}
+              value={vals.codicefiscale}
               onChange={(e) => {
-                handleInput("fiscalcode", e.target.value);
+                handleInput("codicefiscale", e.target.value);
               }}
-              id="fiscalcode"
+              id="codicefiscale"
             />
           </div>
         </div>
@@ -292,7 +341,11 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
   }
 
   function handleSubmit() {
-    console.log(vals);
+    api.update_cliente(slug, createRequestVals(vals, keys)).then((value) => {
+      if (value) {
+        _get(value);
+      }
+    });
   }
 
   function _get(value) {

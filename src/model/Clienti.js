@@ -6,7 +6,7 @@ export const clienti_mock = [
     numero_civico: "8",
     provincia: "Caserta (CE)",
     comune: "Caserta",
-    fiscalcode: "MRCRSS90A26B963F",
+    codicefiscale: "MRCRSS90A26B963F",
     telefono: "111",
     interventi: [
       {
@@ -54,7 +54,7 @@ export const clienti_mock = [
     numero_civico: "6",
     provincia: "Caserta (CE)",
     comune: "Casal di Principe",
-    fiscalcode: "VNCRSS73A26B872P",
+    codicefiscale: "VNCRSS73A26B872P",
     telefono: "222",
     interventi: [],
     garanzia: {},
@@ -68,7 +68,7 @@ export const clienti_mock = [
     numero_civico: "3",
     provincia: "Caserta (CE)",
     comune: "Villa Literno",
-    fiscalcode: "FRNDNN83A26L844N",
+    codicefiscale: "FRNDNN83A26L844N",
     telefono: "333",
     interventi: [
       {

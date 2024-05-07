@@ -10,7 +10,19 @@ const api = {
   get_cliente: async function (phone_number) {
     try {
       const res = await axios.get(
-        "http://127.0.0.1:8000/customer/" + phone_number
+        "http://127.0.0.1:8000/customer/cliente/" + phone_number
+      );
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.description, "error");
+    }
+  },
+  update_cliente: async function (phone_number, vals) {
+    try {
+      const res = await axios.patch(
+        "http://127.0.0.1:8000/customer/cliente/" + phone_number,
+        vals
       );
       const data = res.data;
       return data;

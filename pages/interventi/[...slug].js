@@ -173,11 +173,11 @@ export default function EditCollection({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Codice Fiscale</label>
             <input
               className="w-100"
-              value={vals.fiscalcode}
+              value={vals.codicefiscale}
               onChange={(e) => {
-                handleInput("fiscalcode", e.target.value);
+                handleInput("codicefiscale", e.target.value);
               }}
-              id="fiscalcode"
+              id="codicefiscale"
             />
           </div>
         </div>
