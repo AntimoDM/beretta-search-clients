@@ -14,7 +14,19 @@ export default function RicercaClienti({ router = {}, user, permission }) {
 
   return (
     <div className="page-container-new">
-      <PageTitle className="pt-10" page>
+      <PageTitle
+        right={
+          <>
+            <Link href="/ricerca/nuovo">
+              <Button className="button_medium" color="green">
+                Aggiungi Cliente
+              </Button>
+            </Link>
+          </>
+        }
+        className="pt-10"
+        page
+      >
         <div className="p-0 m-0">
           <h4 className="d-inline font-24 lh-24 bolder">Ricerca Cliente</h4>
         </div>

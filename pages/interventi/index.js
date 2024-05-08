@@ -12,7 +12,7 @@ import { trackPromise } from "react-promise-tracker";
 import api from "@/src/helper/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import { formatDate } from "@/src/helper/utility";
-import { tecnici } from "@/src/model/Tecnici";
+import { TECNICI } from "@/src/model/Tecnici";
 
 export default function Interventi({ permission, router, language_ids }) {
   const [recs, setRecs] = useState([]);
@@ -27,21 +27,19 @@ export default function Interventi({ permission, router, language_ids }) {
   const [filters, setFilters] = useState({});
 
   useEffect(() => {
-    trackPromise(
-      api.search_interventi(headerTab).then((value) => {
-        if (value) {
-          setRecs(value);
-          setTotal(value.length);
-        }
-      })
-    );
+    api.ricerca_interventi(headerTab).then((value) => {
+      if (value) {
+        setRecs(value);
+        setTotal(value.length);
+      }
+    });
   }, [headerTab]);
 
   return (
     <div className="page-container-new">
       <PageTitle
         page
-        /* right={
+        right={
           <>
             <Link href="/interventi/nuovo">
               <Button className="button_medium" color="green">
@@ -49,7 +47,7 @@ export default function Interventi({ permission, router, language_ids }) {
               </Button>
             </Link>
           </>
-        } */
+        }
       >
         <h4>Interventi</h4>
       </PageTitle>
@@ -64,24 +62,22 @@ export default function Interventi({ permission, router, language_ids }) {
             Tutti
           </a>
           <a
-            onClick={() => setHeaderTab("nuovo")}
-            className={"nav-link " + (headerTab === "nuovo" ? "active" : "")}
+            onClick={() => setHeaderTab(1)}
+            className={"nav-link " + (headerTab === 1 ? "active" : "")}
             href="#"
           >
             Nuovi
           </a>
           <a
-            onClick={() => setHeaderTab("assegnato")}
-            className={
-              "nav-link " + (headerTab === "assegnato" ? "active" : "")
-            }
+            onClick={() => setHeaderTab(2)}
+            className={"nav-link " + (headerTab === 2 ? "active" : "")}
             href="#"
           >
             Assegnati
           </a>
           <a
-            onClick={() => setHeaderTab("completo")}
-            className={"nav-link " + (headerTab === "completo" ? "active" : "")}
+            onClick={() => setHeaderTab(3)}
+            className={"nav-link " + (headerTab === 3 ? "active" : "")}
             href="#"
           >
             Completi
@@ -90,11 +86,11 @@ export default function Interventi({ permission, router, language_ids }) {
 
         <CardToolbar className="align-items-center pl-24">
           <SearchBar
-            value={tecnici.find((el) => el.label == filters.tecnico)}
+            value={TECNICI.find((el) => el.label == filters.tecnico)}
             className="w-25 h-40 pl-0"
             placeholder={"Tecnico"}
             onChange={(e) => setFilters({ ...filters, tecnico: e.label })}
-            options={[tecnici.concat([{ label: "Annulla", value: "0" }])]}
+            options={[TECNICI.concat([{ label: "Annulla", value: "0" }])]}
           />
           <div className="row mt-8 w-100 my-auto pl-0 pr-24">
             <div className="col-6 pl-0 text-left">

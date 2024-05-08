@@ -9,6 +9,7 @@ import Card from "@/src/components/atoms/Card";
 import { default as Link } from "next/link";
 import TableCouponIds from "@/src/components/organisms/TableIds/TableIds";
 import { createRequestVals } from "@/src/helper/utility";
+import Swal from "sweetalert2";
 
 export default function DettaglioCliente({ router = {}, user, permission }) {
   const { slug } = router.query || {};
@@ -16,17 +17,20 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
   const [dbVals, setDbVals] = useState({});
   const [keys, setKeys] = useState([]);
   const [modifying, setModifying] = useState(false);
-  const [mostraImportazione, setMostraImportazione] = useState(true);
 
   useEffect(() => {
     if (!slug) return;
-    trackPromise(
-      api.get_cliente(slug).then((value) => {
-        if (value) {
-          _get(value);
-        }
-      })
-    );
+    if (slug !== "nuovo") {
+      trackPromise(
+        api.get_cliente(slug).then((value) => {
+          if (value) {
+            _get(value);
+          }
+        })
+      );
+    } else {
+      setVals({});
+    }
   }, [slug]);
 
   return (
@@ -38,18 +42,61 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
       />
 
       <PageTitle
-        className="pt-10"
+        className="mt-48"
         page
         right={
           <>
-            <input
-              onChange={() => {
-                setMostraImportazione(!mostraImportazione);
-              }}
-              checked={mostraImportazione}
-              type="checkbox"
-            />
-            Mostra importati
+            {slug !== "nuovo" && vals.creato_da_importazione && (
+              <>
+                <input
+                  onChange={() => {
+                    handleInput(
+                      "mostra_dati_importati",
+                      !vals.mostra_dati_importati
+                    );
+                  }}
+                  checked={vals.mostra_dati_importati}
+                  type="checkbox"
+                />
+                Mostra importati
+              </>
+            )}
+            {slug !== "nuovo" && (
+              <Button
+                onClick={() => {
+                  Swal.fire({
+                    customClass: "swal_support",
+                    title: "Attenzione",
+                    text: "L'eliminazione è irreversibile. Procedere?",
+                    confirmButtonAriaLabel: "Elimina",
+                    confirmButtonText: "Elimina",
+                    confirmButtonColor: "#E22623",
+                    cancelButtonText: "Annulla",
+                    reverseButtons: true,
+                  }).then((value) => {
+                    if (value.isConfirmed) {
+                      trackPromise(
+                        api.elimina_cliente(vals.id).then((value) => {
+                          if (value) {
+                            Swal.fire(
+                              "Successo",
+                              "L'eliminazione ha avuto successo",
+                              "success"
+                            ).then((value) => {
+                              router.push("/ricerca");
+                            });
+                          }
+                        })
+                      );
+                    }
+                  });
+                }}
+                color="red"
+                className="button_normal ml-16"
+              >
+                Elimina
+              </Button>
+            )}
           </>
         }
       >
@@ -61,7 +108,8 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
           </Link>
 
           <h4 className="d-inline font-24 lh-24 bolder">
-            {vals.nome_cognome_import}
+            {vals.nome_cognome_import ||
+              (vals.nome || "") + " " + (vals.cognome || "")}
           </h4>
         </div>
       </PageTitle>
@@ -69,7 +117,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
       <Card className="mb-32 p-24">
         <h2 className="bold lh-24">Anagrafica</h2>
 
-        {mostraImportazione ? (
+        {vals.mostra_dati_importati ? (
           <>
             {" "}
             <div className="row mt-24">
@@ -106,7 +154,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Nome</label>
             <input
               className="w-100"
-              value={vals.nome}
+              value={vals.nome || ""}
               onChange={(e) => {
                 handleInput("nome", e.target.value);
               }}
@@ -328,7 +376,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
   );
 
   function onRemove() {
-    if (slug !== "new") {
+    if (slug !== "nuovo") {
       setVals(dbVals);
     } else setVals({});
     setModifying(false);
@@ -341,11 +389,34 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
   }
 
   function handleSubmit() {
-    api.update_cliente(slug, createRequestVals(vals, keys)).then((value) => {
-      if (value) {
-        _get(value);
+    if (slug !== "nuovo") {
+      api.update_cliente(slug, createRequestVals(vals, keys)).then((value) => {
+        if (value) {
+          _get(value);
+        }
+      });
+    } else {
+      if (vals.telefono_principale) {
+        api
+          .crea_cliente({
+            ...vals,
+            mostra_dati_importati: false,
+            creato_da_importazione: false,
+            creato_da_webapp: true,
+          })
+          .then((value) => {
+            if (value) {
+              router.push("/ricerca/" + value.telefono_principale);
+            }
+          });
+      } else {
+        Swal.fire(
+          "Attenzione",
+          "Per creare un nuovo cliente è necessario specificare un numero di telefono",
+          "warning"
+        );
       }
-    });
+    }
   }
 
   function _get(value) {

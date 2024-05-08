@@ -1516,6 +1516,9 @@ small {
 .mt-4 {
   margin-top: 4px !important;
 }
+.mt-48 {
+  margin-top: 48px !important;
+}
 .mt-8 {
   margin-top: 8px !important;
 }
@@ -2041,34 +2044,34 @@ small {
 }
 
 .swal_support {
-  width: 596px !important;
-  height: 337px !important;
-  display: flex !important;
-  border-radius: 15px !important;
-  width: 596px !important;
-  padding-top: 48px !important;
-  padding-bottom: 48px !important;
-  padding-left: 74px !important;
-  padding-right: 74px !important;
+  // width: 596px !important;
+  // height: 337px !important;
+  // display: flex !important;
+  // border-radius: 15px !important;
+  // width: 596px !important;
+  // padding-top: 48px !important;
+  // padding-bottom: 48px !important;
+  // padding-left: 74px !important;
+  // padding-right: 74px !important;
 
-  .swal2-header {
-    margin-bottom: 32px !important;
-    .swal2-title {
-      margin-bottom: 0px !important;
-      margin-top: 10px !important;
-      font-size: 24px !important;
-      line-height: 24px !important;
-      font-family: "Sohne-Halbfett";
-    }
-  }
-  #swal2-content {
-    padding: 0px !important;
-    margin-top: 0px !important;
-    margin-bottom: 32px !important;
-    font-size: 20px !important;
-    line-height: 24px !important;
-    font-family: "Sohne-Buch";
-  }
+  // .swal2-header {
+  //   margin-bottom: 32px !important;
+  //   .swal2-title {
+  //     margin-bottom: 0px !important;
+  //     margin-top: 10px !important;
+  //     font-size: 24px !important;
+  //     line-height: 24px !important;
+  //     font-family: "Sohne-Halbfett";
+  //   }
+  // }
+  // #swal2-content {
+  //   padding: 0px !important;
+  //   margin-top: 0px !important;
+  //   margin-bottom: 32px !important;
+  //   font-size: 20px !important;
+  //   line-height: 24px !important;
+  //   font-family: "Sohne-Buch";
+  // }
   .swal2-actions {
     margin-top: 0px !important;
     .swal2-confirm {

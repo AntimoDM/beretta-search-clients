@@ -2,57 +2,127 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 axios.defaults.withCredentials = true;
-const BACKEND_URL = "https://u6-p6-br1128-b388.c1.stage.odoostack.dev";
-const url_api = BACKEND_URL + "/pim_ecommerce";
+const BASE_URL = "http://127.0.0.1:8000";
 
 const api = {
   _: require("lodash"),
+
+  // CLIENTE CRUD
+
+  ricerca_clienti: async function () {
+    try {
+      const res = await axios.get(BASE_URL + "/customer/cliente");
+      let resArray = res.data;
+      return resArray;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  ricerca_clienti_per_searchbar: async function () {
+    try {
+      const res = await axios.get(BASE_URL + "/customer/cliente");
+      let resArray = res.data.map((el) => {
+        return { value: el.id, label: el.nome + " " + el.cognome };
+      });
+      return resArray;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  crea_cliente: async function (vals) {
+    try {
+      const res = await axios.post(BASE_URL + "/customer/cliente", vals);
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
   get_cliente: async function (phone_number) {
     try {
       const res = await axios.get(
-        "http://127.0.0.1:8000/customer/cliente/" + phone_number
+        BASE_URL + "/customer/cliente/" + phone_number
       );
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.description, "error");
+      Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
   update_cliente: async function (phone_number, vals) {
     try {
       const res = await axios.patch(
-        "http://127.0.0.1:8000/customer/cliente/" + phone_number,
+        BASE_URL + "/customer/cliente/" + phone_number,
         vals
       );
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.description, "error");
+      Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
-  search_interventi: async function (listaStati, idsDaEscludere, tecnico) {
+  elimina_cliente: async function (id) {
     try {
-      const res = await axios.get("/api/SearchInterventi");
+      const res = await axios.delete(BASE_URL + "/customer/cliente/" + id);
       const data = res.data;
-      let resArray = data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
 
-      if (listaStati) {
-        resArray = resArray.filter((el) => listaStati.includes(el.stato));
-      }
+  // INTERVENTO CRUD
 
-      if (idsDaEscludere) {
-        resArray = resArray.filter((el) => !idsDaEscludere.includes(el.id));
-      }
-      console.log(resArray);
-      if (tecnico) {
-        resArray = resArray.filter((el) => el.tecnico === tecnico);
-      }
-
+  ricerca_interventi: async function (stato) {
+    try {
+      const res = await axios.get(
+        BASE_URL + "/customer/intervento?stato=" + stato
+      );
+      let resArray = res.data;
       return resArray;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.description, "error");
+      Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
+  crea_intervento: async function (vals) {
+    try {
+      const res = await axios.post(BASE_URL + "/customer/intervento", vals);
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  dettaglio_intervento: async function (id) {
+    try {
+      const res = await axios.get(BASE_URL + "/customer/intervento/" + id);
+      return res.data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  aggiorna_intervento: async function (id, vals) {
+    try {
+      const res = await axios.patch(
+        BASE_URL + "/customer/intervento/" + id,
+        vals
+      );
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  elimina_intervento: async function (id) {
+    try {
+      const res = await axios.delete(BASE_URL + "/customer/intervento/" + id);
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+
   search_garanzie: async function () {
     try {
       const res = await axios.get("/api/SearchGaranzie");
@@ -60,7 +130,7 @@ const api = {
       let resArray = data;
       return resArray;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.description, "error");
+      Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
   search_giornate: async function () {
@@ -69,7 +139,7 @@ const api = {
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.description, "error");
+      Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
   get_giornata: async function (id) {
@@ -78,7 +148,7 @@ const api = {
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.description, "error");
+      Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
   get_garanzia: async function (id) {
@@ -87,7 +157,7 @@ const api = {
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.description, "error");
+      Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
   aggiungi_intervento_a_giornata: async function (giornata, intervento) {
@@ -99,7 +169,7 @@ const api = {
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.description, "error");
+      Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
 };
