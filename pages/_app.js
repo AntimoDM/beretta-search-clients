@@ -42,9 +42,9 @@ function MyApp({ Component, pageProps }) {
             <div className="col d-flex justify-content-center align-items-center">
               <Link href={"/manutenzioni"}> Manutenzioni</Link>
             </div>
-            <div className="col d-flex justify-content-center align-items-center">
+            {/* <div className="col d-flex justify-content-center align-items-center">
               <Link href={"/fatture"}> Fatture</Link>
-            </div>
+            </div> */}
           </div>
         ) : (
           <></>

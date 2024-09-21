@@ -12,7 +12,6 @@ import { trackPromise } from "react-promise-tracker";
 import api from "@/src/helper/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import { formatDate } from "@/src/helper/utility";
-import { tecnici } from "@/src/model/Tecnici";
 
 export default function Garanzie({ permission, router, language_ids }) {
   const [recs, setRecs] = useState([]);
@@ -66,13 +65,13 @@ export default function Garanzie({ permission, router, language_ids }) {
         </HeaderTab>
 
         <CardToolbar className="align-items-center pl-24">
-          <SearchBar
+          {/* <SearchBar
             value={tecnici.find((el) => el.label == filters.tecnico)}
             className="w-25 h-40 pl-0"
             placeholder={"Cliente"}
             onChange={(e) => setFilters({ ...filters, tecnico: e.label })}
             options={[tecnici.concat([{ label: "Annulla", value: "0" }])]}
-          />
+          /> */}
           <div className="row mt-8 w-100 my-auto pl-0 pr-24">
             <div className="col-6 pl-0 text-left">
               <p className="font-16 lh-24 text-gray ordina_per">

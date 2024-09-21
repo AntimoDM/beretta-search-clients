@@ -125,10 +125,40 @@ const api = {
 
   search_garanzie: async function () {
     try {
-      const res = await axios.get("/api/SearchGaranzie");
+      const res = await axios.get(BASE_URL + "/customer/garanzia");
       const data = res.data;
       let resArray = data;
       return resArray;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  aggiorna_garanzia: async function (id, vals) {
+    try {
+      const res = await axios.patch(
+        BASE_URL + "/customer/garanzia/" + id,
+        vals
+      );
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  crea_garanzia: async function (vals) {
+    try {
+      const res = await axios.post(BASE_URL + "/customer/garanzia", vals);
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  elimina_cliente: async function (id) {
+    try {
+      const res = await axios.delete(BASE_URL + "/customer/garanzia/" + id);
+      const data = res.data;
+      return data;
     } catch (error) {
       Swal.fire("Errore", await error.response.data.res, "error");
     }
@@ -153,7 +183,7 @@ const api = {
   },
   get_garanzia: async function (id) {
     try {
-      const res = await axios.get("/api/getGaranzia/" + id);
+      const res = await axios.get(BASE_URL + "/customer/garanzia/" + id);
       const data = res.data;
       return data;
     } catch (error) {

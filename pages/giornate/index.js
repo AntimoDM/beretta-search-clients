@@ -13,7 +13,6 @@ import { trackPromise } from "react-promise-tracker";
 import api from "@/src/helper/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import { formatDate } from "@/src/helper/utility";
-import { tecnici } from "@/src/model/Tecnici";
 
 export default function designers({ permission, router, language_ids }) {
   const [designers, setDesigners] = useState([]);
@@ -27,6 +26,16 @@ export default function designers({ permission, router, language_ids }) {
   const [limit, setLimit] = useState(50);
   const [filters, setFilters] = useState({});
   const [lang, setLang] = useState("it_IT");
+  const TECNICI = [
+    {
+      value: 1,
+      label: "Danilo",
+    },
+    {
+      value: 2,
+      label: "Mimmo",
+    },
+  ];
 
   useEffect(() => {
     trackPromise(
@@ -94,11 +103,11 @@ export default function designers({ permission, router, language_ids }) {
 
         <CardToolbar className="align-items-center pl-24">
           <SearchBar
-            value={tecnici.find((el) => el.label == filters.tecnico)}
+            value={TECNICI.find((el) => el.label == filters.tecnico)}
             className="w-25 h-40 pl-0"
             placeholder={"Tecnico"}
             onChange={(e) => setFilters({ ...filters, tecnico: e.label })}
-            options={[tecnici.concat([{ label: "Annulla", value: "0" }])]}
+            options={TECNICI.concat([{ label: "Annulla", value: "0" }])}
           />
           {/* <SearchBarV2
             fullWidth

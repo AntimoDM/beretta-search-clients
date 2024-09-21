@@ -339,7 +339,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Data Accensione</label>
             <input
               className="w-100"
-              value={vals.data_rapporto}
+              value={vals.garanzia && vals.garanzia.data_accensione}
               onChange={(e) => {
                 handleInput("street", e.target.value);
               }}
@@ -350,7 +350,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Matricola</label>
             <input
               className="w-100"
-              value={vals.matricola}
+              value={vals.garanzia && vals.garanzia.matricola}
               onChange={(e) => {
                 handleInput("matricola", e.target.value);
               }}
@@ -364,7 +364,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Scadenza Garanzia</label>
             <input
               className="w-100"
-              value={vals.piano_manutenzione}
+              value={vals.garanzia && vals.garanzia.matricola}
               onChange={(e) => {
                 handleInput("piano_manutenzione", e.target.value);
               }}
@@ -375,7 +375,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Nota Bene</label>
             <textarea
               className="w-100 note"
-              value={vals.scadenza}
+              value={vals.garanzia && vals.garanzia.note}
               onChange={(e) => {
                 handleInput("scadenza", e.target.value);
               }}
