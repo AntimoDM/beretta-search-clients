@@ -58,7 +58,9 @@ export default function TabellaInterventi({
                     <td scope="col">
                       {visualizzaStatoIntervento(single.stato) || ""}
                     </td>
-                    <td scope="col">{single.tecnico}</td>
+                    <td scope="col">
+                      {single.tecnico === 1 ? "Danilo" : "Mimmo"}
+                    </td>
                     <td scope="col">
                       {formatDate(single.data_assegnamento) || ""}
                     </td>
@@ -96,11 +98,16 @@ export default function TabellaInterventi({
       >
         {cardinterventiOpen && (
           <CardCouponIds
-            onClick={() => {
+            onClose={() => {
               $("#card_interventi_ids_" + idSelezionato).modal("toggle");
               setSelectedIds([]);
               setIdSelezionato(1);
               setCardinterventiOpen(false);
+            }}
+            onClick={() => {
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
             }}
             modifyRow={modifyRow}
             onSave={(value) => {

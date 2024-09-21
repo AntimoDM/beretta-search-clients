@@ -8,10 +8,7 @@ const Button = ({
   className,
   modal_target,
   type = "",
-  border_gray,
-  border_gray_soft,
   disabled,
-  id,
   style,
 }) => {
   const [background, setBackground] = useState();
@@ -50,60 +47,21 @@ const Button = ({
         break;
     }
   }, []);
-  if (!id) {
-    return (
-      <button
-        className={
-          "btn  " +
-          (border_gray ? " border_gray " : "") +
-          (border_gray_soft ? " border_gray_soft " : "") +
-          (background || "") +
-          " " +
-          (className || "")
-        }
-        type={type}
-        onClick={
-          onClick ||
-          function () {
-            return null;
-          }
-        }
-        data-dismiss={data_dismiss || "modal"}
-        data-toggle={modal_target && "modal"}
-        data-target={"#" + (modal_target || "")}
-        disabled={disabled}
-        style={style || {}}
-      >
-        {children}
-      </button>
-    );
-  } else
-    return (
-      <button
-        id={id}
-        className={
-          "btn px-1 " +
-          (border_gray ? " border_gray " : "") +
-          (border_gray_soft ? " border_gray_soft " : "") +
-          (background || "") +
-          " " +
-          (className || "")
-        }
-        onClick={
-          onClick ||
-          function () {
-            return null;
-          }
-        }
-        data-dismiss={data_dismiss || "modal"}
-        data-toggle={modal_target && "modal"}
-        data-target={"#" + (modal_target || "")}
-        disabled={disabled}
-        style={style || {}}
-      >
-        {children}
-      </button>
-    );
+
+  return (
+    <button
+      className={"btn  " + (background || "") + " " + (className || "")}
+      type={type}
+      onClick={onClick}
+      data-dismiss={data_dismiss || "modal"}
+      data-toggle={modal_target && "modal"}
+      data-target={"#" + (modal_target || "")}
+      disabled={disabled}
+      style={style || { background: "#AEC60D" }}
+    >
+      {children}
+    </button>
+  );
 };
 
 export default Button;

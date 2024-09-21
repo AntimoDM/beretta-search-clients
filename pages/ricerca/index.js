@@ -18,7 +18,7 @@ export default function RicercaClienti({ router = {}, user, permission }) {
         right={
           <>
             <Link href="/ricerca/nuovo">
-              <Button className="button_medium" color="green">
+              <Button className="button_medium" beretta={true}>
                 Aggiungi Cliente
               </Button>
             </Link>
@@ -50,7 +50,7 @@ export default function RicercaClienti({ router = {}, user, permission }) {
           </div>
         </div>
 
-        <div className="row mt-16">
+        {/* <div className="row mt-16">
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Via</label>
             <input
@@ -63,7 +63,7 @@ export default function RicercaClienti({ router = {}, user, permission }) {
               id="street"
             />
           </div>
-        </div>
+        </div> */}
       </Card>
 
       <LoadingIndicator />

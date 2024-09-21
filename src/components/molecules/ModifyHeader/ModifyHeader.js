@@ -26,7 +26,7 @@ const ModifyHeader = ({ toggle, onSave, onRemove, nolabel }) => {
     <div
       className={style.modify_header + " row " + (toggle ? style.active : " ")}
     >
-      <div style={{ width: "80%", opacity: logow > 0 ? "1" : "0" }} />
+      <div style={{ width: "50%", opacity: logow > 0 ? "1" : "0" }} />
       <PageTitle
         className="pr-24 pl-0 pb-16 pt-16 col m-0"
         right={
@@ -49,7 +49,9 @@ const ModifyHeader = ({ toggle, onSave, onRemove, nolabel }) => {
         }
       >
         {!nolabel && (
-          <span className="text-light pl-16">Modifiche non salvate</span>
+          <span style={{ fontSize: "18px" }} className="text-light pl-16">
+            Modifiche non salvate
+          </span>
         )}
       </PageTitle>
     </div>

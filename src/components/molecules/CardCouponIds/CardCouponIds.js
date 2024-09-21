@@ -14,12 +14,14 @@ export default function CartaIntervento({
   modifyRow = {},
   onClick,
   onSave,
+  onClose,
   clienteID,
 }) {
   const STATO_INIZIALE_VALS = {
     data_chiamata: new Date().toISOString().split("T")[0],
     stato: 1,
     cliente: clienteID,
+    tecnico: 1,
   };
   const router = useRouter();
   const [vals, setVals] = useState(STATO_INIZIALE_VALS);
@@ -42,7 +44,7 @@ export default function CartaIntervento({
             <img
               style={{ cursor: "pointer" }}
               onClick={() => {
-                onClick();
+                onClose();
               }}
               src="/media/icon/chiudi.svg"
             />
@@ -59,13 +61,24 @@ export default function CartaIntervento({
       <div className="row mt-24">
         <div className="col-6 pl-0 pr-16">
           <label className="font-18 lh-24 bold">Tecnico</label>
-          <SearchBar
-            value={TECNICI.find((el) => el.value === vals.tecnico)}
-            className="h-40 pl-0"
+          <select
+            style={{ display: "block", width: "100%" }}
             placeholder={"Tecnico"}
-            onChange={(e) => handleInput("tecnico", e.value)}
-            options={TECNICI}
-          />
+            className="h-40 pl-0"
+          >
+            <option
+              selected={vals.tecnico === 1}
+              onClick={() => handleInput("tecnico", 1)}
+            >
+              Danilo
+            </option>
+            <option
+              selected={vals.tecnico === 2}
+              onClick={() => handleInput("tecnico", 2)}
+            >
+              Mimmo
+            </option>
+          </select>
         </div>
         <div className="col-6 pl-16 pr-0">
           <label className="font-18 lh-24 bold">Data Assegnamento</label>
@@ -99,6 +112,7 @@ export default function CartaIntervento({
         <div className="col-6 pl-16 pr-0">
           <label className="font-18 lh-24 bold">Data Completamento</label>
           <input
+            style={{ pointerEvents: "none" }}
             type="date"
             className="w-100"
             value={vals.data_completamento}
@@ -225,6 +239,13 @@ export default function CartaIntervento({
         .then((value) => {
           if (value) {
             _get(value);
+            Swal.fire(
+              "Successo",
+              "L'aggiornamento ha avuto successo",
+              "success"
+            ).then((value) => {
+              onClick();
+            });
           }
         });
     } else {
@@ -232,6 +253,13 @@ export default function CartaIntervento({
         if (value) {
           if (value) {
             _get(value);
+            Swal.fire(
+              "Successo",
+              "La creazione ha avuto successo",
+              "success"
+            ).then((value) => {
+              onClick();
+            });
           }
         }
       });

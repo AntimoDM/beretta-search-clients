@@ -186,6 +186,18 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
               id="telefono_principale"
             />
           </div>
+
+          <div className="col-6 pr-0 pl-16">
+            <label className="font-18 lh-24 bold">Email</label>
+            <input
+              className="w-100"
+              value={vals.email}
+              onChange={(e) => {
+                handleInput("email", e.target.value);
+              }}
+              id="email"
+            />
+          </div>
         </div>
         <h2 className="bold lh-24 mt-24">Indirizzo</h2>
 
@@ -254,14 +266,16 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
         </div>
       </Card>
 
-      <Card className="mb-32 p-24">
-        <h2 className="bold lh-24">Interventi</h2>
-        <div className="row mt-24">
-          <TableCouponIds clienteID={vals.id} interventi={vals.interventi} />
-        </div>
-      </Card>
+      {slug !== "nuovo" && (
+        <Card className="mb-32 p-24">
+          <h2 className="bold lh-24">Interventi</h2>
+          <div className="row mt-24">
+            <TableCouponIds clienteID={vals.id} interventi={vals.interventi} />
+          </div>
+        </Card>
+      )}
 
-      <Card className="mb-32 p-24">
+      <Card style={{ pointerEvents: "none" }} className="mb-32 p-24">
         <h2 className="bold lh-24">Manutenzione</h2>
         <div className="row mt-24">
           <div className="col-6 pl-0 pr-16">
@@ -318,7 +332,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
         <div className="row mt-8"></div>
       </Card>
 
-      <Card className="mb-32 p-24">
+      <Card style={{ pointerEvents: "none" }} className="mb-32 p-24">
         <h2 className="bold lh-24">Garanzia</h2>
         <div className="row mt-24">
           <div className="col-6 pl-0 pr-16">
