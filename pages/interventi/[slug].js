@@ -61,6 +61,44 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
         page
         right={
           <>
+            {slug !== "nuovo" && vals.stato === 2 && (
+              <Button
+                onClick={() => {
+                  Swal.fire({
+                    customClass: "swal_support",
+                    title: "Attenzione",
+                    text: "L'intervento è stato completato. Procedere?",
+                    confirmButtonAriaLabel: "Conferma",
+                    confirmButtonText: "Conferma",
+                    confirmButtonColor: "#E22623",
+                    cancelButtonText: "Annulla",
+                    reverseButtons: true,
+                  }).then((value) => {
+                    if (value.isConfirmed) {
+                      trackPromise(
+                        api
+                          .aggiorna_intervento(vals.id, { stato: 3 })
+                          .then((value) => {
+                            if (value) {
+                              Swal.fire("Successo", "", "success").then(
+                                (value) => {
+                                  if (value) {
+                                    _get(value);
+                                  }
+                                }
+                              );
+                            }
+                          })
+                      );
+                    }
+                  });
+                }}
+                color="green"
+                className="button_normal ml-16"
+              >
+                Completato
+              </Button>
+            )}
             {slug !== "nuovo" && (
               <Button
                 onClick={() => {
@@ -173,6 +211,7 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Data Completamento</label>
             <input
               type="date"
+              style={{ pointerEvents: "none" }}
               className="w-100"
               value={vals.data_completamento}
               onChange={(e) => {

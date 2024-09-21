@@ -27,7 +27,7 @@ export default function Garanzie({ permission, router, language_ids }) {
 
   useEffect(() => {
     trackPromise(
-      api.search_garanzie(headerTab).then((value) => {
+      api.search_manutenzioni(headerTab).then((value) => {
         if (value) {
           setRecs(value);
           setTotal(value.length);
@@ -42,15 +42,15 @@ export default function Garanzie({ permission, router, language_ids }) {
         page
         right={
           <>
-            <Link href="/garanzie/nuovo">
+            <Link href="/manutenzioni/nuovo">
               <Button className="button_medium" color="green">
-                Aggiungi Garanzia
+                Aggiungi Manutenzione
               </Button>
             </Link>
           </>
         }
       >
-        <h4>Garanzie</h4>
+        <h4>Manutenzioni</h4>
       </PageTitle>
 
       <Card>
@@ -146,7 +146,7 @@ export default function Garanzie({ permission, router, language_ids }) {
             )}
           </div>
           <div style={{ cursor: "pointer" }} className=" col my-auto">
-            Data Accensione
+            Data Rapporto
           </div>
           <div
             style={{ cursor: "pointer" }}
@@ -196,7 +196,7 @@ export default function Garanzie({ permission, router, language_ids }) {
                   </p>
                 </div>
                 <div className=" col my-auto">
-                  {formatDate(element.data_accensione)}
+                  {formatDate(element.data_rapporto)}
                 </div>
 
                 <div className="text-end col my-auto pr-24">

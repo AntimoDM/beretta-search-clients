@@ -281,8 +281,9 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Data Rapporto</label>
             <input
+              style={{ pointerEvents: "none" }}
               className="w-100"
-              value={vals.data_rapporto}
+              value={vals.manutenzione && vals.manutenzione.data_rapporto}
               onChange={(e) => {
                 handleInput("street", e.target.value);
               }}
@@ -293,7 +294,8 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Matricola</label>
             <input
               className="w-100"
-              value={vals.matricola}
+              style={{ pointerEvents: "none" }}
+              value={vals.manutenzione && vals.manutenzione.matricola}
               onChange={(e) => {
                 handleInput("matricola", e.target.value);
               }}
@@ -308,8 +310,9 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
               Tipo piano manutenzione
             </label>
             <input
+              style={{ pointerEvents: "none" }}
               className="w-100"
-              value={vals.piano_manutenzione}
+              value={vals.manutenzione && vals.manutenzione.tipologia}
               onChange={(e) => {
                 handleInput("piano_manutenzione", e.target.value);
               }}
@@ -320,7 +323,8 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Scadenza</label>
             <input
               className="w-100"
-              value={vals.scadenza}
+              style={{ pointerEvents: "none" }}
+              value={vals.manutenzione && vals.manutenzione.data_scadenza}
               onChange={(e) => {
                 handleInput("scadenza", e.target.value);
               }}

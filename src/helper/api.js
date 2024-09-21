@@ -154,7 +154,7 @@ const api = {
       Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
-  elimina_cliente: async function (id) {
+  elimina_garanzia: async function (id) {
     try {
       const res = await axios.delete(BASE_URL + "/customer/garanzia/" + id);
       const data = res.data;
@@ -166,6 +166,55 @@ const api = {
   search_giornate: async function () {
     try {
       const res = await axios.get("/api/SearchGiornate");
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  search_manutenzioni: async function () {
+    try {
+      const res = await axios.get(BASE_URL + "/customer/manutenzione");
+      const data = res.data;
+      let resArray = data;
+      return resArray;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  get_manutenzione: async function (id) {
+    try {
+      const res = await axios.get(BASE_URL + "/customer/manutenzione/" + id);
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  crea_manutenzione: async function (vals) {
+    try {
+      const res = await axios.post(BASE_URL + "/customer/manutenzione", vals);
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  aggiorna_manutenzione: async function (id, vals) {
+    try {
+      const res = await axios.patch(
+        BASE_URL + "/customer/manutenzione/" + id,
+        vals
+      );
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  elimina_manutenzione: async function (id) {
+    try {
+      const res = await axios.delete(BASE_URL + "/customer/manutenzione/" + id);
       const data = res.data;
       return data;
     } catch (error) {

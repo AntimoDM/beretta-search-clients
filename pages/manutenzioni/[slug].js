@@ -29,7 +29,7 @@ export default function EditCollection({ router = {}, user, permission }) {
 
     if (slug !== "nuovo") {
       trackPromise(
-        api.get_garanzia(slug).then((value) => {
+        api.get_manutenzione(slug).then((value) => {
           if (value) {
             setVals(value);
             setDbVals(value);
@@ -75,14 +75,14 @@ export default function EditCollection({ router = {}, user, permission }) {
                   }).then((value) => {
                     if (value.isConfirmed) {
                       trackPromise(
-                        api.elimina_garanzia(vals.id).then((value) => {
+                        api.elimina_manutenzione(vals.id).then((value) => {
                           if (value) {
                             Swal.fire(
                               "Successo",
                               "L'eliminazione ha avuto successo",
                               "success"
                             ).then((value) => {
-                              router.push("/garanzie");
+                              router.push("/manutenzioni");
                             });
                           }
                         })
@@ -111,10 +111,10 @@ export default function EditCollection({ router = {}, user, permission }) {
           </Link>
 
           <h4 className="d-inline font-24 lh-24 bolder">
-            Garanzia di{" "}
+            Manutenzione di{" "}
             {vals.cliente &&
               (vals.cliente.cognome || "") + " " + vals.cliente.nome}{" "}
-            - {formatDate(vals.data_accensione)}
+            - {formatDate(vals.data_rapporto)}
           </h4>
         </div>
       </PageTitle>
@@ -159,15 +159,15 @@ export default function EditCollection({ router = {}, user, permission }) {
       <Card className="mb-32 p-24">
         <div className="row mt-24">
           <div className="col-6 pl-0 pr-16">
-            <label className="font-18 lh-24 bold">Data Accensione</label>
+            <label className="font-18 lh-24 bold">Data Rapporto</label>
             <input
               type="date"
               className="w-100"
-              value={vals.data_accensione || ""}
+              value={vals.data_rapporto || ""}
               onChange={(e) => {
-                handleInput("data_accensione", e.target.value);
+                handleInput("data_rapporto", e.target.value);
               }}
-              id="data_accensione"
+              id="data_rapporto"
             />
           </div>
           <div className="col-6 pl-16 pr-0">
@@ -197,14 +197,15 @@ export default function EditCollection({ router = {}, user, permission }) {
             />
           </div>
           <div className="col-6 pl-16 pr-0">
-            <label className="font-18 lh-24 bold">Nota Bene</label>
-            <textarea
-              className="w-100 note"
-              value={vals.note}
+            <label className="font-18 lh-24 bold">Tipologia</label>
+            <input
+              type="text"
+              className="w-100"
+              value={vals.tipologia || ""}
               onChange={(e) => {
-                handleInput("note", e.target.value);
+                handleInput("tipologia", e.target.value);
               }}
-              id="note"
+              id="tipologia"
             />
           </div>
         </div>
@@ -243,7 +244,10 @@ export default function EditCollection({ router = {}, user, permission }) {
   function handleSubmit() {
     if (slug !== "nuovo") {
       api
-        .aggiorna_garanzia(slug, createRequestVals(vals, keys, [], m2oAttrs))
+        .aggiorna_manutenzione(
+          slug,
+          createRequestVals(vals, keys, [], m2oAttrs)
+        )
         .then((value) => {
           if (value) {
             _get(value);
@@ -251,10 +255,10 @@ export default function EditCollection({ router = {}, user, permission }) {
         });
     } else {
       api
-        .crea_garanzia(createRequestVals(vals, keys, [], m2oAttrs))
+        .crea_manutenzione(createRequestVals(vals, keys, [], m2oAttrs))
         .then((value) => {
           if (value) {
-            router.push("/garanzie/" + value.id);
+            router.push("/manutenzioni/" + value.id);
           }
         });
     }
