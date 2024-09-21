@@ -8,13 +8,14 @@ import Button from "@/src/components/atoms/Button";
 import Card from "@/src/components/atoms/Card";
 import { default as Link } from "next/link";
 import TableCouponIds from "@/src/components/organisms/TableIds/TableIds";
-import { formatDate } from "@/src/helper/utility";
+import { createRequestVals, formatDate } from "@/src/helper/utility";
 import HeaderTab from "@/src/components/atoms/HeaderTab/HeaderTab";
+import { STATI, TECNICI } from "@/src/model/Tecnici";
 import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
 
 export default function EditCollection({ router = {}, user, permission }) {
   const { slug } = router.query || {};
-  const [vals, setVals] = useState({});
+  const [vals, setVals] = useState({ modificabile: true });
   const [dbVals, setDbVals] = useState({});
   const [keys, setKeys] = useState([]);
   const [designers, setDesigners] = useState([]);
@@ -25,30 +26,25 @@ export default function EditCollection({ router = {}, user, permission }) {
   useEffect(() => {
     if (!slug) return;
 
-    if (slug[0] === "nuovo") {
+    if (slug === "nuovo") {
       setVals({ ...vals, modificabile: true });
       setDbVals({ ...dbVals, modificabile: true });
     }
 
-    if (slug[0] !== "nuovo") {
+    if (slug !== "nuovo") {
       trackPromise(
         api.get_giornata(slug).then((value) => {
           if (value) {
             setVals(value);
             setDbVals(value);
-            api
-              .search_interventi(
-                ["nuovo", "assegnato"],
-                value.interventi.map((el) => {
-                  return el.id;
-                }),
-                value.tecnico
-              )
-              .then((val) => {
+            console.log(value);
+            trackPromise(
+              api.ricerca_interventi(2, value.tecnico).then((val) => {
                 if (val) {
                   setDesigners(val);
                 }
-              });
+              })
+            );
           }
         })
       );
@@ -58,16 +54,13 @@ export default function EditCollection({ router = {}, user, permission }) {
   useEffect(() => {
     if (!slug) return;
     if (!vals.tecnico) return;
-    if (slug[0] !== "nuovo" && vals.tecnico) {
-      console.log(vals);
+    if (slug !== "nuovo" && vals.tecnico) {
       trackPromise(
-        api
-          .search_interventi(["nuovo", "assegnato"], [], vals.tecnico)
-          .then((val) => {
-            if (val) {
-              setDesigners(val);
-            }
-          })
+        api.ricerca_interventi(2, vals.tecnico).then((val) => {
+          if (val) {
+            setDesigners(val);
+          }
+        })
       );
     }
   }, [vals.tecnico]);
@@ -96,27 +89,21 @@ export default function EditCollection({ router = {}, user, permission }) {
           </Link>
 
           <h4 className="d-inline font-24 lh-24 bolder">
-            {formatDate(vals.giorno)} - {vals.tecnico}
+            {formatDate(vals.data)} - {vals.tecnico}
           </h4>
         </div>
       </PageTitle>
 
       <Card className="mb-32 p-24">
-        <div className="row">
+        <div className="row mt-24">
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Tecnico</label>
             <SearchBar
-              value={[
-                { label: "Danilo", value: "1" },
-                { label: "Mimmo", value: "2" },
-              ].find((el) => el.label == vals.tecnico)}
-              className=" h-40 pl-0"
+              value={TECNICI.find((el) => el.value === vals.tecnico)}
+              className="h-40 pl-0"
               placeholder={"Tecnico"}
-              onChange={(e) => handleInput("tecnico", e.label)}
-              options={[
-                { label: "Danilo", value: "1" },
-                { label: "Mimmo", value: "2" },
-              ]}
+              onChange={(e) => handleInput("tecnico", e.value)}
+              options={TECNICI}
             />
           </div>
           <div className="col-6 pl-16 pr-0">
@@ -126,16 +113,16 @@ export default function EditCollection({ router = {}, user, permission }) {
               id="data_chiamata"
               type="date"
               placeholder="Data Chiamata"
-              value={vals.giorno ? vals.giorno : ""}
+              value={vals.data ? vals.data : ""}
               onChange={(e) => {
-                handleInput("giorno", e.target.value);
+                handleInput("data", e.target.value);
               }}
             />
           </div>
         </div>
       </Card>
 
-      {slug && slug[0] !== "nuovo" && (
+      {slug !== "nuovo" && (
         <>
           <Card className="mb-32 p-24">
             <h2 className="bold lh-24">Interventi</h2>
@@ -287,7 +274,21 @@ export default function EditCollection({ router = {}, user, permission }) {
   }
 
   function handleSubmit() {
-    console.log(vals);
+    if (slug !== "nuovo") {
+      api
+        .aggiorna_giornata(slug, createRequestVals(vals, keys, []))
+        .then((value) => {
+          if (value) {
+            _get(value);
+          }
+        });
+    } else {
+      api.crea_giornata(createRequestVals(vals, keys, [])).then((value) => {
+        if (value) {
+          router.push("/manutenzioni/" + value.id);
+        }
+      });
+    }
   }
 
   function _get(value) {

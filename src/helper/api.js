@@ -165,7 +165,7 @@ const api = {
   },
   search_giornate: async function () {
     try {
-      const res = await axios.get("/api/SearchGiornate");
+      const res = await axios.get(BASE_URL + "/customer/giornata");
       const data = res.data;
       return data;
     } catch (error) {
@@ -223,7 +223,28 @@ const api = {
   },
   get_giornata: async function (id) {
     try {
-      const res = await axios.get("/api/getGiornata/" + id);
+      const res = await axios.get(BASE_URL + "/customer/giornata/" + id);
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  aggiorna_giornata: async function (id, vals) {
+    try {
+      const res = await axios.patch(
+        BASE_URL + "/customer/giornata/" + id,
+        vals
+      );
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  crea_giornata: async function (vals) {
+    try {
+      const res = await axios.post(BASE_URL + "/customer/giornata", vals);
       const data = res.data;
       return data;
     } catch (error) {

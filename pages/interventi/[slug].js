@@ -197,7 +197,6 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Data Chiamata</label>
             <input
-              style={{ pointerEvents: "none" }}
               type="date"
               className="w-100"
               value={vals.data_chiamata}
