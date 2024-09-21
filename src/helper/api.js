@@ -260,12 +260,14 @@ const api = {
       Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
-  aggiungi_intervento_a_giornata: async function (giornata, intervento) {
+  aggiungi_intervento_a_giornata: async function (id, interventiIds) {
     try {
-      const res = await axios.get("/api/Hello", {
-        giornata: giornata,
-        intervento: intervento,
-      });
+      const res = await axios.post(
+        BASE_URL + "/customer/giornata/interventi/" + id,
+        {
+          ids: interventiIds,
+        }
+      );
       const data = res.data;
       return data;
     } catch (error) {
