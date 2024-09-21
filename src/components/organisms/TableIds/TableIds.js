@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import Card from "../../atoms/Card";
 import Modal from "../../atoms/Modal/Modal";
 import CardCouponIds from "../../molecules/CardCouponIds/CardCouponIds";
-import { formatDate } from "@/src/helper/utility";
+import { formatDate, visualizzaStatoIntervento } from "@/src/helper/utility";
 
 export default function TabellaInterventi({
   interventi = [{}],
   onSave,
   edit = true,
+  clienteID,
 }) {
   const [loading, setLoading] = useState(false);
   const [infiniteLoading, setInfiniteLoading] = useState(false);
@@ -25,11 +26,13 @@ export default function TabellaInterventi({
             <thead>
               <tr>
                 <th scope="col">Data Chiamata</th>
+                <th scope="col">Stato</th>
+                <th scope="col">Tecnico</th>
+                <th scope="col">Data Assegnamento</th>
+                <th scope="col">Data completamento</th>
                 <th scope="col">Motivazione Chiamata</th>
                 <th scope="col">Note per il Tecnico</th>
                 <th scope="col">Note del Tecnico</th>
-                <th scope="col">Data completamento</th>
-                <th scope="col">Stato</th>
               </tr>
             </thead>
             <tbody>
@@ -52,14 +55,19 @@ export default function TabellaInterventi({
                     <td scope="col">
                       {formatDate(single.data_chiamata) || ""}
                     </td>
-                    <td scope="col">{single.motivazione || ""}</td>
-                    <td scope="col">{single.note_per_tecnico || ""}</td>
-                    <td scope="col">{single.note_del_tecnico || ""}</td>
+                    <td scope="col">
+                      {visualizzaStatoIntervento(single.stato) || ""}
+                    </td>
+                    <td scope="col">{single.tecnico}</td>
+                    <td scope="col">
+                      {formatDate(single.data_assegnamento) || ""}
+                    </td>
                     <td scope="col">
                       {formatDate(single.data_completamento) || ""}
                     </td>
-
-                    <td scope="col">{single.stato}</td>
+                    <td scope="col">{single.motivazione || ""}</td>
+                    <td scope="col">{single.note_per_tecnico || ""}</td>
+                    <td scope="col">{single.note_del_tecnico || ""}</td>
                   </tr>
                 );
               })}
@@ -98,6 +106,7 @@ export default function TabellaInterventi({
             onSave={(value) => {
               onSave(value);
             }}
+            clienteID={clienteID}
           ></CardCouponIds>
         )}
       </Modal>

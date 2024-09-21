@@ -73,10 +73,10 @@ const api = {
 
   // INTERVENTO CRUD
 
-  ricerca_interventi: async function (stato) {
+  ricerca_interventi: async function (stato, tecnico) {
     try {
       const res = await axios.get(
-        BASE_URL + "/customer/intervento?stato=" + stato
+        BASE_URL + "/customer/intervento?stato=" + stato + "&tecnico=" + tecnico
       );
       let resArray = res.data;
       return resArray;

@@ -11,7 +11,11 @@ import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
 import { trackPromise } from "react-promise-tracker";
 import api from "@/src/helper/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
-import { formatDate } from "@/src/helper/utility";
+import {
+  formatDate,
+  visualizzaNomeCliente,
+  visualizzaStatoIntervento,
+} from "@/src/helper/utility";
 import { TECNICI } from "@/src/model/Tecnici";
 
 export default function Interventi({ permission, router, language_ids }) {
@@ -27,13 +31,13 @@ export default function Interventi({ permission, router, language_ids }) {
   const [filters, setFilters] = useState({});
 
   useEffect(() => {
-    api.ricerca_interventi(headerTab).then((value) => {
+    api.ricerca_interventi(headerTab, filters.tecnico || "").then((value) => {
       if (value) {
         setRecs(value);
         setTotal(value.length);
       }
     });
-  }, [headerTab]);
+  }, [headerTab, filters]);
 
   return (
     <div className="page-container-new">
@@ -86,11 +90,16 @@ export default function Interventi({ permission, router, language_ids }) {
 
         <CardToolbar className="align-items-center pl-24">
           <SearchBar
-            value={TECNICI.find((el) => el.label == filters.tecnico)}
+            value={TECNICI.find((el) => el.value == filters.tecnico)}
             className="w-25 h-40 pl-0"
             placeholder={"Tecnico"}
-            onChange={(e) => setFilters({ ...filters, tecnico: e.label })}
-            options={[TECNICI.concat([{ label: "Annulla", value: "0" }])]}
+            onChange={(e) =>
+              setFilters({
+                ...filters,
+                tecnico: e.value === "0" ? false : e.value,
+              })
+            }
+            options={TECNICI.concat([{ label: "Annulla", value: "0" }])}
           />
           <div className="row mt-8 w-100 my-auto pl-0 pr-24">
             <div className="col-6 pl-0 text-left">
@@ -214,16 +223,17 @@ export default function Interventi({ permission, router, language_ids }) {
                     className="tooltip_bold bold my-0 text-truncate d-block"
                     title={element.name}
                   >
-                    {element.cliente &&
-                      element.cliente.nome + " " + element.cliente.cognome}
+                    {visualizzaNomeCliente(element.cliente)}
                   </p>
                 </div>
                 <div className=" col my-auto">
                   {formatDate(element.data_chiamata)}
                 </div>
-                <div className=" col my-auto">{element.tecnico}</div>
+                <div className=" col my-auto">
+                  {element.tecnico && element.tecnico.nome}
+                </div>
                 <div className="text-end col my-auto pr-24">
-                  {element.stato}
+                  {visualizzaStatoIntervento(element.stato)}
                 </div>
               </Link>
             );

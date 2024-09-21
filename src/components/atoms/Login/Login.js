@@ -7,9 +7,9 @@ import api from "@/src/helper/api";
 import Card from "../Card";
 import Link from "next/link";
 import Button from "../Button";
+import Swal from "sweetalert2";
 export default function Login({ onClick = () => null }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({});
 
   return (
     <>
@@ -25,30 +25,22 @@ export default function Login({ onClick = () => null }) {
         <div className="form-group mb-16 h-56">
           <input
             container_className="h-56"
-            value={username}
-            placeholder="Email Address"
+            className="w-100"
+            value={user.username}
+            placeholder="Utente"
             type="header"
-            onKeyDown={(e) => {
-              if (e.keyCode === 13) {
-                onClick({ username: username });
-              }
-            }}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUser({ ...user, username: e.target.value })}
           />
         </div>
 
         <div className="form-group mb-24 h-56">
           <input
             container_className="h-56"
-            value={password}
+            className="w-100"
+            value={user.password}
             placeholder="Password"
             type="password"
-            onKeyDown={(e) => {
-              if (e.keyCode === 13) {
-                onClick({ username: username });
-              }
-            }}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
         </div>
         <small className={styles.gray}>
@@ -58,10 +50,11 @@ export default function Login({ onClick = () => null }) {
         </small>
         <Button
           onClick={() => {
-            onClick({ username: username });
+            effettuaLogin();
           }}
           className="w-100 mt-16 py-24 h-64 lh-19"
           variant="danger"
+          style={{ background: "#AEC60D" }}
         >
           <span
             style={{
@@ -78,4 +71,16 @@ export default function Login({ onClick = () => null }) {
       <LoadingIndicator />
     </>
   );
+
+  function credenzialiCompilate() {
+    return user.username !== undefined && user.password !== undefined;
+  }
+
+  function effettuaLogin() {
+    if (credenzialiCompilate()) {
+      onClick(user);
+    } else {
+      Swal.fire("Campi mancanti", "Compila Utente e Password!", "warning");
+    }
+  }
 }

@@ -5,17 +5,31 @@ import { useRouter } from "next/router";
 import PageTitle from "../PageTitle";
 import Card from "../../atoms/Card";
 import Button from "../../atoms/Button";
-import { formatDate } from "@/src/helper/utility";
+import { createRequestVals, formatDate } from "@/src/helper/utility";
 import SearchBar from "../SearchBar/SearchBar";
+import { TECNICI } from "@/src/model/Tecnici";
+import Swal from "sweetalert2";
 
-export default function CartaIntervento({ modifyRow = {}, onClick, onSave }) {
+export default function CartaIntervento({
+  modifyRow = {},
+  onClick,
+  onSave,
+  clienteID,
+}) {
+  const STATO_INIZIALE_VALS = {
+    data_chiamata: new Date().toISOString().split("T")[0],
+    stato: 1,
+    cliente: clienteID,
+  };
   const router = useRouter();
-  const [row, setRow] = useState({});
+  const [vals, setVals] = useState(STATO_INIZIALE_VALS);
+  const [dbVals, setDbVals] = useState({});
+  const [keys, setKeys] = useState([]);
   const { slug } = router.query;
 
   useEffect(() => {
-    if (modifyRow) {
-      setRow(modifyRow);
+    if (modifyRow && Object.keys(modifyRow).length > 0) {
+      _get(modifyRow);
     }
   }, [modifyRow]);
 
@@ -42,92 +56,95 @@ export default function CartaIntervento({ modifyRow = {}, onClick, onSave }) {
           {modifyRow.id ? "Modifica Intervento" : "Aggiungi Intervento"}
         </span>
       </PageTitle>
-      <div className="row">
+      <div className="row mt-24">
+        <div className="col-6 pl-0 pr-16">
+          <label className="font-18 lh-24 bold">Tecnico</label>
+          <SearchBar
+            value={TECNICI.find((el) => el.value === vals.tecnico)}
+            className="h-40 pl-0"
+            placeholder={"Tecnico"}
+            onChange={(e) => handleInput("tecnico", e.value)}
+            options={TECNICI}
+          />
+        </div>
+        <div className="col-6 pl-16 pr-0">
+          <label className="font-18 lh-24 bold">Data Assegnamento</label>
+          <input
+            style={{ pointerEvents: "none" }}
+            type="date"
+            className="w-100"
+            value={vals.data_assegnamento}
+            onChange={(e) => {
+              handleInput("data_assegnamento", e.target.value);
+            }}
+            id="data_assegnamento"
+          />
+        </div>
+      </div>
+
+      <div className="row mt-8">
         <div className="col-6 pl-0 pr-16">
           <label className="font-18 lh-24 bold">Data Chiamata</label>
           <input
-            className="w-100 h-40"
-            id="data_chiamata"
+            style={{ pointerEvents: "none" }}
             type="date"
-            placeholder="Data Chiamata"
-            value={row["data_chiamata"]}
+            className="w-100"
+            value={vals.data_chiamata}
             onChange={(e) => {
               handleInput("data_chiamata", e.target.value);
             }}
+            id="data_chiamata"
           />
         </div>
         <div className="col-6 pl-16 pr-0">
-          <label className="font-18 lh-24 bold">Tecnico</label>
-          <input
-            className="w-100 h-40"
-            id="tecnico"
-            placeholder="Data Chiamata"
-            value={row["tecnico"]}
-            onChange={(e) => handleInput("tecnico", e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div className="row mt-24">
-        <div className="col-6 pl-0 pr-16">
           <label className="font-18 lh-24 bold">Data Completamento</label>
           <input
             type="date"
-            className="w-100 h-40"
+            className="w-100"
+            value={vals.data_completamento}
+            onChange={(e) => {
+              handleInput("data_completamento", e.target.value);
+            }}
             id="data_completamento"
-            placeholder="Data Chiamata"
-            value={row["data_completamento"]}
-            onChange={(e) => handleInput()}
           />
         </div>
-        <div className="col-6 pr-0 pl-16 reverse">
-          <label className="font-18 lh-24 bold">Stato</label>
-          <select
-            style={{ backgroundColor: "white", borderRadius: "8px" }}
-            className="d-block w-50 h-40"
-            placeholder={"Stato"}
-            value={row["stato"]}
-          >
-            <option onClick={() => handleInput("stato", "nuovo")}>nuovo</option>
-            <option onClick={() => handleInput("stato", "assegnato")}>
-              assegnato
-            </option>
-            <option onClick={() => handleInput("stato", "risolto")}>
-              risolto
-            </option>
-          </select>
-        </div>
-        <div className="col-6 pl-16 pr-0"></div>
       </div>
 
       <div className="row mt-24">
         <div className="col-6 pl-0 pr-16">
-          <label className="font-18 lh-24 bold">Note per tecnico</label>
+          <label className="font-18 lh-24 bold">Motivazione</label>
           <textarea
-            className="note"
-            placeholder="Note per tecnico"
-            value={row["note_per_tecnico"]}
-            onChange={(e) => handleInput()}
+            className="w-100"
+            value={vals.motivazione || ""}
+            onChange={(e) => {
+              handleInput("motivazione", e.target.value);
+            }}
+            id="motivazione"
           />
         </div>
         <div className="col-6 pl-16 pr-0">
-          <label className="font-18 lh-24 bold">note del tecnico</label>
+          <label className="font-18 lh-24 bold">Note per il tecnico</label>
           <textarea
-            className="note"
-            placeholder="Note del tecnico"
-            value={row["note_del_tecnico"]}
-            onChange={(e) => handleInput()}
+            className="w-100"
+            value={vals.note_per_tecnico || ""}
+            onChange={(e) => {
+              handleInput("note_per_tecnico", e.target.value);
+            }}
+            id="note_per_tecnico"
           />
         </div>
       </div>
-      <div className="row mt-16">
+
+      <div className="row mt-24">
         <div className="col-6 pl-0 pr-16">
-          <label className="font-18 lh-24 bold">Motivazione Chiamata</label>
+          <label className="font-18 lh-24 bold">Note del tecnico</label>
           <textarea
-            className="note"
-            placeholder="Motivazione chiamata"
-            value={row["motivazione"]}
-            onChange={(e) => handleInput()}
+            className="w-100"
+            value={vals.note_del_tecnico || ""}
+            onChange={(e) => {
+              handleInput("note_del_tecnico", e.target.value);
+            }}
+            id="note_del_tecnico"
           />
         </div>
       </div>
@@ -136,38 +153,43 @@ export default function CartaIntervento({ modifyRow = {}, onClick, onSave }) {
         <Button
           data_dismiss="none"
           onClick={() => {
-            let vals = {
-              ...row,
-            };
-            console.log("vals", vals);
-
-            trackPromise(
-              api.update_coupon_ids(slug, vals).then((value) => {
-                if (value) {
-                  onSave(value);
-                  onClick();
-                }
-              })
-            );
+            handleSubmit();
           }}
           className="button_normal"
           color="green"
         >
           Salva
         </Button>
+
         {modifyRow && modifyRow.id && (
           <Button
             onClick={() => {
-              trackPromise(
-                api
-                  .update_coupon_ids(slug, { ...row, op: "delete" })
-                  .then((value) => {
-                    if (value) {
-                      onSave(value);
-                      onClick();
-                    }
-                  })
-              );
+              Swal.fire({
+                customClass: "swal_support",
+                title: "Attenzione",
+                text: "L'eliminazione è irreversibile. Procedere?",
+                confirmButtonAriaLabel: "Elimina",
+                confirmButtonText: "Elimina",
+                confirmButtonColor: "#E22623",
+                cancelButtonText: "Annulla",
+                reverseButtons: true,
+              }).then((value) => {
+                if (value.isConfirmed) {
+                  trackPromise(
+                    api.elimina_intervento(vals.id).then((value) => {
+                      if (value) {
+                        Swal.fire(
+                          "Successo",
+                          "L'eliminazione ha avuto successo",
+                          "success"
+                        ).then((value) => {
+                          onClick();
+                        });
+                      }
+                    })
+                  );
+                }
+              });
             }}
             color="red"
             className="button_normal mr-16"
@@ -179,7 +201,8 @@ export default function CartaIntervento({ modifyRow = {}, onClick, onSave }) {
         <Button
           data_dismiss="none"
           onClick={() => {
-            onClick();
+            onRemove();
+            //onClick();
           }}
           className="button_normal mr-16"
           color="transparent"
@@ -191,6 +214,38 @@ export default function CartaIntervento({ modifyRow = {}, onClick, onSave }) {
   );
 
   function handleInput(key, value) {
-    setRow({ ...row, [key]: value });
+    setVals({ ...vals, [key]: value });
+    if (!keys.includes(key)) setKeys([...keys, key]);
+  }
+
+  function handleSubmit() {
+    if (vals.id) {
+      api
+        .aggiorna_intervento(vals.id, createRequestVals(vals, keys))
+        .then((value) => {
+          if (value) {
+            _get(value);
+          }
+        });
+    } else {
+      api.crea_intervento(vals).then((value) => {
+        if (value) {
+          if (value) {
+            _get(value);
+          }
+        }
+      });
+    }
+  }
+
+  function onRemove() {
+    if (vals.id) {
+      setVals(dbVals);
+    } else setVals(STATO_INIZIALE_VALS);
+  }
+
+  function _get(value) {
+    setVals(value);
+    setDbVals(value);
   }
 }

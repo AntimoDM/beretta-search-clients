@@ -188,7 +188,7 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Motivazione</label>
             <textarea
               className="w-100"
-              value={vals.motivazione}
+              value={vals.motivazione || ""}
               onChange={(e) => {
                 handleInput("motivazione", e.target.value);
               }}
@@ -199,7 +199,7 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Note per il tecnico</label>
             <textarea
               className="w-100"
-              value={vals.note_per_tecnico}
+              value={vals.note_per_tecnico || ""}
               onChange={(e) => {
                 handleInput("note_per_tecnico", e.target.value);
               }}
@@ -208,12 +208,12 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
           </div>
         </div>
 
-        <div className="row mt-8">
+        <div className="row mt-24">
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Note del tecnico</label>
             <textarea
               className="w-100"
-              value={vals.note_del_tecnico}
+              value={vals.note_del_tecnico || ""}
               onChange={(e) => {
                 handleInput("note_del_tecnico", e.target.value);
               }}

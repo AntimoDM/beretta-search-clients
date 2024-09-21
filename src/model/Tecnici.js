@@ -1,11 +1,11 @@
 export const TECNICI = [
   {
     value: 1,
-    label: "Mimmo",
+    label: "Danilo",
   },
   {
     value: 2,
-    label: "Danilo",
+    label: "Mimmo",
   },
 ];
 

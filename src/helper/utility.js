@@ -3,6 +3,7 @@ import style from "../../styles/common.module.scss";
 import $ from "jquery";
 import Swal from "sweetalert2";
 import { useRef, useEffect } from "react";
+import { STATI } from "../model/Tecnici";
 export function renderPulseState(status) {
   if (status) {
     switch (status.toUpperCase()) {
@@ -447,4 +448,35 @@ export function adaptConditionDomainVals(domainVals) {
   vals["child_ids"] = childs;
 
   return vals;
+}
+
+export function visualizzaNomeCliente(cliente) {
+  if (cliente) {
+    if (cliente.nome || cliente.cognome) {
+      return cliente.nome + " " + cliente.cognome;
+    } else {
+      return cliente.nome_cognome_import;
+    }
+  }
+}
+
+export function visualizzaStatoIntervento(stato) {
+  if (stato) {
+    return STATI.find((el) => el.value === stato).label;
+  }
+}
+
+export function effettuaLogin(user) {
+  switch (user.username) {
+    case "cristina":
+      return user.password === "ufficio";
+    case "nunzia":
+      return user.password === "ufficio";
+    case "mimmo":
+      return user.password === "tecnico";
+    case "mimmo":
+      return user.password === "tecnico";
+    default:
+      return false;
+  }
 }

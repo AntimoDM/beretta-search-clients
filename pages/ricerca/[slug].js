@@ -257,7 +257,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
       <Card className="mb-32 p-24">
         <h2 className="bold lh-24">Interventi</h2>
         <div className="row mt-24">
-          <TableCouponIds interventi={vals.interventi} />
+          <TableCouponIds clienteID={vals.id} interventi={vals.interventi} />
         </div>
       </Card>
 
