@@ -125,7 +125,9 @@ const api = {
 
   search_garanzie: async function () {
     try {
-      const res = await axios.get(BASE_URL + "/customer/garanzia");
+      const res = await axios.get(BASE_URL + "/customer/garanzia", {
+        withCredentials: false,
+      });
       const data = res.data;
       let resArray = data;
       return resArray;

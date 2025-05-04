@@ -285,7 +285,7 @@ export default function EditCollection({ router = {}, user, permission }) {
     } else {
       api.crea_giornata(createRequestVals(vals, keys, [])).then((value) => {
         if (value) {
-          router.push("/manutenzioni/" + value.id);
+          router.push("/giornate/" + value.id);
         }
       });
     }

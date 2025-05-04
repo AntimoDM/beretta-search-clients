@@ -165,7 +165,7 @@ export default function Garanzie({ permission, router, language_ids }) {
           {recs.map((element, index) => {
             return (
               <Link
-                href={"/garanzie/" + element.id}
+                href={"/manutenzioni/" + element.id}
                 key={index}
                 className="row table_row h-56"
               >

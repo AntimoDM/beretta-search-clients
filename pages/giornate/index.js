@@ -218,7 +218,7 @@ export default function designers({ permission, router, language_ids }) {
                     type="checkbox"
                   />
                 </div>
-                <div className=" col my-auto">{formatDate(element.giorno)}</div>
+                <div className=" col my-auto">{formatDate(element.data)}</div>
                 <div className="col my-auto">{element.tecnico}</div>
 
                 <div className="text-end col my-auto pr-24">
