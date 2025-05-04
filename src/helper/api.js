@@ -1,8 +1,8 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-axios.defaults.withCredentials = true;
-const BASE_URL = "http://127.0.0.1:8000";
+axios.defaults.withCredentials = false;
+const BASE_URL = process.env.BACKEND_URL;
 
 const api = {
   _: require("lodash"),
