@@ -21,25 +21,15 @@ $container-max-widths: (
 
 @import "./../node_modules/bootstrap";
 
-@font-face {
-  font-family: "Sohne-Buch";
-  src: url("/fonts/Sohne-Buch.woff");
-  font-display: auto;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Sohne-Halbfett";
-  src: url("/fonts/Sohne-Halbfett.woff");
-}
-@font-face {
-  font-family: "Sohne-Kraftig";
-  src: url("/fonts/Sohne-Kraftig.woff");
-}
+
 
 html {
   height: 100%;
   width: 100%;
   body {
+    font-family: 'Poppins', sans-serif;
+    color: #2E2E2E;
+    font-size: 12px;
     height: 100%;
     width: 100%;
     #__next {
@@ -48,6 +38,21 @@ html {
     }
   }
 }
+
+header {
+  border-bottom: 1px solid #e5e5e5;
+  
+  background: linear-gradient(to right, #f9f9f9, #ffffff);
+
+}
+
+header nav a:hover {
+  color: #AEC60D;
+  transition: color 0.2s ease-in-out;
+}
+
+
+
 .MuiBadge-anchorOriginTopRightRectangle.MuiBadge-invisible {
   z-index: 0;
 }
@@ -115,8 +120,6 @@ body {
   padding: 0;
   background: #f1f1ee !important;
   margin: 0;
-  /*   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
   main {
     max-height: 90vh;
     overflow: auto;
@@ -188,7 +191,7 @@ a {
   }
 }
 .title {
-  font-family: $normal;
+  
   font-weight: 600 !important;
 }
 h1,
@@ -199,7 +202,7 @@ h5,
 h6 {
   line-height: 32px;
   margin-bottom: 0px;
-  font-family: $bolder;
+  
   vertical-align: middle;
 }
 .fix-bottom {
@@ -216,7 +219,7 @@ h6 {
 }
 * {
   scrollbar-width: thin;
-  font-family: $normal;
+  
   scrollbar-color: #c2c2c296 rgba(255, 255, 255, 0);
   color: $black;
   font-size: 16px;
@@ -266,7 +269,7 @@ button.MuiButtonBase-root:focus {
       background: $black;
       border-color: $black;
       a {
-        color: white;
+        color: #D95D39;
       }
     }
     &.active {
@@ -285,7 +288,7 @@ button.MuiButtonBase-root:focus {
     &:hover {
       background: $black;
       border-color: $black;
-      color: white;
+      color: #D95D39;
     }
   }
   &.btn-outline-light {
@@ -307,8 +310,9 @@ button.MuiButtonBase-root:focus {
   }
   &.btn-primary-outline {
     background-color: transparent;
-    border: 1px solid $black;
+    border: 1px solid #2E2E2E;
     &:hover {
+      border: 1px solid #D95D39;
       i {
         color: white;
       }
@@ -316,11 +320,11 @@ button.MuiButtonBase-root:focus {
         filter: brightness(0) invert(1);
       }
       background: $black;
-      border-color: $black;
+      border-color: "#D95D39";
       span {
-        color: white;
+        color: #D95D39;
       }
-      color: white !important;
+      color: #D95D39 !important;
     }
   }
 }
@@ -340,7 +344,7 @@ button.MuiButtonBase-root:focus {
   transition: color 0.1s, background-color 0.1s, padding 0.2s ease-in;
   color: $gray2;
   border: none;
-  font-family: $bold;
+  
 }
 
 .nav-tabs .nav-link::before {
@@ -484,7 +488,7 @@ button.MuiButtonBase-root:focus {
         &.btn-bot a {
           line-height: 24px !important;
           font-size: 16px !important;
-          font-family: $bold !important;
+          
         }
         width: 216px !important;
       }
@@ -530,7 +534,7 @@ button.MuiButtonBase-root:focus {
 .tag_bar {
   background: $gray;
   border-radius: 5px;
-  font-family: $bolder;
+  
 }
 
 .ordinaper_support {
@@ -627,7 +631,7 @@ button.MuiButtonBase-root:focus {
   }
   li,
   a {
-    font-family: $bold;
+    
     font-size: 18px;
     line-height: 24px;
     letter-spacing: 0em;
@@ -714,17 +718,17 @@ button.MuiButtonBase-root:focus {
   width: 100%;
 }
 .bold {
-  font-family: $bold !important;
+  
   line-height: 24px;
   .async-select__placeholder {
     font-weight: 500 !important;
-    font-family: $bolder !important;
+    
     color: #323232 !important;
   }
 }
 
 .bolder {
-  font-family: $bolder;
+  
   line-height: 36px;
 }
 
@@ -826,7 +830,7 @@ ul.row_container {
 }
 .table_header {
   font-size: 16px;
-  font-family: $bold;
+  
   line-height: 24px;
   margin-top: 24px !important;
   margin-bottom: 24px !important;
@@ -834,7 +838,7 @@ ul.row_container {
   span,
   * {
     font-size: 16px;
-    font-family: $bold;
+    
   }
 }
 .height0 input {
@@ -1147,7 +1151,7 @@ ul {
   padding-left: 8px;
   font-size: 16px;
   line-height: 24px;
-  font-family: $normal;
+  
   &:focus {
     color: #495057;
     background-color: #fff;
@@ -1270,7 +1274,7 @@ span.__json-string__ {
   font-size: 10px !important;
   margin-right: -1px !important;
   margin-top: 9px !important;
-  font-family: $bold !important;
+  
   min-width: 5px !important;
   width: 16px !important;
 }
@@ -1320,7 +1324,7 @@ span.__json-string__ {
 
 small {
   font-weight: 500;
-  font-family: $bolder;
+  
   font-size: 16px !important;
 }
 
@@ -1369,7 +1373,7 @@ small {
   right: 24px;
 }
 .font-italic {
-  font-family: $normal !important;
+  
   font-size: 16px !important;
   line-height: 20px !important;
 }
@@ -1661,12 +1665,11 @@ small {
 
 .pagetitle_support {
   h4 {
-    font-family: "Sohne-Halbfett";
     font-size: 24px;
     line-height: 36px;
   }
   .btn {
-    font-family: $bold;
+    
     font-size: 16px;
     line-height: 19px;
     height: 40px;
@@ -1815,7 +1818,7 @@ small {
   .col-4,
   .col-5,
   .col-6 {
-    font-family: $bold;
+    
     line-height: 24px;
     &:first-child {
       padding-left: 24px;
@@ -1831,6 +1834,37 @@ small {
 }
 
 .card_support {
+  input{
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    height: 40px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    &:focus{
+      border-color: #66b2ff;
+      box-shadow: 0 0 0 4px rgba(102, 178, 255, 0.3); /* sfumatura azzurra */
+    }
+  }
+  .textarea{
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background-color: white;
+    height: 80px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    &:focus{
+      border-color: #66b2ff;
+      box-shadow: 0 0 0 4px rgba(102, 178, 255, 0.3); /* sfumatura azzurra */
+    }
+  }
   h5 {
     margin-bottom: 8px;
   }
@@ -2044,34 +2078,7 @@ small {
 }
 
 .swal_support {
-  // width: 596px !important;
-  // height: 337px !important;
-  // display: flex !important;
-  // border-radius: 15px !important;
-  // width: 596px !important;
-  // padding-top: 48px !important;
-  // padding-bottom: 48px !important;
-  // padding-left: 74px !important;
-  // padding-right: 74px !important;
 
-  // .swal2-header {
-  //   margin-bottom: 32px !important;
-  //   .swal2-title {
-  //     margin-bottom: 0px !important;
-  //     margin-top: 10px !important;
-  //     font-size: 24px !important;
-  //     line-height: 24px !important;
-  //     font-family: "Sohne-Halbfett";
-  //   }
-  // }
-  // #swal2-content {
-  //   padding: 0px !important;
-  //   margin-top: 0px !important;
-  //   margin-bottom: 32px !important;
-  //   font-size: 20px !important;
-  //   line-height: 24px !important;
-  //   font-family: "Sohne-Buch";
-  // }
   .swal2-actions {
     margin-top: 0px !important;
     .swal2-confirm {
@@ -2097,7 +2104,6 @@ small {
 }
 
 .titolo_1 {
-  font-family: "Sohne-Kraftig" !important;
   font-size: 18px !important;
   line-height: 24px !important;
 }
@@ -2217,7 +2223,6 @@ small {
 }
 
 .titolo_2 {
-  font-family: "Sohne-Halbfett" !important;
   font-size: 24px !important;
   line-height: 24px !important;
 }
@@ -2254,7 +2259,7 @@ small {
   padding-left: 24px !important;
   padding-right: 24px !important;
   height: 48px !important;
-  font-family: $bold;
+  
   line-height: 16px !important;
   font-size: 16px !important;
 }
@@ -2267,7 +2272,7 @@ small {
   height: 40px !important;
   font-size: 16px !important;
   line-height: 16px !important;
-  font-family: $bold !important;
+  
   font-weight: normal !important;
 }
 
@@ -2299,7 +2304,7 @@ small {
   span {
     line-height: 24px !important;
     font-size: 16px !important;
-    font-family: $bold !important;
+    
   }
 }
 
@@ -2682,19 +2687,16 @@ input[type="checkbox"] {
 
 //CLASSI DI SUPPORTO PER LE FONT-FAMILY
 .normal {
-  font-family: $normal !important;
+  
 }
 
-.bolder {
-  font-family: $bolder;
-}
+
 
 .bold {
-  font-family: $bold;
+  
   line-height: 24px;
   .async-select__placeholder {
     font-weight: 500 !important;
-    font-family: $bolder !important;
     color: #323232 !important;
   }
 }
@@ -2957,7 +2959,6 @@ div.img_swapper {
   padding: 8px;
   border: 1px solid $gray2;
   font-size: 16px;
-  font-family: Sohne, Arial, Helvetica, sans-serif;
   line-height: 24px;
   height: 100%;
   border-radius: 0px;
@@ -3110,7 +3111,7 @@ div.img_swapper {
     border-top: 0px;
     font-size: 14px;
     line-height: 14px;
-    font-family: $normal;
+    
     padding-left: 8px;
     &:hover {
       background: gray !important;
@@ -3144,7 +3145,7 @@ div.img_swapper {
     span {
       line-height: 24px !important;
       font-size: 16px !important;
-      font-family: $bold !important;
+      
     }
   }
   *:focus {
@@ -3166,7 +3167,7 @@ div.img_swapper {
     th {
       font-size: 16px;
       line-height: 24px;
-      font-family: $normal;
+      
       border: 1px solid rgba(224, 224, 221, 1);
       text-align: center;
     }
@@ -3209,14 +3210,14 @@ div.img_swapper {
     text-align: left;
     font-size: 16px;
     line-height: 24px;
-    font-family: $normal;
+    
     font-weight: 400;
     p:nth-child(1) {
       margin: 0px;
     }
     p:nth-child(2) {
       margin: 0px;
-      font-family: $bold;
+      
     }
   }
   table tbody td {
@@ -3332,7 +3333,7 @@ div.img_swapper {
       padding: 40px;
       text-align: center;
       font-weight: 500;
-      font-family: $bold;
+      
       color: #32323294;
     }
     &:hover {
@@ -3353,7 +3354,7 @@ div.img_swapper {
       }
       span {
         &.name {
-          font-family: $bold;
+          
           display: inline-block;
           color: #323232;
         }
@@ -3614,7 +3615,7 @@ div.img_swapper {
 }
 .serp_title {
   font-size: 20px;
-  font-family: $bold;
+  
   padding-top: 24px;
   line-height: 24px;
 }
@@ -3626,7 +3627,7 @@ div.img_swapper {
 #serp_middle_menu {
   .link_serp {
     span {
-      font-family: $bold;
+      
       line-height: 24px;
       font-size: 16px;
     }
@@ -3647,7 +3648,7 @@ div.img_swapper {
     span {
       display: block;
       padding-top: 8px;
-      font-family: $bold;
+      
       font-size: 16px;
       line-height: 24px;
       padding-right: 24px;
@@ -3690,7 +3691,7 @@ div.img_swapper {
     &:first-child {
       margin-top: 24px;
     }
-    font-family: $normal;
+    
     font-size: 16px;
     line-height: 16px;
     letter-spacing: 0em;
@@ -3703,7 +3704,7 @@ div.img_swapper {
   .button_tag_serp {
     padding: 8px 16px;
     background: #ffdc8e;
-    font-family: $bold;
+    
     border-radius: 8px;
     display: inline-block;
     margin-bottom: 0px;
@@ -3717,7 +3718,7 @@ div.img_swapper {
 .button_tag_serp {
   padding: 8px 16px;
   background: #ffdc8e;
-  font-family: $bold;
+  
   line-height: 2;
   border-radius: 8px;
   display: inline-block;
@@ -3759,7 +3760,7 @@ div.img_swapper {
       > span {
         font-size: 20px;
         line-height: 24px;
-        font-family: $bold;
+        
       }
       .col-3 {
         img {
@@ -3771,14 +3772,14 @@ div.img_swapper {
           span {
             font-size: 16px;
             line-height: 24px;
-            font-family: $bold;
+            
           }
         }
 
         span {
           font-size: 16px;
           line-height: 24px;
-          font-family: $normal;
+          
         }
       }
     }
@@ -3787,7 +3788,7 @@ div.img_swapper {
         > span {
           font-size: 20px;
           line-height: 24px;
-          font-family: $bold;
+          
         }
       }
     }
@@ -3815,7 +3816,7 @@ div.img_swapper {
       > span {
         font-size: 24px;
         line-height: 24px;
-        font-family: $bold;
+        
       }
       .catalog_list_item {
         white-space: nowrap;
@@ -3824,7 +3825,7 @@ div.img_swapper {
         text-overflow: ellipsis;
         font-weight: 400;
         cursor: pointer;
-        font-family: $normal;
+        
         line-height: 24px;
         padding-top: 4px;
         padding-bottom: 4px;
@@ -3868,7 +3869,7 @@ div.img_swapper {
           span {
             font-size: 16px;
             line-height: 24px;
-            font-family: $normal;
+            
           }
         }
       } */
@@ -3999,7 +4000,7 @@ body {
 mark {
   color: #e22623;
   background-color: transparent !important;
-  font-family: $bold;
+  
   padding: 0px !important;
 }
 .rotate180 {
@@ -4171,7 +4172,7 @@ mark {
       &:hover {
         color: black;
         text-decoration: underline;
-        font-family: $bold;
+        
         cursor: pointer;
       }
     }
@@ -4190,7 +4191,7 @@ mark {
     }
   }
   h5 {
-    font-family: $bold;
+    
     font-size: 18px;
     line-height: 24px;
     letter-spacing: 0em;
@@ -4204,7 +4205,7 @@ mark {
     p {
       .tag {
         border-radius: 8px;
-        font-family: $bold;
+        
         background: rgba(224, 224, 221, 1);
         padding: 6px 12px 6px 12px;
         font-size: 14px;
@@ -4296,7 +4297,7 @@ mark {
   font-size: 14px;
   padding: 4px 8px;
   span {
-    font-family: $bold;
+    
     font-size: 14px;
     &::before {
       content: "";
@@ -4331,7 +4332,7 @@ mark {
   &:first-child {
     margin-top: 96px;
   }
-  font-family: $bolder;
+  
   font-size: 66px;
   line-height: 110% !important;
   width: 60%;
@@ -4350,7 +4351,7 @@ mark {
 
   .altre-immagini {
     background: rgba(224, 224, 221, 1);
-    font-family: $bold;
+    
   }
   p {
     margin-bottom: 0.2rem !important;
@@ -4401,7 +4402,7 @@ mark {
           }
         }
         .name {
-          font-family: $bold;
+          
           font-size: 18px;
           line-height: 27px;
           letter-spacing: 0em;
@@ -4409,7 +4410,7 @@ mark {
           text-align: left;
         }
         .brand {
-          font-family: $normal;
+          
           font-size: 16px;
           line-height: 24px;
           margin-top: 24px;
@@ -4417,7 +4418,7 @@ mark {
           text-align: left;
         }
         .price {
-          font-family: $normal;
+          
           font-size: 16px;
           line-height: 16px;
           letter-spacing: 0em;
@@ -4510,7 +4511,7 @@ mark {
           p {
             color: white;
             padding-left: 36px;
-            font-family: $normal;
+            
             font-size: 16px;
             line-height: 16px;
             letter-spacing: 0em;
@@ -4518,7 +4519,7 @@ mark {
 
             &.name {
               margin-top: 8px;
-              font-family: $bold;
+              
               font-size: 24px;
               line-height: 24px;
               letter-spacing: 0em;
@@ -4536,7 +4537,7 @@ mark {
     }
 
     h4 {
-      font-family: $bold;
+      
       font-size: 28px;
       line-height: 36px;
       text-transform: capitalize;
@@ -4582,7 +4583,7 @@ mark {
         cursor: auto;
       }
       text-transform: capitalize;
-      font-family: $bold;
+      
     }
     margin-bottom: 32px;
   }
@@ -4653,7 +4654,7 @@ mark {
   } */
   .title {
     margin-top: 8px;
-    font-family: $bold;
+    
     font-size: 28px;
     line-height: 36px;
     letter-spacing: 0em;
@@ -4666,12 +4667,12 @@ mark {
       margin-left: 8px;
       font-size: 14px;
       line-height: 14px;
-      font-family: $bold;
+      
     }
   }
   .promo {
     .tag {
-      font-family: $bold;
+      
     }
   }
   .price {
@@ -4699,12 +4700,12 @@ mark {
       margin-right: 18px;
     }
     .country {
-      font-family: $bold;
+      
       margin-left: 4px;
       text-decoration: underline;
     }
     p.content {
-      font-family: $normal;
+      
       font-size: 14px;
       line-height: 20px;
       letter-spacing: 0em;
@@ -4713,7 +4714,7 @@ mark {
   }
   .trade_margin {
     .trade_title {
-      font-family: $bold;
+      
       font-size: 18px;
       line-height: 24px;
       white-space: nowrap;
@@ -4727,7 +4728,7 @@ mark {
     button {
       background: #323232;
       color: white;
-      font-family: $bold;
+      
       border: none;
       border-radius: 8px;
       padding: 16px 24px;
@@ -4762,7 +4763,7 @@ mark {
   }
   .custom_options {
     .title {
-      font-family: $bold;
+      
       font-size: 18px;
       font-weight: normal;
       line-height: 24px;
@@ -4876,7 +4877,7 @@ mark {
     }
   }
   .show_more {
-    font-family: $bold;
+    
     font-size: 14px;
     line-height: 16px;
     letter-spacing: 0em;
@@ -4998,7 +4999,7 @@ ul.caratteristiche {
   h4,
   span {
     button {
-      font-family: $normal;
+      
       font-size: 16px;
       line-height: 24px;
       padding: 8px 16px;
@@ -5011,7 +5012,7 @@ ul.caratteristiche {
       }
     }
 
-    font-family: $bold;
+    
     font-size: 28px;
     line-height: 36px;
   }
@@ -5040,7 +5041,7 @@ ul.caratteristiche {
         p {
           color: white;
           padding-left: 36px;
-          font-family: $normal;
+          
           white-space: pre-line;
           font-size: 16px;
           line-height: 16px;
@@ -5049,7 +5050,7 @@ ul.caratteristiche {
           margin-top: 0px;
           &.name {
             margin-top: 8px;
-            font-family: $bold;
+            
             font-size: 24px;
             line-height: 24px;
             letter-spacing: 0em;
@@ -5073,7 +5074,7 @@ ul.caratteristiche {
       h5 span {
         overflow: hidden;
         text-overflow: ellipsis;
-        font-family: $bold;
+        
         font-size: 20px;
         line-height: 24px;
         letter-spacing: 0em;
@@ -5085,7 +5086,7 @@ ul.caratteristiche {
         display: inline-block;
         color: #323232;
         background: rgba(224, 224, 221, 1);
-        font-family: $bold;
+        
         font-size: 14px;
         line-height: 14px;
         letter-spacing: 0em;
@@ -5096,7 +5097,7 @@ ul.caratteristiche {
         margin-top: 4px;
       }
       label {
-        font-family: $bold;
+        
         margin-bottom: 0;
       }
       img {
@@ -5133,7 +5134,6 @@ ul.caratteristiche {
   h4,
   h4 span {
     button {
-      font-family: "Sohne-Buch";
       font-size: 16px;
       line-height: 24px;
       padding: 8px 16px;
@@ -5145,7 +5145,7 @@ ul.caratteristiche {
   }
   .filter_container {
     .filter_head {
-      font-family: $normal;
+      
       font-size: 16px;
       line-height: 16px;
       letter-spacing: 0em;
@@ -5158,7 +5158,7 @@ ul.caratteristiche {
       display: inline-block;
       color: #323232;
       background: rgba(224, 224, 221, 1);
-      font-family: $bold;
+      
       font-size: 14px;
       line-height: 14px;
       letter-spacing: 0em;
@@ -5195,7 +5195,7 @@ ul.caratteristiche {
     line-height: 18px;
     letter-spacing: 0em;
     text-align: left;
-    font-family: $bold;
+    
     white-space: pre-line;
   }
 }
@@ -5232,7 +5232,6 @@ ul.caratteristiche {
       font-size: 14px;
       white-space: nowrap;
       max-width: 100%;
-      font-family: "Sohne-Kraftig";
       overflow: hidden;
       text-overflow: ellipsis;
       margin-right: 8px;
@@ -5272,7 +5271,7 @@ table.nowraptable {
     vertical-align: middle;
   }
   th {
-    font-family: $bold;
+    
     font-weight: 300;
   }
 }
@@ -5302,7 +5301,6 @@ table {
 
 //classe per bottone menù ecommerce
 .nav-ecommerce-outline {
-  font-family: "Sohne-Kraftig";
   font-size: 18px;
   line-height: 24px;
   letter-spacing: 0em;

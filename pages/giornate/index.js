@@ -41,6 +41,7 @@ export default function designers({ permission, router, language_ids }) {
     trackPromise(
       api.search_giornate().then((value) => {
         if (value) {
+          setTotal(value.length);
           setDesigners(value);
         }
       })

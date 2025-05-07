@@ -26,26 +26,53 @@ function MyApp({ Component, pageProps }) {
       {puthead()}
       <header>
         {!pathSenzaNavbar.includes(router.pathname) ? (
-          <div className="row">
-            <div className="col d-flex justify-content-center align-items-center">
-              <Link href={"/ricerca"}>Ricerca Cliente</Link>
+          <header class="py-3 shadow-sm bg-white">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <h1 class="m-0 fs-4 fw-semibold">MeteoSystem</h1>
+                </div>
+                <div class="col text-end">
+                  <nav>
+                    <a
+                      className="mx-2 text-dark text-decoration-none"
+                      href={"/ricerca"}
+                    >
+                      Ricerca Cliente
+                    </a>
+                    <Link
+                      className="mx-2 text-dark text-decoration-none"
+                      href={"/interventi"}
+                    >
+                      {" "}
+                      Interventi
+                    </Link>
+                    <Link
+                      className="mx-2 text-dark text-decoration-none"
+                      href={"/giornate"}
+                    >
+                      {" "}
+                      Giornate
+                    </Link>
+                    <Link
+                      className="mx-2 text-dark text-decoration-none"
+                      href={"/garanzie"}
+                    >
+                      {" "}
+                      Garanzie
+                    </Link>
+                    <Link
+                      className="mx-2 text-dark text-decoration-none"
+                      href={"/manutenzioni"}
+                    >
+                      {" "}
+                      Manutenzioni
+                    </Link>
+                  </nav>
+                </div>
+              </div>
             </div>
-            <div className="col d-flex justify-content-center align-items-center">
-              <Link href={"/interventi"}> Interventi</Link>
-            </div>
-            <div className="col d-flex justify-content-center align-items-center">
-              <Link href={"/giornate"}> Giornate</Link>
-            </div>
-            <div className="col d-flex justify-content-center align-items-center">
-              <Link href={"/garanzie"}> Garanzie</Link>
-            </div>
-            <div className="col d-flex justify-content-center align-items-center">
-              <Link href={"/manutenzioni"}> Manutenzioni</Link>
-            </div>
-            {/* <div className="col d-flex justify-content-center align-items-center">
-              <Link href={"/fatture"}> Fatture</Link>
-            </div> */}
-          </div>
+          </header>
         ) : (
           <></>
         )}
@@ -57,6 +84,10 @@ function MyApp({ Component, pageProps }) {
   function puthead() {
     return (
       <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+          rel="stylesheet"
+        ></link>
         <link
           rel="preload"
           href="/fonts/Sohne-Buch.woff"

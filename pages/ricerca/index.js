@@ -37,7 +37,7 @@ export default function RicercaClienti({ router = {}, user, permission }) {
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Telefono</label>
             <input
-              className="d-block w-100"
+              className="d-block w-100 input_beretta"
               value={vals.phone_number}
               onChange={(e) => {
                 setVals({ ...vals, phone_number: e.target.value });

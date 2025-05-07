@@ -57,7 +57,14 @@ const Button = ({
       data-toggle={modal_target && "modal"}
       data-target={"#" + (modal_target || "")}
       disabled={disabled}
-      style={style || { background: "#AEC60D" }}
+      style={
+        style || {
+          background: "#AEC60D",
+          border: "1px solid #3A3A3A",
+          fontSize: "12px",
+          color: "#2E2E2E",
+        }
+      }
     >
       {children}
     </button>

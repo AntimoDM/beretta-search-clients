@@ -13,11 +13,17 @@ export default function Login({ onClick = () => null }) {
 
   return (
     <>
-      <Card className={"p-24  " + styles.login}>
-        <h1 style={{ fontSize: "30px" }}>Bentornato</h1>
+      <Card className={"p-24 " + styles.login}>
+        <h1 style={{ fontSize: "30px", fontFamily: "Poppins, sans-serif" }}>
+          Bentornato
+        </h1>
 
         <h3
-          style={{ paddingRight: "56px", fontSize: "30px" }}
+          style={{
+            paddingRight: "56px",
+            fontSize: "20px",
+            fontFamily: "Poppins, sans-serif",
+          }}
           className={styles.sub_title}
         >
           Effettua il login con le tue credenziali
@@ -25,7 +31,7 @@ export default function Login({ onClick = () => null }) {
         <div className="form-group mb-16 h-56">
           <input
             container_className="h-56"
-            className="w-100"
+            className="w-100 input_beretta"
             value={user.username}
             placeholder="Utente"
             type="header"
@@ -36,36 +42,27 @@ export default function Login({ onClick = () => null }) {
         <div className="form-group mb-24 h-56">
           <input
             container_className="h-56"
-            className="w-100"
+            className="w-100 input_beretta"
             value={user.password}
             placeholder="Password"
             type="password"
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
         </div>
-        <small className={styles.gray}>
-          <Link className="text-gray" href="#">
-            Hai dimenticato la password?
-          </Link>
-        </small>
+
         <Button
+          style={{
+            background: "#AEC60D",
+            border: "1px solid #3A3A3A",
+            fontSize: "16px",
+            color: "#2E2E2E",
+          }}
           onClick={() => {
             effettuaLogin();
           }}
           className="w-100 mt-16 py-24 h-64 lh-19"
-          variant="danger"
-          style={{ background: "#AEC60D" }}
         >
-          <span
-            style={{
-              fontFamily: "Sohne-Kraftig",
-              fontSize: "16px",
-              lineHeight: "19px",
-              color: "white",
-            }}
-          >
-            Effettua il login
-          </span>
+          Effettua il login
         </Button>
       </Card>
       <LoadingIndicator />

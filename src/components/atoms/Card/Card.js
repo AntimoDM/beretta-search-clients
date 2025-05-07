@@ -14,34 +14,11 @@ const Card = ({
 }) => {
   return (
     <div
-      style={style ? style : {}}
+      style={style ? style : { border: "1px solid #CED4DA " }}
       id={id}
       className={stylecard.card + " card_support " + (className || "")}
     >
-      {right ? (
-        <div className="row h-100 cardright_support ">
-          <div
-            style={rightStyle || {}}
-            onClick={onClickLeft}
-            className={rightclassName || "col-4"}
-          >
-            {children}
-          </div>
-
-          <div
-            style={{ borderRadius: "0px 12px 12px 0px" }}
-            className={" col p-0"}
-          >
-            <div
-              className={stylecard.content + "  " + (contentClassName || "")}
-            >
-              {right}
-            </div>
-          </div>
-        </div>
-      ) : (
-        children
-      )}
+      {children}
     </div>
   );
 };
