@@ -33,18 +33,19 @@ const ModifyHeader = ({ toggle, onSave, onRemove, nolabel }) => {
           <>
             {onRemove && (
               <Button
+                style={{
+                  background: "rgb(145, 145, 145)",
+                  border: "1px solid #3A3A3A",
+                  fontSize: "16px",
+                  color: "#2E2E2E",
+                }}
                 onClick={onRemove}
-                className="mr-24 button_normal "
-                color="light"
+                className="mr-24  "
               >
                 Annulla
               </Button>
             )}
-            {onSave && (
-              <Button color="light" className="button_normal" onClick={onSave}>
-                Salva
-              </Button>
-            )}
+            {onSave && <Button onClick={onSave}>Salva</Button>}
           </>
         }
       >

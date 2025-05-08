@@ -20,7 +20,7 @@ export default function TabellaInterventi({
 
   return (
     <>
-      <Card>
+      <Card style={{ border: "1px solid #CED4DA ", borderRadius: 0 }}>
         <div style={{ overflowY: "auto", fontSize: "16px" }} id="rowcontainer">
           <table className="table table-striped table-bordered nowraptable stickyHead">
             <thead>

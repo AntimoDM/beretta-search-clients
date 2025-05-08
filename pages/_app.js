@@ -30,6 +30,7 @@ function MyApp({ Component, pageProps }) {
             <div class="container">
               <div class="row align-items-center">
                 <div class="col-auto">
+                  {/* <img src="/beretta_img.png" /> */}
                   <h1 class="m-0 fs-4 fw-semibold">MeteoSystem</h1>
                 </div>
                 <div class="col text-end">

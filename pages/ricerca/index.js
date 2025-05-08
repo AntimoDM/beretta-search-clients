@@ -18,13 +18,10 @@ export default function RicercaClienti({ router = {}, user, permission }) {
         right={
           <>
             <Link href="/ricerca/nuovo">
-              <Button className="button_medium" beretta={true}>
-                Aggiungi Cliente
-              </Button>
+              <Button beretta={true}>Aggiungi Cliente</Button>
             </Link>
           </>
         }
-        className="pt-10"
         page
       >
         <div className="p-0 m-0">

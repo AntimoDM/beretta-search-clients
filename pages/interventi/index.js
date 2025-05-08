@@ -46,9 +46,7 @@ export default function Interventi({ permission, router, language_ids }) {
         right={
           <>
             <Link href="/interventi/nuovo">
-              <Button className="button_medium" color="green">
-                Aggiungi Intervento
-              </Button>
+              <Button>Aggiungi Intervento</Button>
             </Link>
           </>
         }
@@ -89,18 +87,50 @@ export default function Interventi({ permission, router, language_ids }) {
         </HeaderTab>
 
         <CardToolbar className="align-items-center pl-24">
-          <SearchBar
-            value={TECNICI.find((el) => el.value == filters.tecnico)}
-            className="w-25 h-40 pl-0"
+          <select
+            id="miaSelect"
+            style={{ display: "block", width: "25%" }}
             placeholder={"Tecnico"}
-            onChange={(e) =>
-              setFilters({
-                ...filters,
-                tecnico: e.value === "0" ? false : e.value,
-              })
-            }
-            options={TECNICI.concat([{ label: "Annulla", value: "0" }])}
-          />
+            className="h-40 pl-0"
+          >
+            <option value="" disabled hidden>
+              Seleziona un tecnico
+            </option>
+            <option
+              selected={filters.tecnico === 1}
+              onClick={() =>
+                setFilters({
+                  ...filters,
+                  tecnico: 1,
+                })
+              }
+            >
+              Mimmo
+            </option>
+            <option
+              selected={filters.tecnico === 2}
+              onClick={() =>
+                setFilters({
+                  ...filters,
+                  tecnico: 2,
+                })
+              }
+            >
+              Danilo
+            </option>
+            <option
+              onClick={() => {
+                setFilters({
+                  ...filters,
+                  tecnico: 0,
+                });
+                resettaSelect();
+              }}
+            >
+              Annulla
+            </option>
+          </select>
+
           <div className="row mt-8 w-100 my-auto pl-0 pr-24">
             <div className="col-6 pl-0 text-left">
               <p className="font-16 lh-24 text-gray ordina_per">
@@ -109,7 +139,19 @@ export default function Interventi({ permission, router, language_ids }) {
             </div>
             <div className="col-6 pr-0 text-right">
               <div className="d-flex flex-row-reverse">
-                <SearchBar
+                <select
+                  style={{ display: "block", width: "20%" }}
+                  placeholder={"Tecnico"}
+                  className="h-40 pl-0"
+                >
+                  <option selected={limit === 5} onClick={() => setLimit(5)}>
+                    5
+                  </option>
+                  <option selected={limit === 50} onClick={() => setLimit(50)}>
+                    50
+                  </option>
+                </select>
+                {/* <SearchBar
                   placeholder={limit}
                   options={[
                     { label: "5", value: 5 },
@@ -126,7 +168,7 @@ export default function Interventi({ permission, router, language_ids }) {
                   onChange={(e) => {
                     setLimit(e.value);
                   }}
-                />
+                /> */}
                 <p className="font-16 my-auto mr-16 lh-24 text-gray">
                   Per pagina
                 </p>
@@ -159,7 +201,8 @@ export default function Interventi({ permission, router, language_ids }) {
             style={{ cursor: "pointer" }}
             className=" col my-auto"
           >
-            Cliente
+            <label className="m-0">Cliente</label>
+
             {orderBy === "name asc" ? (
               <img
                 className="ml-8"
@@ -175,16 +218,16 @@ export default function Interventi({ permission, router, language_ids }) {
             )}
           </div>
           <div style={{ cursor: "pointer" }} className=" col my-auto">
-            Data Chiamata
+            <label className="m-0">Data Chiamata</label>
           </div>
           <div style={{ cursor: "pointer" }} className=" col my-auto">
-            Tecnico
+            <label className="m-0">Tecnico</label>
           </div>
           <div
             style={{ cursor: "pointer" }}
             className="col pr-0 my-auto ml-auto text-end"
           >
-            Stato
+            <label className="m-0">Stato</label>
           </div>
         </div>
         <div
@@ -271,5 +314,10 @@ export default function Interventi({ permission, router, language_ids }) {
         offset < total - 50 ? offset + 50 : total - 50 > 0 ? total - 50 : 0
       );
     }
+  }
+
+  function resettaSelect() {
+    const miaSelect = document.getElementById("miaSelect");
+    miaSelect.selectedIndex = 0;
   }
 }

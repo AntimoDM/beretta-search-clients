@@ -170,7 +170,6 @@ export default function CartaIntervento({
             handleSubmit();
           }}
           className="button_normal"
-          color="green"
         >
           Salva
         </Button>
@@ -218,8 +217,13 @@ export default function CartaIntervento({
             onRemove();
             //onClick();
           }}
+          style={{
+            background: "rgb(145, 145, 145)",
+            border: "1px solid #3A3A3A",
+            fontSize: "16px",
+            color: "#2E2E2E",
+          }}
           className="button_normal mr-16"
-          color="transparent"
         >
           Annulla
         </Button>

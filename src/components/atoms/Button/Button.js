@@ -61,7 +61,7 @@ const Button = ({
         style || {
           background: "#AEC60D",
           border: "1px solid #3A3A3A",
-          fontSize: "12px",
+          fontSize: "16px",
           color: "#2E2E2E",
         }
       }

@@ -49,7 +49,7 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
   }, []);
 
   return (
-    <div className="page-container-new">
+    <div className="page-container-new pb-32">
       <ModifyHeader
         onRemove={onRemove}
         onSave={handleSubmit}
@@ -57,7 +57,6 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
       />
 
       <PageTitle
-        className="mt-48"
         page
         right={
           <>
@@ -93,8 +92,7 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
                     }
                   });
                 }}
-                color="green"
-                className="button_normal ml-16"
+                className=" ml-16"
               >
                 Completato
               </Button>
@@ -130,7 +128,7 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
                   });
                 }}
                 color="red"
-                className="button_normal ml-16"
+                className=" ml-16"
               >
                 Elimina
               </Button>
@@ -146,22 +144,27 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
           </Link>
 
           <h4 className="d-inline font-24 lh-24 bolder">
-            {vals.cliente} - Stato :{" "}
+            {vals.cliente && vals.cliente.nome + " " + vals.cliente.cognome} -
+            Stato :{" "}
             {vals.stato && STATI.find((el) => el.value === vals.stato).label}
           </h4>
         </div>
       </PageTitle>
-      <Card className="mb-32 p-24">
+      <Card className="p-24">
         <h2 className="bold lh-24">Intervento</h2>
 
         <div className="row mt-24">
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Cliente</label>
             <SearchBar
-              value={opzioniClienti.find((el) => el.value === vals.cliente)}
+              value={
+                vals.cliente
+                  ? opzioniClienti.find((el) => el.value === vals.cliente.id)
+                  : {}
+              }
               className="h-40 pl-0"
               placeholder={"Cliente"}
-              onChange={(e) => handleInput("cliente", e.value)}
+              onChange={(e) => handleInput("cliente", e.value.id)}
               options={opzioniClienti}
             />
           </div>

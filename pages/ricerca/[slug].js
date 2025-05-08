@@ -42,13 +42,12 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
       />
 
       <PageTitle
-        className="mt-48"
         page
         right={
           <>
             {slug !== "nuovo" && vals.creato_da_importazione && (
               <>
-                <input
+                {/* <input
                   onChange={() => {
                     handleInput(
                       "mostra_dati_importati",
@@ -58,7 +57,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
                   checked={vals.mostra_dati_importati}
                   type="checkbox"
                 />
-                Mostra importati
+                Mostra importati */}
               </>
             )}
             {slug !== "nuovo" && (
@@ -92,7 +91,6 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
                   });
                 }}
                 color="red"
-                className="button_normal ml-16"
               >
                 Elimina
               </Button>
@@ -108,8 +106,9 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
           </Link>
 
           <h4 className="d-inline font-24 lh-24 bolder">
-            {vals.nome_cognome_import ||
-              (vals.nome || "") + " " + (vals.cognome || "")}
+            {vals.nome || vals.cognome
+              ? (vals.nome || "") + " " + (vals.cognome || "")
+              : "Nuovo Cliente"}
           </h4>
         </div>
       </PageTitle>
@@ -336,7 +335,7 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
         <div className="row mt-8"></div>
       </Card>
 
-      <Card style={{ pointerEvents: "none" }} className="mb-32 p-24">
+      <Card style={{ pointerEvents: "none" }} className=" p-24">
         <h2 className="bold lh-24">Garanzia</h2>
         <div className="row mt-24">
           <div className="col-6 pl-0 pr-16">
