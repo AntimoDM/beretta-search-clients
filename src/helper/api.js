@@ -22,7 +22,17 @@ const api = {
     try {
       const res = await axios.get(BASE_URL + "/customer/cliente");
       let resArray = res.data.map((el) => {
-        return { value: el.id, label: el.nome + " " + el.cognome };
+        return {
+          value: el.id,
+          label:
+            (el.nome || "") +
+            (el.cognome ? " " + el.cognome : "") +
+            (el.telefono_principale ? " - " + el.telefono_principale : "") +
+            (el.strada ? " - " + el.strada : "") +
+            (el.numero_civico ? " " + el.numero_civico : "") +
+            (el.comune ? " " + el.comune : "") +
+            (el.provincia ? " (" + el.provincia + ")" : ""),
+        };
       });
       return resArray;
     } catch (error) {
@@ -165,9 +175,11 @@ const api = {
       Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
-  search_giornate: async function () {
+  search_giornate: async function (tecnico) {
     try {
-      const res = await axios.get(BASE_URL + "/customer/giornata");
+      const res = await axios.get(
+        BASE_URL + "/customer/giornata" + (tecnico ? "?tecnico=" + tecnico : "")
+      );
       const data = res.data;
       return data;
     } catch (error) {

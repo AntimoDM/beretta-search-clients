@@ -480,3 +480,32 @@ export function effettuaLogin(user) {
       return false;
   }
 }
+
+export function generaOpzioniTecnici(sezione) {
+  return (
+    <>
+      <option value="" disabled hidden>
+        Seleziona un tecnico
+      </option>
+      <option value="2">Mimmo</option>
+      <option value="1">Danilo</option>
+      {sezione === "interventi" ? (
+        <option value="0">Non Assegnato</option>
+      ) : (
+        <option value="0">Annulla</option>
+      )}
+    </>
+  );
+}
+
+export function generaOpzioniClienti(clienti) {
+  return (
+    <>
+      {clienti &&
+        clienti.map((c) => {
+          return <option value={c.value}>{c.label}</option>;
+        })}
+      <option value="0">Nessun Cliente</option>
+    </>
+  );
+}

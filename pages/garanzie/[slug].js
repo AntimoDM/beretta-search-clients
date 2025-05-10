@@ -56,7 +56,6 @@ export default function EditCollection({ router = {}, user, permission }) {
       />
 
       <PageTitle
-        className="pt-10 mt-48"
         page
         right={
           <>
@@ -121,37 +120,19 @@ export default function EditCollection({ router = {}, user, permission }) {
 
       <Card className="mb-32 p-24">
         <div className="row mt-24">
-          <div className="col-6 pl-0 pr-16">
-            {slug !== "nuovo" ? (
-              <>
-                <label className="font-18 lh-24 bold">Cliente</label>
-                <a
-                  style={{ display: "block" }}
-                  target="_blank"
-                  href={
-                    "/ricerca/" +
-                    (vals.cliente ? vals.cliente.telefono_principale : "")
-                  }
-                >
-                  {vals.cliente &&
-                    (vals.cliente.cognome || "") + " " + vals.cliente.nome}
-                </a>
-              </>
-            ) : (
-              <>
-                <SearchBar
-                  value={opzioniClienti.find(
-                    (el) => el.value === (vals.cliente && vals.cliente.id)
-                  )}
-                  className="h-40 pl-0"
-                  placeholder={"Cliente"}
-                  onChange={(e) =>
-                    handleInput("cliente", { id: e.value, nome: e.label })
-                  }
-                  options={opzioniClienti}
-                />
-              </>
-            )}
+          <div className="col-9 pl-0 pr-16">
+            <label className="font-18 lh-24 bold">Cliente</label>
+            <SearchBar
+              value={opzioniClienti.find(
+                (el) => el.value === (vals.cliente && vals.cliente.id)
+              )}
+              className="h-40 pl-0 w-100"
+              placeholder={"Cliente"}
+              onChange={(e) =>
+                handleInput("cliente", { id: e.value, nome: e.label })
+              }
+              options={opzioniClienti}
+            />
           </div>
         </div>
       </Card>

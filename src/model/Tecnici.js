@@ -12,7 +12,7 @@ export const TECNICI = [
 export const STATI = [
   {
     value: 1,
-    label: "Nuovo",
+    label: "Aperto",
   },
   {
     value: 2,

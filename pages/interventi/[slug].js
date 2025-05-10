@@ -8,7 +8,12 @@ import Button from "@/src/components/atoms/Button";
 import Card from "@/src/components/atoms/Card";
 import { default as Link } from "next/link";
 import TableCouponIds from "@/src/components/organisms/TableIds/TableIds";
-import { createRequestVals, formatDate } from "@/src/helper/utility";
+import {
+  createRequestVals,
+  formatDate,
+  generaOpzioniClienti,
+  generaOpzioniTecnici,
+} from "@/src/helper/utility";
 import HeaderTab from "@/src/components/atoms/HeaderTab/HeaderTab";
 import { STATI, TECNICI } from "@/src/model/Tecnici";
 import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
@@ -144,8 +149,6 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
           </Link>
 
           <h4 className="d-inline font-24 lh-24 bolder">
-            {vals.cliente && vals.cliente.nome + " " + vals.cliente.cognome} -
-            Stato :{" "}
             {vals.stato && STATI.find((el) => el.value === vals.stato).label}
           </h4>
         </div>
@@ -154,37 +157,41 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
         <h2 className="bold lh-24">Intervento</h2>
 
         <div className="row mt-24">
-          <div className="col-6 pl-0 pr-16">
+          <div className="col-12 pl-0 pr-0">
             <label className="font-18 lh-24 bold">Cliente</label>
-            <SearchBar
-              value={
-                vals.cliente
-                  ? opzioniClienti.find((el) => el.value === vals.cliente.id)
-                  : {}
-              }
+            <select
+              value={vals.cliente && vals.cliente.id}
+              onChange={(e) => {
+                const value = e.target.value;
+                handleInput("cliente", value);
+              }}
+              placeholder={"Seleziona un Cliente"}
               className="h-40 pl-0"
-              placeholder={"Cliente"}
-              onChange={(e) => handleInput("cliente", e.value.id)}
-              options={opzioniClienti}
-            />
+            >
+              {generaOpzioniClienti(opzioniClienti)}
+            </select>
           </div>
         </div>
 
         <div className="row mt-24">
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Tecnico</label>
-            <SearchBar
-              value={TECNICI.find((el) => el.value === vals.tecnico)}
-              className="h-40 pl-0"
+            <select
+              value={vals.tecnico || "0"}
+              onChange={(e) => {
+                const value = e.target.value;
+                handleInput("tecnico", value);
+              }}
               placeholder={"Tecnico"}
-              onChange={(e) => handleInput("tecnico", e.value)}
-              options={TECNICI}
-            />
+              className="h-40 pl-0"
+            >
+              {generaOpzioniTecnici("interventi")}
+            </select>
           </div>
           <div className="col-6 pl-16 pr-0">
             <label className="font-18 lh-24 bold">Data Assegnamento</label>
             <input
-              style={{ pointerEvents: "none" }}
+              disabled
               type="date"
               className="w-100"
               value={vals.data_assegnamento}
@@ -213,7 +220,7 @@ export default function DettaglioIntervento({ router = {}, user, permission }) {
             <label className="font-18 lh-24 bold">Data Completamento</label>
             <input
               type="date"
-              style={{ pointerEvents: "none" }}
+              disabled
               className="w-100"
               value={vals.data_completamento}
               onChange={(e) => {

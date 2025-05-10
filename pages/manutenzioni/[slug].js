@@ -199,7 +199,6 @@ export default function EditCollection({ router = {}, user, permission }) {
           <div className="col-6 pl-16 pr-0">
             <label className="font-18 lh-24 bold">Tipologia</label>
             <input
-              type="text"
               className="w-100"
               value={vals.tipologia || ""}
               onChange={(e) => {

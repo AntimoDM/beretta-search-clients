@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Button from "@/src/components/atoms/Button";
 import HeaderTab from "@/src/components/atoms/HeaderTab/HeaderTab";
@@ -13,6 +13,7 @@ import api from "@/src/helper/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import {
   formatDate,
+  generaOpzioniTecnici,
   visualizzaNomeCliente,
   visualizzaStatoIntervento,
 } from "@/src/helper/utility";
@@ -38,6 +39,10 @@ export default function Interventi({ permission, router, language_ids }) {
       }
     });
   }, [headerTab, filters]);
+
+  useEffect(() => {
+    resettaSelect();
+  }, []);
 
   return (
     <div className="page-container-new">
@@ -88,47 +93,23 @@ export default function Interventi({ permission, router, language_ids }) {
 
         <CardToolbar className="align-items-center pl-24">
           <select
+            onChange={(e) => {
+              const value = e.target.value;
+              setFilters({
+                ...filters,
+                tecnico: parseInt(value),
+              });
+
+              if (value === "0") {
+                resettaSelect();
+              }
+            }}
             id="miaSelect"
             style={{ display: "block", width: "25%" }}
             placeholder={"Tecnico"}
             className="h-40 pl-0"
           >
-            <option value="" disabled hidden>
-              Seleziona un tecnico
-            </option>
-            <option
-              selected={filters.tecnico === 1}
-              onClick={() =>
-                setFilters({
-                  ...filters,
-                  tecnico: 1,
-                })
-              }
-            >
-              Mimmo
-            </option>
-            <option
-              selected={filters.tecnico === 2}
-              onClick={() =>
-                setFilters({
-                  ...filters,
-                  tecnico: 2,
-                })
-              }
-            >
-              Danilo
-            </option>
-            <option
-              onClick={() => {
-                setFilters({
-                  ...filters,
-                  tecnico: 0,
-                });
-                resettaSelect();
-              }}
-            >
-              Annulla
-            </option>
+            {generaOpzioniTecnici()}
           </select>
 
           <div className="row mt-8 w-100 my-auto pl-0 pr-24">
@@ -151,24 +132,7 @@ export default function Interventi({ permission, router, language_ids }) {
                     50
                   </option>
                 </select>
-                {/* <SearchBar
-                  placeholder={limit}
-                  options={[
-                    { label: "5", value: 5 },
-                    { label: "20", value: 20 },
-                    { label: "30", value: 30 },
-                    { label: "50", value: 50 },
-                    { label: "100", value: 100 },
-                    { label: "150", value: 150 },
-                    { label: "200", value: 200 },
-                    { label: "500", value: 500 },
-                    { label: "1000", value: 1000 },
-                    { label: "1500", value: 1500 },
-                  ]}
-                  onChange={(e) => {
-                    setLimit(e.value);
-                  }}
-                /> */}
+
                 <p className="font-16 my-auto mr-16 lh-24 text-gray">
                   Per pagina
                 </p>

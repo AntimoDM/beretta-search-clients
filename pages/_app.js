@@ -36,34 +36,34 @@ function MyApp({ Component, pageProps }) {
                 <div class="col text-end">
                   <nav>
                     <a
-                      className="mx-2 text-dark text-decoration-none"
+                      className="mx-2 text-dark text-decoration-none navLink"
                       href={"/ricerca"}
                     >
                       Ricerca Cliente
                     </a>
                     <Link
-                      className="mx-2 text-dark text-decoration-none"
+                      className="mx-2 text-dark text-decoration-none navLink"
                       href={"/interventi"}
                     >
                       {" "}
                       Interventi
                     </Link>
                     <Link
-                      className="mx-2 text-dark text-decoration-none"
+                      className="mx-2 text-dark text-decoration-none navLink"
                       href={"/giornate"}
                     >
                       {" "}
                       Giornate
                     </Link>
                     <Link
-                      className="mx-2 text-dark text-decoration-none"
+                      className="mx-2 text-dark text-decoration-none navLink"
                       href={"/garanzie"}
                     >
                       {" "}
                       Garanzie
                     </Link>
                     <Link
-                      className="mx-2 text-dark text-decoration-none"
+                      className="mx-2 text-dark text-decoration-none navLink"
                       href={"/manutenzioni"}
                     >
                       {" "}

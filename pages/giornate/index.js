@@ -12,7 +12,7 @@ import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
 import { trackPromise } from "react-promise-tracker";
 import api from "@/src/helper/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
-import { formatDate } from "@/src/helper/utility";
+import { formatDate, generaOpzioniTecnici } from "@/src/helper/utility";
 
 export default function designers({ permission, router, language_ids }) {
   const [designers, setDesigners] = useState([]);
@@ -39,13 +39,17 @@ export default function designers({ permission, router, language_ids }) {
 
   useEffect(() => {
     trackPromise(
-      api.search_giornate().then((value) => {
+      api.search_giornate(filters.tecnico || "").then((value) => {
         if (value) {
           setTotal(value.length);
           setDesigners(value);
         }
       })
     );
+  }, [filters]);
+
+  useEffect(() => {
+    resettaSelect();
   }, []);
 
   const manageSelect = (id) => {
@@ -81,9 +85,7 @@ export default function designers({ permission, router, language_ids }) {
         right={
           <>
             <Link href="/giornate/nuovo">
-              <Button className="button_medium" color="green">
-                Aggiungi Giornata
-              </Button>
+              <Button>Aggiungi Giornata</Button>
             </Link>
           </>
         }
@@ -103,28 +105,26 @@ export default function designers({ permission, router, language_ids }) {
         </HeaderTab>
 
         <CardToolbar className="align-items-center pl-24">
-          <SearchBar
-            value={TECNICI.find((el) => el.label == filters.tecnico)}
-            className="w-25 h-40 pl-0"
+          <select
+            onChange={(e) => {
+              const value = e.target.value;
+              setFilters({
+                ...filters,
+                tecnico: parseInt(value),
+              });
+
+              if (value === "0") {
+                resettaSelect();
+              }
+            }}
+            id="miaSelect"
+            style={{ display: "block", width: "25%" }}
             placeholder={"Tecnico"}
-            onChange={(e) => setFilters({ ...filters, tecnico: e.label })}
-            options={TECNICI.concat([{ label: "Annulla", value: "0" }])}
-          />
-          {/* <SearchBarV2
-            fullWidth
-            lang={lang}
-            placeholder={"Filtra i designers"}
-            model={"product.designer"}
-            rows={designers}
-            tab_domain={header_tab}
-            setRows={setDesigners}
-            limit={limit}
-            offset={offset}
-            setTotal={setTotal}
-            order_by={orderBy}
-            setInfiniteLoading={setInfiniteLoading}
-            options={[{ label: "Nome Designer", value: "name", type: "auto" }]}
-          /> */}
+            className="h-40 pl-0"
+          >
+            {generaOpzioniTecnici()}
+          </select>
+
           <div className="row mt-8 w-100 my-auto pl-0 pr-24">
             <div className="col-6 pl-0 text-left">
               <p className="font-16 lh-24 text-gray ordina_per">
@@ -133,24 +133,18 @@ export default function designers({ permission, router, language_ids }) {
             </div>
             <div className="col-6 pr-0 text-right">
               <div className="d-flex flex-row-reverse">
-                <SearchBar
-                  placeholder={limit}
-                  options={[
-                    { label: "5", value: 5 },
-                    { label: "20", value: 20 },
-                    { label: "30", value: 30 },
-                    { label: "50", value: 50 },
-                    { label: "100", value: 100 },
-                    { label: "150", value: 150 },
-                    { label: "200", value: 200 },
-                    { label: "500", value: 500 },
-                    { label: "1000", value: 1000 },
-                    { label: "1500", value: 1500 },
-                  ]}
-                  onChange={(e) => {
-                    setLimit(e.value);
-                  }}
-                />
+                <select
+                  style={{ display: "block", width: "20%" }}
+                  placeholder={"Tecnico"}
+                  className="h-40 pl-0"
+                >
+                  <option selected={limit === 5} onClick={() => setLimit(5)}>
+                    5
+                  </option>
+                  <option selected={limit === 50} onClick={() => setLimit(50)}>
+                    50
+                  </option>
+                </select>
                 <p className="font-16 my-auto mr-16 lh-24 text-gray">
                   Per pagina
                 </p>
@@ -177,16 +171,13 @@ export default function designers({ permission, router, language_ids }) {
             />
           </div>
           <div style={{ cursor: "pointer" }} className=" col my-auto">
-            Giorno
-          </div>
-          <div style={{ cursor: "pointer" }} className=" col my-auto">
-            Tecnico
+            <label className="m-0">Giorno</label>
           </div>
           <div
             style={{ cursor: "pointer" }}
             className="col pr-0 my-auto ml-auto text-end"
           >
-            Ore impiegate
+            <label className="m-0">Tecnico</label>
           </div>
         </div>
         <div
@@ -220,10 +211,9 @@ export default function designers({ permission, router, language_ids }) {
                   />
                 </div>
                 <div className=" col my-auto">{formatDate(element.data)}</div>
-                <div className="col my-auto">{element.tecnico}</div>
 
                 <div className="text-end col my-auto pr-24">
-                  {element.ore_impegnate}
+                  {element.tecnico && element.tecnico.nome}
                 </div>
               </Link>
             );
@@ -235,4 +225,9 @@ export default function designers({ permission, router, language_ids }) {
       <LoadingIndicator />
     </div>
   );
+
+  function resettaSelect() {
+    const miaSelect = document.getElementById("miaSelect");
+    miaSelect.selectedIndex = 0;
+  }
 }
