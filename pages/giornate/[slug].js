@@ -8,7 +8,11 @@ import Button from "@/src/components/atoms/Button";
 import Card from "@/src/components/atoms/Card";
 import { default as Link } from "next/link";
 import TableCouponIds from "@/src/components/organisms/TableIds/TableIds";
-import { createRequestVals, formatDate } from "@/src/helper/utility";
+import {
+  createRequestVals,
+  formatDate,
+  generaOpzioniTecnici,
+} from "@/src/helper/utility";
 import HeaderTab from "@/src/components/atoms/HeaderTab/HeaderTab";
 import { STATI, TECNICI } from "@/src/model/Tecnici";
 import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
@@ -89,22 +93,30 @@ export default function EditCollection({ router = {}, user, permission }) {
           </Link>
 
           <h4 className="d-inline font-24 lh-24 bolder">
-            {formatDate(vals.data)} - {vals.tecnico}
+            {formatDate(vals.data)}
           </h4>
         </div>
       </PageTitle>
 
       <Card className="mb-32 p-24">
-        <div className="row mt-24">
+        <div className="row mt-0">
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Tecnico</label>
-            <SearchBar
-              value={TECNICI.find((el) => el.value === vals.tecnico)}
-              className="h-40 pl-0"
+            <select
+              onChange={(e) => {
+                const value = e.target.value;
+                handleInput("tecnico", value);
+
+                if (value === "0") {
+                  resettaSelect();
+                }
+              }}
+              id="miaSelect"
               placeholder={"Tecnico"}
-              onChange={(e) => handleInput("tecnico", e.value)}
-              options={TECNICI}
-            />
+              className="h-40 pl-0"
+            >
+              {generaOpzioniTecnici()}
+            </select>
           </div>
           <div className="col-6 pl-16 pr-0">
             <label className="font-18 lh-24 bold">Giorno</label>
@@ -295,5 +307,10 @@ export default function EditCollection({ router = {}, user, permission }) {
     setVals(value);
     setDbVals(value);
     setModifying(false);
+  }
+
+  function resettaSelect() {
+    const miaSelect = document.getElementById("miaSelect");
+    miaSelect.selectedIndex = 0;
   }
 }

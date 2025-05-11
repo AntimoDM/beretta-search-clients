@@ -26,16 +26,6 @@ export default function designers({ permission, router, language_ids }) {
   const [limit, setLimit] = useState(50);
   const [filters, setFilters] = useState({});
   const [lang, setLang] = useState("it_IT");
-  const TECNICI = [
-    {
-      value: 1,
-      label: "Danilo",
-    },
-    {
-      value: 2,
-      label: "Mimmo",
-    },
-  ];
 
   useEffect(() => {
     trackPromise(

@@ -501,6 +501,9 @@ export function generaOpzioniTecnici(sezione) {
 export function generaOpzioniClienti(clienti) {
   return (
     <>
+      <option value="" disabled hidden>
+        Seleziona un cliente
+      </option>
       {clienti &&
         clienti.map((c) => {
           return <option value={c.value}>{c.label}</option>;

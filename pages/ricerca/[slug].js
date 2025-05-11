@@ -28,8 +28,6 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
           }
         })
       );
-    } else {
-      setVals({});
     }
   }, [slug]);
 
@@ -45,21 +43,6 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
         page
         right={
           <>
-            {slug !== "nuovo" && vals.creato_da_importazione && (
-              <>
-                {/* <input
-                  onChange={() => {
-                    handleInput(
-                      "mostra_dati_importati",
-                      !vals.mostra_dati_importati
-                    );
-                  }}
-                  checked={vals.mostra_dati_importati}
-                  type="checkbox"
-                />
-                Mostra importati */}
-              </>
-            )}
             {slug !== "nuovo" && (
               <Button
                 onClick={() => {
@@ -98,61 +81,28 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
           </>
         }
       >
-        <div className="m-0 p-0 ">
+        <div>
           <Link className="mt-0 mr-16" href="/ricerca">
             <div className="btn btn-outline-secondary button_header_inner">
               <img src="/media/icon/freccia_header_sinistra.svg"></img>
             </div>
           </Link>
 
-          <h4 className="d-inline font-24 lh-24 bolder">
+          <h2 className="d-inline">
             {vals.nome || vals.cognome
               ? (vals.nome || "") + " " + (vals.cognome || "")
               : "Nuovo Cliente"}
-          </h4>
+          </h2>
         </div>
       </PageTitle>
 
       <Card className="mb-32 p-24">
-        <h2 className="bold lh-24">Anagrafica</h2>
-
-        {vals.mostra_dati_importati ? (
-          <>
-            {" "}
-            <div className="row mt-24">
-              <div className="col-6 pl-0 pr-16">
-                <label className="font-18 lh-24 bold">Nome e Cognome</label>
-                <input
-                  className="w-100"
-                  value={vals.nome_cognome_import}
-                  id="nome_cognome_import"
-                />
-              </div>
-              <div className="col-6 pl-16 pr-0">
-                <label className="font-18 lh-24 bold">Telefono</label>
-                <input
-                  className="w-100"
-                  value={vals.telefono_principale}
-                  id="telefono_principale"
-                />
-              </div>
-            </div>
-            <div className="row mt-24">
-              <textarea
-                className="note"
-                value={vals.anagrafica_import}
-              ></textarea>
-            </div>{" "}
-          </>
-        ) : (
-          <></>
-        )}
+        <h3>Anagrafica</h3>
 
         <div className="row mt-24">
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Nome</label>
             <input
-              className="w-100"
               value={vals.nome || ""}
               onChange={(e) => {
                 handleInput("nome", e.target.value);
@@ -163,7 +113,6 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
           <div className="col-6 pl-16 pr-0">
             <label className="font-18 lh-24 bold">Cognome</label>
             <input
-              className="w-100"
               value={vals.cognome}
               onChange={(e) => {
                 handleInput("cognome", e.target.value);
@@ -198,13 +147,12 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
             />
           </div>
         </div>
-        <h2 className="bold lh-24 mt-24">Indirizzo</h2>
+        <h3 className="mt-24">Indirizzo</h3>
 
         <div className="row mt-24">
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Via</label>
             <input
-              className="w-100"
               value={vals.strada}
               onChange={(e) => {
                 handleInput("strada", e.target.value);
@@ -215,7 +163,6 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
           <div className="col-6 pl-16 pr-0">
             <label className="font-18 lh-24 bold">Civico</label>
             <input
-              className="w-100"
               value={vals.numero_civico}
               onChange={(e) => {
                 handleInput("numero_civico", e.target.value);
@@ -229,7 +176,6 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Provincia</label>
             <input
-              className="w-100"
               value={vals.provincia}
               onChange={(e) => {
                 handleInput("provincia", e.target.value);
@@ -240,7 +186,6 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
           <div className="col-6 pl-16 pr-0">
             <label className="font-18 lh-24 bold">Comune</label>
             <input
-              className="w-100"
               value={vals.comune}
               onChange={(e) => {
                 handleInput("comune", e.target.value);
@@ -254,7 +199,6 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
           <div className="col-6 pl-0 pr-16">
             <label className="font-18 lh-24 bold">Codice Fiscale</label>
             <input
-              className="w-100"
               value={vals.codicefiscale}
               onChange={(e) => {
                 handleInput("codicefiscale", e.target.value);
@@ -274,119 +218,103 @@ export default function DettaglioCliente({ router = {}, user, permission }) {
         </Card>
       )}
 
-      <Card style={{ pointerEvents: "none" }} className="mb-32 p-24">
-        <h2 className="bold lh-24">Manutenzione</h2>
-        <div className="row mt-24">
-          <div className="col-6 pl-0 pr-16">
-            <label className="font-18 lh-24 bold">Data Rapporto</label>
-            <input
-              style={{ pointerEvents: "none" }}
-              className="w-100"
-              value={vals.manutenzione && vals.manutenzione.data_rapporto}
-              onChange={(e) => {
-                handleInput("street", e.target.value);
-              }}
-              id="street"
-            />
+      {slug !== "nuovo" && vals.manutenzione && (
+        <Card className="mb-32 p-24">
+          <h2 className="bold lh-24">Manutenzione</h2>
+          <div className="row mt-24">
+            <div className="col-6 pl-0 pr-16">
+              <label className="font-18 lh-24 bold">Data Rapporto</label>
+              <input
+                disabled
+                className="w-100"
+                value={vals.manutenzione && vals.manutenzione.data_rapporto}
+                id="street"
+              />
+            </div>
+            <div className="col-6 pl-16 pr-0">
+              <label className="font-18 lh-24 bold">Matricola</label>
+              <input
+                disabled
+                className="w-100"
+                value={vals.manutenzione && vals.manutenzione.matricola}
+                id="matricola"
+              />
+            </div>
           </div>
-          <div className="col-6 pl-16 pr-0">
-            <label className="font-18 lh-24 bold">Matricola</label>
-            <input
-              className="w-100"
-              style={{ pointerEvents: "none" }}
-              value={vals.manutenzione && vals.manutenzione.matricola}
-              onChange={(e) => {
-                handleInput("matricola", e.target.value);
-              }}
-              id="matricola"
-            />
-          </div>
-        </div>
 
-        <div className="row mt-8">
-          <div className="col-6 pl-0 pr-16">
-            <label className="font-18 lh-24 bold">
-              Tipo piano manutenzione
-            </label>
-            <input
-              style={{ pointerEvents: "none" }}
-              className="w-100"
-              value={vals.manutenzione && vals.manutenzione.tipologia}
-              onChange={(e) => {
-                handleInput("piano_manutenzione", e.target.value);
-              }}
-              id="piano_manutenzione"
-            />
+          <div className="row mt-8">
+            <div className="col-6 pl-0 pr-16">
+              <label className="font-18 lh-24 bold">
+                Tipo piano manutenzione
+              </label>
+              <input
+                disabled
+                className="w-100"
+                value={vals.manutenzione && vals.manutenzione.tipologia}
+                id="piano_manutenzione"
+              />
+            </div>
+            <div className="col-6 pl-16 pr-0">
+              <label className="font-18 lh-24 bold">Scadenza</label>
+              <input
+                disabled
+                className="w-100"
+                value={vals.manutenzione && vals.manutenzione.data_scadenza}
+                id="scadenza"
+              />
+            </div>
           </div>
-          <div className="col-6 pl-16 pr-0">
-            <label className="font-18 lh-24 bold">Scadenza</label>
-            <input
-              className="w-100"
-              style={{ pointerEvents: "none" }}
-              value={vals.manutenzione && vals.manutenzione.data_scadenza}
-              onChange={(e) => {
-                handleInput("scadenza", e.target.value);
-              }}
-              id="scadenza"
-            />
-          </div>
-        </div>
 
-        <div className="row mt-8"></div>
-      </Card>
+          <div className="row mt-8"></div>
+        </Card>
+      )}
 
-      <Card style={{ pointerEvents: "none" }} className=" p-24">
-        <h2 className="bold lh-24">Garanzia</h2>
-        <div className="row mt-24">
-          <div className="col-6 pl-0 pr-16">
-            <label className="font-18 lh-24 bold">Data Accensione</label>
-            <input
-              className="w-100"
-              value={vals.garanzia && vals.garanzia.data_accensione}
-              onChange={(e) => {
-                handleInput("street", e.target.value);
-              }}
-              id="street"
-            />
+      {slug !== "nuovo" && vals.garanzia && (
+        <Card className="p-24">
+          <h2 className="bold lh-24">Garanzia</h2>
+          <div className="row mt-24">
+            <div className="col-6 pl-0 pr-16">
+              <label className="font-18 lh-24 bold">Data Accensione</label>
+              <input
+                disabled
+                className="w-100"
+                value={vals.garanzia && vals.garanzia.data_accensione}
+                id="street"
+              />
+            </div>
+            <div className="col-6 pl-16 pr-0">
+              <label className="font-18 lh-24 bold">Matricola</label>
+              <input
+                disabled
+                className="w-100"
+                value={vals.garanzia && vals.garanzia.matricola}
+                id="matricola"
+              />
+            </div>
           </div>
-          <div className="col-6 pl-16 pr-0">
-            <label className="font-18 lh-24 bold">Matricola</label>
-            <input
-              className="w-100"
-              value={vals.garanzia && vals.garanzia.matricola}
-              onChange={(e) => {
-                handleInput("matricola", e.target.value);
-              }}
-              id="matricola"
-            />
-          </div>
-        </div>
 
-        <div className="row mt-8">
-          <div className="col-6 pl-0 pr-16">
-            <label className="font-18 lh-24 bold">Scadenza Garanzia</label>
-            <input
-              className="w-100"
-              value={vals.garanzia && vals.garanzia.matricola}
-              onChange={(e) => {
-                handleInput("piano_manutenzione", e.target.value);
-              }}
-              id="piano_manutenzione"
-            />
+          <div className="row mt-8">
+            <div className="col-6 pl-0 pr-16">
+              <label className="font-18 lh-24 bold">Scadenza Garanzia</label>
+              <input
+                disabled
+                className="w-100"
+                value={vals.garanzia && vals.garanzia.matricola}
+                id="piano_manutenzione"
+              />
+            </div>
+            <div className="col-6 pl-16 pr-0">
+              <label className="font-18 lh-24 bold">Nota Bene</label>
+              <textarea
+                disabled
+                className="w-100 note"
+                value={vals.garanzia && vals.garanzia.note}
+                id="scadenza"
+              />
+            </div>
           </div>
-          <div className="col-6 pl-16 pr-0">
-            <label className="font-18 lh-24 bold">Nota Bene</label>
-            <textarea
-              className="w-100 note"
-              value={vals.garanzia && vals.garanzia.note}
-              onChange={(e) => {
-                handleInput("scadenza", e.target.value);
-              }}
-              id="scadenza"
-            />
-          </div>
-        </div>
-      </Card>
+        </Card>
+      )}
 
       <LoadingIndicator />
     </div>

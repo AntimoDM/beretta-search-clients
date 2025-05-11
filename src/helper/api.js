@@ -9,9 +9,14 @@ const api = {
 
   // CLIENTE CRUD
 
-  ricerca_clienti: async function () {
+  ricerca_clienti: async function (strada, comune) {
     try {
-      const res = await axios.get(BASE_URL + "/customer/cliente");
+      const res = await axios.get(
+        BASE_URL +
+          "/customer/cliente?strada=" +
+          strada +
+          (comune ? "&comune=" + comune : "")
+      );
       let resArray = res.data;
       return resArray;
     } catch (error) {
@@ -133,11 +138,16 @@ const api = {
     }
   },
 
-  search_garanzie: async function () {
+  search_garanzie: async function (cliente) {
     try {
-      const res = await axios.get(BASE_URL + "/customer/garanzia", {
-        withCredentials: false,
-      });
+      const res = await axios.get(
+        BASE_URL +
+          "/customer/garanzia" +
+          (cliente ? "?cliente=" + cliente : ""),
+        {
+          withCredentials: false,
+        }
+      );
       const data = res.data;
       let resArray = data;
       return resArray;
@@ -186,9 +196,13 @@ const api = {
       Swal.fire("Errore", await error.response.data.res, "error");
     }
   },
-  search_manutenzioni: async function () {
+  search_manutenzioni: async function (cliente) {
     try {
-      const res = await axios.get(BASE_URL + "/customer/manutenzione");
+      const res = await axios.get(
+        BASE_URL +
+          "/customer/manutenzione" +
+          (cliente ? "?cliente=" + cliente : "")
+      );
       const data = res.data;
       let resArray = data;
       return resArray;

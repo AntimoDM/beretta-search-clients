@@ -11,7 +11,7 @@ import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
 import { trackPromise } from "react-promise-tracker";
 import api from "@/src/helper/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
-import { formatDate } from "@/src/helper/utility";
+import { formatDate, generaOpzioniClienti } from "@/src/helper/utility";
 
 export default function Garanzie({ permission, router, language_ids }) {
   const [recs, setRecs] = useState([]);
@@ -24,17 +24,27 @@ export default function Garanzie({ permission, router, language_ids }) {
   const [selectedIds, setSelectedIds] = useState([]);
   const [limit, setLimit] = useState(50);
   const [filters, setFilters] = useState({});
+  const [opzioniClienti, setOpzioniClienti] = useState([]);
+
+  useEffect(() => {
+    resettaSelect();
+    api.ricerca_clienti_per_searchbar().then((value) => {
+      if (value) {
+        setOpzioniClienti(value);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     trackPromise(
-      api.search_garanzie(headerTab).then((value) => {
+      api.search_garanzie(filters.cliente).then((value) => {
         if (value) {
           setRecs(value);
           setTotal(value.length);
         }
       })
     );
-  }, [headerTab]);
+  }, [filters]);
 
   return (
     <div className="page-container-new">
@@ -63,6 +73,25 @@ export default function Garanzie({ permission, router, language_ids }) {
         </HeaderTab>
 
         <CardToolbar className="align-items-center pl-24">
+          <select
+            onChange={(e) => {
+              const value = e.target.value;
+              setFilters({
+                ...filters,
+                cliente: parseInt(value),
+              });
+
+              if (value === "0") {
+                resettaSelect();
+              }
+            }}
+            id="miaSelect"
+            style={{ display: "block", width: "25%" }}
+            placeholder={"Tecnico"}
+            className="h-40 pl-0"
+          >
+            {generaOpzioniClienti(opzioniClienti)}
+          </select>
           <div className="row mt-8 w-100 my-auto pl-0 pr-24">
             <div className="col-6 pl-0 text-left">
               <p className="font-16 lh-24 text-gray ordina_per">
@@ -71,24 +100,18 @@ export default function Garanzie({ permission, router, language_ids }) {
             </div>
             <div className="col-6 pr-0 text-right">
               <div className="d-flex flex-row-reverse">
-                <SearchBar
-                  placeholder={limit}
-                  options={[
-                    { label: "5", value: 5 },
-                    { label: "20", value: 20 },
-                    { label: "30", value: 30 },
-                    { label: "50", value: 50 },
-                    { label: "100", value: 100 },
-                    { label: "150", value: 150 },
-                    { label: "200", value: 200 },
-                    { label: "500", value: 500 },
-                    { label: "1000", value: 1000 },
-                    { label: "1500", value: 1500 },
-                  ]}
-                  onChange={(e) => {
-                    setLimit(e.value);
-                  }}
-                />
+                <select
+                  style={{ display: "block", width: "20%" }}
+                  placeholder={"Tecnico"}
+                  className="h-40 pl-0"
+                >
+                  <option selected={limit === 5} onClick={() => setLimit(5)}>
+                    5
+                  </option>
+                  <option selected={limit === 50} onClick={() => setLimit(50)}>
+                    50
+                  </option>
+                </select>
                 <p className="font-16 my-auto mr-16 lh-24 text-gray">
                   Per pagina
                 </p>
@@ -96,6 +119,7 @@ export default function Garanzie({ permission, router, language_ids }) {
             </div>
           </div>
         </CardToolbar>
+
         <div className="row table_header pr-24">
           <div
             style={{ width: "16px", paddingTop: "2px" }}
@@ -121,7 +145,7 @@ export default function Garanzie({ permission, router, language_ids }) {
             style={{ cursor: "pointer" }}
             className=" col my-auto"
           >
-            Cliente
+            <label className="m-0">Cliente</label>
             {orderBy === "name asc" ? (
               <img
                 className="ml-8"
@@ -137,13 +161,13 @@ export default function Garanzie({ permission, router, language_ids }) {
             )}
           </div>
           <div style={{ cursor: "pointer" }} className=" col my-auto">
-            Data Accensione
+            <label className="m-0">Data Accensione</label>
           </div>
           <div
             style={{ cursor: "pointer" }}
             className="col pr-0 my-auto ml-auto text-end"
           >
-            Data Scadenza
+            <label className="m-0">Data Scadenza</label>
           </div>
         </div>
         <div
@@ -229,5 +253,10 @@ export default function Garanzie({ permission, router, language_ids }) {
         offset < total - 50 ? offset + 50 : total - 50 > 0 ? total - 50 : 0
       );
     }
+  }
+
+  function resettaSelect() {
+    const miaSelect = document.getElementById("miaSelect");
+    miaSelect.selectedIndex = 0;
   }
 }

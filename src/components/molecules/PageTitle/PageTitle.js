@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./pagetitle.module.scss";
 
-const PageTitle = ({ children, right, className, page, board }) => {
+const PageTitle = ({ children, right, className }) => {
   return (
     <div
       style={{ alignItems: "center", maxHeight: "48px", marginBottom: "24px" }}

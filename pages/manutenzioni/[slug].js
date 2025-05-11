@@ -8,7 +8,11 @@ import Button from "@/src/components/atoms/Button";
 import Card from "@/src/components/atoms/Card";
 import { default as Link } from "next/link";
 import TableCouponIds from "@/src/components/organisms/TableIds/TableIds";
-import { createRequestVals, formatDate } from "@/src/helper/utility";
+import {
+  createRequestVals,
+  formatDate,
+  generaOpzioniClienti,
+} from "@/src/helper/utility";
 import HeaderTab from "@/src/components/atoms/HeaderTab/HeaderTab";
 import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
 import Swal from "sweetalert2";
@@ -22,7 +26,6 @@ export default function EditCollection({ router = {}, user, permission }) {
   const [modifying, setModifying] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const [opzioniClienti, setOpzioniClienti] = useState([]);
-  const m2oAttrs = ["cliente"];
 
   useEffect(() => {
     if (!slug) return;
@@ -56,7 +59,6 @@ export default function EditCollection({ router = {}, user, permission }) {
       />
 
       <PageTitle
-        className="pt-10 mt-48"
         page
         right={
           <>
@@ -103,7 +105,7 @@ export default function EditCollection({ router = {}, user, permission }) {
           <Link
             style={{ pointerEvents: "auto" }}
             className="mt-0 mr-16"
-            href="/garanzie"
+            href="/manutenzioni"
           >
             <div className="btn btn-outline-secondary button_header_inner">
               <img src="/media/icon/freccia_header_sinistra.svg"></img>
@@ -111,47 +113,26 @@ export default function EditCollection({ router = {}, user, permission }) {
           </Link>
 
           <h4 className="d-inline font-24 lh-24 bolder">
-            Manutenzione di{" "}
-            {vals.cliente &&
-              (vals.cliente.cognome || "") + " " + vals.cliente.nome}{" "}
-            - {formatDate(vals.data_rapporto)}
+            Manutenzione del {formatDate(vals.data_rapporto)}
           </h4>
         </div>
       </PageTitle>
 
       <Card className="mb-32 p-24">
-        <div className="row mt-24">
-          <div className="col-6 pl-0 pr-16">
-            {slug !== "nuovo" ? (
-              <>
-                <label className="font-18 lh-24 bold">Cliente</label>
-                <a
-                  style={{ display: "block" }}
-                  target="_blank"
-                  href={
-                    "/ricerca/" +
-                    (vals.cliente ? vals.cliente.telefono_principale : "")
-                  }
-                >
-                  {vals.cliente &&
-                    (vals.cliente.cognome || "") + " " + vals.cliente.nome}
-                </a>
-              </>
-            ) : (
-              <>
-                <SearchBar
-                  value={opzioniClienti.find(
-                    (el) => el.value === (vals.cliente && vals.cliente.id)
-                  )}
-                  className="h-40 pl-0"
-                  placeholder={"Cliente"}
-                  onChange={(e) =>
-                    handleInput("cliente", { id: e.value, nome: e.label })
-                  }
-                  options={opzioniClienti}
-                />
-              </>
-            )}
+        <div className="row mt-0">
+          <div className="col-12 pl-0 pr-0">
+            <label className="font-18 lh-24 bold">Cliente</label>
+            <select
+              value={vals.cliente && vals.cliente.id}
+              onChange={(e) => {
+                const value = e.target.value;
+                handleInput("cliente", value);
+              }}
+              placeholder={"Seleziona un Cliente"}
+              className="h-40 pl-0"
+            >
+              {generaOpzioniClienti(opzioniClienti)}
+            </select>
           </div>
         </div>
       </Card>
@@ -243,23 +224,18 @@ export default function EditCollection({ router = {}, user, permission }) {
   function handleSubmit() {
     if (slug !== "nuovo") {
       api
-        .aggiorna_manutenzione(
-          slug,
-          createRequestVals(vals, keys, [], m2oAttrs)
-        )
+        .aggiorna_manutenzione(slug, createRequestVals(vals, keys, []))
         .then((value) => {
           if (value) {
             _get(value);
           }
         });
     } else {
-      api
-        .crea_manutenzione(createRequestVals(vals, keys, [], m2oAttrs))
-        .then((value) => {
-          if (value) {
-            router.push("/manutenzioni/" + value.id);
-          }
-        });
+      api.crea_manutenzione(createRequestVals(vals, keys, [])).then((value) => {
+        if (value) {
+          router.push("/manutenzioni/" + value.id);
+        }
+      });
     }
   }
 
