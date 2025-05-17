@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import api from "../../../helper/api";
 import { useRouter } from "next/router";
 import PageTitle from "../PageTitle";
 import Card from "../../atoms/Card";
-import Button from "../../atoms/Button";
-import { createRequestVals, formatDate } from "@/src/helper/utility";
 import SearchBar from "../SearchBar/SearchBar";
 import { TECNICI } from "@/src/model/Tecnici";
 import Swal from "sweetalert2";
+import apiIntervento from "@/src/utils/api/intervento";
+import { createRequestVals } from "@/src/utils/utility";
+import Button from "../../atoms/Button/Button";
 
 export default function CartaIntervento({
   modifyRow = {},
@@ -189,7 +189,7 @@ export default function CartaIntervento({
               }).then((value) => {
                 if (value.isConfirmed) {
                   trackPromise(
-                    api.elimina_intervento(vals.id).then((value) => {
+                    apiIntervento.elimina_intervento(vals.id).then((value) => {
                       if (value) {
                         Swal.fire(
                           "Successo",

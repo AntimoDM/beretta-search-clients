@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
 import PageTitle from "@/src/components/molecules/PageTitle";
 import ModifyHeader from "@/src/components/molecules/ModifyHeader";
-import api from "@/src/helper/api";
+import api from "@/src/utils/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import Button from "@/src/components/atoms/Button";
 import Card from "@/src/components/atoms/Card";
@@ -13,7 +13,7 @@ import {
   formatDate,
   generaOpzioniClienti,
   generaOpzioniTecnici,
-} from "@/src/helper/utility";
+} from "@/src/utils/utility";
 import HeaderTab from "@/src/components/atoms/HeaderTab/HeaderTab";
 import { STATI, TECNICI } from "@/src/model/Tecnici";
 import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";

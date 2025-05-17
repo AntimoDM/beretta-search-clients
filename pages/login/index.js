@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Login from "@/src/components/atoms/Login/Login";
-import { effettuaLogin } from "@/src/helper/utility";
+import { effettuaLogin } from "@/src/utils/utility";
 import Swal from "sweetalert2";
 
 export default function LoginPage({ router }) {

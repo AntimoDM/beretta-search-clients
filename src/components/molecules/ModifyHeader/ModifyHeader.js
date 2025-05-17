@@ -3,7 +3,7 @@ import $ from "jquery";
 import React, { useEffect, useState } from "react";
 
 import PageTitle from "../PageTitle";
-import Button from "../../atoms/Button";
+import Button from "../../atoms/Button/Button";
 const ModifyHeader = ({ toggle, onSave, onRemove, nolabel }) => {
   const [logow, setLogow] = useState(0);
   const [height, setHeight] = useState(0);

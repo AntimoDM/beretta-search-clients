@@ -1,0 +1,20 @@
+.btn{
+    background: #AEC60D;
+    border: 1px solid #3A3A3A;
+    font-size: 16px;
+    color: white;
+    &:hover {
+        color: #3A3A3A;
+        background: #AEC60D;
+        border: 1px solid #3A3A3A;
+    }
+    &.trasparente{
+        background: transparent;
+        &:hover {
+        background: #3A3A3A;
+            img{
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+}

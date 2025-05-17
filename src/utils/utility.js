@@ -4,6 +4,20 @@ import $ from "jquery";
 import Swal from "sweetalert2";
 import { useRef, useEffect } from "react";
 import { STATI } from "../model/Tecnici";
+
+export const BASE_URL = process.env.BACKEND_URL;
+
+export function creaQueryParams(oggetto) {
+  if (!oggetto instanceof Object) return "";
+  if (Object.keys(oggetto).length === 0) return "";
+  let queryParams = "";
+  Object.keys(oggetto).forEach((chiave, indice) => {
+    if (indice === 0) queryParams += "?" + chiave + "=" + oggetto[chiave];
+    else queryParams += "&" + chiave + "=" + oggetto[chiave];
+  });
+  return queryParams;
+}
+
 export function renderPulseState(status) {
   if (status) {
     switch (status.toUpperCase()) {
@@ -381,44 +395,6 @@ export function createRequestVals(
       } else {
         delete requestVals[attr];
       }
-    }
-  }
-  if (keys.includes("domain_id")) {
-    if (
-      requestVals.domain_id &&
-      Object.keys(requestVals.domain_id).length > 0
-    ) {
-      requestVals["domain_id"] = adaptConditionDomainVals(
-        requestVals["domain_id"]
-      );
-    } else {
-      requestVals["domain_id"] = false;
-    }
-  }
-
-  if (keys.includes("conditions_domain_id")) {
-    if (
-      requestVals.conditions_domain_id &&
-      Object.keys(requestVals.conditions_domain_id).length > 0
-    ) {
-      requestVals["conditions_domain_id"] = adaptConditionDomainVals(
-        requestVals["conditions_domain_id"]
-      );
-    } else {
-      requestVals["conditions_domain_id"] = false;
-    }
-  }
-
-  if (keys.includes("actions_domain_id")) {
-    if (
-      requestVals.actions_domain_id &&
-      Object.keys(requestVals.actions_domain_id).length > 0
-    ) {
-      requestVals["actions_domain_id"] = adaptConditionDomainVals(
-        requestVals["actions_domain_id"]
-      );
-    } else {
-      requestVals["actions_domain_id"] = false;
     }
   }
   return requestVals;

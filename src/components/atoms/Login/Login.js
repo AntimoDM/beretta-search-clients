@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import styles from "@/styles/common.module.scss";
-import api from "@/src/helper/api";
+import api from "@/src/utils/api";
 import Card from "../Card";
 import Link from "next/link";
 import Button from "../Button";

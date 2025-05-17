@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "../../atoms/Card";
 import Modal from "../../atoms/Modal/Modal";
 import CardCouponIds from "../../molecules/CardCouponIds/CardCouponIds";
-import { formatDate, visualizzaStatoIntervento } from "@/src/helper/utility";
+import { formatDate, visualizzaStatoIntervento } from "@/src/utils/utility";
 
 export default function TabellaInterventi({
   interventi = [{}],

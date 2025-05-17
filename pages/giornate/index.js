@@ -10,9 +10,9 @@ import CardToolbar from "@/src/components/molecules/CardToolbar/CardToolbar";
 import PageTitle from "@/src/components/molecules/PageTitle";
 import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
 import { trackPromise } from "react-promise-tracker";
-import api from "@/src/helper/api";
+import api from "@/src/utils/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
-import { formatDate, generaOpzioniTecnici } from "@/src/helper/utility";
+import { formatDate, generaOpzioniTecnici } from "@/src/utils/utility";
 
 export default function designers({ permission, router, language_ids }) {
   const [designers, setDesigners] = useState([]);

@@ -37,9 +37,9 @@ function MyApp({ Component, pageProps }) {
                   <nav>
                     <a
                       className="mx-2 text-dark text-decoration-none navLink"
-                      href={"/ricerca"}
+                      href={"/clienti"}
                     >
-                      Ricerca Cliente
+                      Clienti
                     </a>
                     <Link
                       className="mx-2 text-dark text-decoration-none navLink"

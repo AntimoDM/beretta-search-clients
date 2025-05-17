@@ -9,9 +9,10 @@ import CardToolbar from "@/src/components/molecules/CardToolbar/CardToolbar";
 import PageTitle from "@/src/components/molecules/PageTitle";
 import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
 import { trackPromise } from "react-promise-tracker";
-import api from "@/src/helper/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import { formatDate, generaOpzioniClienti } from "@/src/helper/utility";
+import apiCliente from "@/src/utils/api/cliente";
+import apiGaranzia from "@/src/utils/api/garanzia";
 
 export default function Garanzie({ permission, router, language_ids }) {
   const [recs, setRecs] = useState([]);
@@ -28,7 +29,7 @@ export default function Garanzie({ permission, router, language_ids }) {
 
   useEffect(() => {
     resettaSelect();
-    api.ricerca_clienti_per_searchbar().then((value) => {
+    apiCliente.ricerca_clienti_per_searchbar().then((value) => {
       if (value) {
         setOpzioniClienti(value);
       }
@@ -37,7 +38,7 @@ export default function Garanzie({ permission, router, language_ids }) {
 
   useEffect(() => {
     trackPromise(
-      api.search_garanzie(filters.cliente).then((value) => {
+      apiGaranzia.search_garanzie(filters.cliente).then((value) => {
         if (value) {
           setRecs(value);
           setTotal(value.length);

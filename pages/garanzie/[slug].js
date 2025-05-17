@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
 import PageTitle from "@/src/components/molecules/PageTitle";
 import ModifyHeader from "@/src/components/molecules/ModifyHeader";
-import api from "@/src/helper/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import Button from "@/src/components/atoms/Button";
 import Card from "@/src/components/atoms/Card";
@@ -16,6 +15,8 @@ import {
 import HeaderTab from "@/src/components/atoms/HeaderTab/HeaderTab";
 import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
 import Swal from "sweetalert2";
+import apiGaranzia from "@/src/utils/api/garanzia";
+import apiCliente from "@/src/utils/api/cliente";
 
 export default function EditCollection({ router = {}, user, permission }) {
   const { slug } = router.query || {};
@@ -31,7 +32,7 @@ export default function EditCollection({ router = {}, user, permission }) {
 
     if (slug !== "nuovo") {
       trackPromise(
-        api.get_garanzia(slug).then((value) => {
+        apiGaranzia.dettaglio_garanzia(slug).then((value) => {
           if (value) {
             setVals(value);
             setDbVals(value);
@@ -42,7 +43,7 @@ export default function EditCollection({ router = {}, user, permission }) {
   }, [slug]);
 
   useEffect(() => {
-    api.ricerca_clienti_per_searchbar().then((value) => {
+    apiCliente.ricerca_clienti_per_searchbar().then((value) => {
       if (value) {
         setOpzioniClienti(value);
       }
@@ -76,7 +77,7 @@ export default function EditCollection({ router = {}, user, permission }) {
                   }).then((value) => {
                     if (value.isConfirmed) {
                       trackPromise(
-                        api.elimina_garanzia(vals.id).then((value) => {
+                        apiGaranzia.elimina_garanzia(vals.id).then((value) => {
                           if (value) {
                             Swal.fire(
                               "Successo",
@@ -222,7 +223,7 @@ export default function EditCollection({ router = {}, user, permission }) {
 
   function handleSubmit() {
     if (slug !== "nuovo") {
-      api
+      apiGaranzia
         .aggiorna_garanzia(slug, createRequestVals(vals, keys, []))
         .then((value) => {
           if (value) {
@@ -230,11 +231,13 @@ export default function EditCollection({ router = {}, user, permission }) {
           }
         });
     } else {
-      api.crea_garanzia(createRequestVals(vals, keys, [])).then((value) => {
-        if (value) {
-          router.push("/garanzie/" + value.id);
-        }
-      });
+      apiGaranzia
+        .crea_garanzia(createRequestVals(vals, keys, []))
+        .then((value) => {
+          if (value) {
+            router.push("/garanzie/" + value.id);
+          }
+        });
     }
   }
 
