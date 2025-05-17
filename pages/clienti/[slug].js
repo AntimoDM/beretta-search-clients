@@ -10,6 +10,7 @@ import { createRequestVals } from "@/src/utils/utility";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import FormAnagraficaCliente from "@/src/components/molecules/Cliente/FormAnagraficaCliente";
 import FormManutenzione from "@/src/components/molecules/Manutenzione/FormManutenzione";
+import FormGaranzia from "@/src/components/molecules/Garanzia/FormGaranzia";
 
 export default function DettaglioCliente({ router = {} }) {
   const { slug } = router.query || {};
@@ -37,7 +38,6 @@ export default function DettaglioCliente({ router = {} }) {
         onSave={handleSubmit}
         toggle={modifying}
       />
-
       <TitoloPagina
         titolo={
           slug !== "nuovo"
@@ -49,10 +49,9 @@ export default function DettaglioCliente({ router = {} }) {
       />
       <FormAnagraficaCliente
         className="mb-32"
-        onChange={(chiave, valore) => handleInput(chiave, valore)}
+        onChange={(chiave, valore) => gestisciInput(chiave, valore)}
         vals={vals}
       />
-
       {slug !== "nuovo" && (
         <Card className="mb-32 p-24">
           <h2 className="bold lh-24">Interventi</h2>
@@ -61,58 +60,10 @@ export default function DettaglioCliente({ router = {} }) {
           </div>
         </Card>
       )}
-
-      {slug !== "nuovo" && vals.manutenzione && (
+      {vals.manutenzione && (
         <FormManutenzione disabled={true} vals={vals.manutenzione} />
       )}
-
-      {slug !== "nuovo" && vals.garanzia && (
-        <Card className="p-24">
-          <h2 className="bold lh-24">Garanzia</h2>
-          <div className="row mt-24">
-            <div className="col-6 pl-0 pr-16">
-              <label className="font-18 lh-24 bold">Data Accensione</label>
-              <input
-                disabled
-                className="w-100"
-                value={vals.garanzia && vals.garanzia.data_accensione}
-                id="street"
-              />
-            </div>
-            <div className="col-6 pl-16 pr-0">
-              <label className="font-18 lh-24 bold">Matricola</label>
-              <input
-                disabled
-                className="w-100"
-                value={vals.garanzia && vals.garanzia.matricola}
-                id="matricola"
-              />
-            </div>
-          </div>
-
-          <div className="row mt-8">
-            <div className="col-6 pl-0 pr-16">
-              <label className="font-18 lh-24 bold">Scadenza Garanzia</label>
-              <input
-                disabled
-                className="w-100"
-                value={vals.garanzia && vals.garanzia.matricola}
-                id="piano_manutenzione"
-              />
-            </div>
-            <div className="col-6 pl-16 pr-0">
-              <label className="font-18 lh-24 bold">Nota Bene</label>
-              <textarea
-                disabled
-                className="w-100 note"
-                value={vals.garanzia && vals.garanzia.note}
-                id="scadenza"
-              />
-            </div>
-          </div>
-        </Card>
-      )}
-
+      {vals.garanzia && <FormGaranzia disabled={true} vals={vals.garanzia} />}
       <LoadingIndicator />
     </div>
   );
@@ -153,7 +104,7 @@ export default function DettaglioCliente({ router = {} }) {
     setModifying(false);
   }
 
-  function handleInput(key, value) {
+  function gestisciInput(key, value) {
     if (!modifying) setModifying(true);
     setVals({ ...vals, [key]: value });
     if (!keys.includes(key)) setKeys([...keys, key]);

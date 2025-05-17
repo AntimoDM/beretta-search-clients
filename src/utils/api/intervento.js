@@ -7,12 +7,16 @@ const apiIntervento = {
   ricerca_interventi: async function (params) {
     try {
       const res = await axios.get(
-        BASE_URL + "/intervento?stato=" + creaQueryParams(params)
+        BASE_URL + "/intervento" + creaQueryParams(params)
       );
       let resArray = res.data;
       return resArray;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.res, "error");
+      try {
+        Swal.fire("Errore", await error.response.data.res, "error");
+      } catch (err) {
+        console.log(err);
+      }
     }
   },
   crea_intervento: async function (vals) {

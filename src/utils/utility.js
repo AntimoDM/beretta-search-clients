@@ -437,8 +437,11 @@ export function visualizzaNomeCliente(cliente) {
 }
 
 export function visualizzaStatoIntervento(stato) {
-  if (stato) {
-    return STATI.find((el) => el.value === stato).label;
+  switch (stato) {
+    case 1:
+      return <span className={style.status + " " + style.orange}>Nuovo</span>;
+    default:
+      return <span className={style.status + " " + style.orange}>DEFAULT</span>;
   }
 }
 
@@ -457,14 +460,16 @@ export function effettuaLogin(user) {
   }
 }
 
-export function generaOpzioniTecnici(sezione) {
+export function generaOpzioniTecnici(sezione, tecnici) {
   return (
     <>
       <option value="" disabled hidden>
         Seleziona un tecnico
       </option>
-      <option value="2">Mimmo</option>
-      <option value="1">Danilo</option>
+      {tecnici &&
+        tecnici.map((t) => {
+          return <option value={t.value}>{t.label}</option>;
+        })}
       {sezione === "interventi" ? (
         <option value="0">Non Assegnato</option>
       ) : (

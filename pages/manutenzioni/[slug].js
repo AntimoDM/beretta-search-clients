@@ -49,10 +49,10 @@ export default function DettaglioManutenzione({ router = {} }) {
       <FormAssociaCliente
         className="mb-32"
         vals={vals.cliente || {}}
-        onChange={(chiave, valore) => handleInput(chiave, valore)}
+        onChange={(chiave, valore) => gestisciInput(chiave, valore)}
       />
       <FormManutenzione
-        onChange={(chiave, valore) => handleInput(chiave, valore)}
+        onChange={(chiave, valore) => gestisciInput(chiave, valore)}
         vals={vals}
       />
       <LoadingIndicator />
@@ -95,7 +95,7 @@ export default function DettaglioManutenzione({ router = {} }) {
     setModifying(false);
   }
 
-  function handleInput(key, value) {
+  function gestisciInput(key, value) {
     if (!modifying) setModifying(true);
     setVals({ ...vals, [key]: value });
     if (!keys.includes(key)) setKeys([...keys, key]);
