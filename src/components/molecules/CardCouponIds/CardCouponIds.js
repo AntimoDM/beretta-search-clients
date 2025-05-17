@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import PageTitle from "../PageTitle";
 import Card from "../../atoms/Card";
 import SearchBar from "../SearchBar/SearchBar";
-import { TECNICI } from "@/src/model/Tecnici";
 import Swal from "sweetalert2";
 import apiIntervento from "@/src/utils/api/intervento";
 import { createRequestVals } from "@/src/utils/utility";

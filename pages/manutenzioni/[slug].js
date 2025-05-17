@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 import apiManutenzione from "@/src/utils/api/manutenzione";
 import { createRequestVals, formatDate } from "@/src/utils/utility";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
-import apiCliente from "@/src/utils/api/cliente";
 import FormManutenzione from "@/src/components/molecules/Manutenzione/FormManutenzione";
 import FormAssociaCliente from "@/src/components/molecules/Cliente/FormAssociaCliente";
 

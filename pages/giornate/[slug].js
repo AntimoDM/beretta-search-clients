@@ -1,72 +1,51 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import PageTitle from "@/src/components/molecules/PageTitle";
 import ModifyHeader from "@/src/components/molecules/ModifyHeader";
-import api from "@/src/utils/api";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
-import Button from "@/src/components/atoms/Button";
 import Card from "@/src/components/atoms/Card";
-import { default as Link } from "next/link";
 import TableCouponIds from "@/src/components/organisms/TableIds/TableIds";
 import {
   createRequestVals,
   formatDate,
   generaOpzioniTecnici,
 } from "@/src/utils/utility";
-import HeaderTab from "@/src/components/atoms/HeaderTab/HeaderTab";
-import { STATI, TECNICI } from "@/src/model/Tecnici";
-import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
+import apiGiornata from "@/src/utils/api/giornata";
+import apiIntervento from "@/src/utils/api/intervento";
+import Button from "@/src/components/atoms/Button/Button";
+import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
+import ListaInterventi from "@/src/components/molecules/Interventi/ListaInterventi";
 
-export default function EditCollection({ router = {}, user, permission }) {
+export default function DettaglioGiornata({ router = {} }) {
   const { slug } = router.query || {};
   const [vals, setVals] = useState({ modificabile: true });
-  const [dbVals, setDbVals] = useState({});
+  const [dbVals, setDbVals] = useState({ modificabile: true });
   const [keys, setKeys] = useState([]);
-  const [designers, setDesigners] = useState([]);
-  const [errori, setErrori] = useState({});
+  const [interventi, setInterventi] = useState([]);
   const [modifying, setModifying] = useState(false);
   const [selected_ids, setSelectedIds] = useState([]);
 
   useEffect(() => {
     if (!slug) return;
-
-    if (slug === "nuovo") {
-      setVals({ ...vals, modificabile: true });
-      setDbVals({ ...dbVals, modificabile: true });
-    }
-
-    if (slug !== "nuovo") {
-      trackPromise(
-        api.get_giornata(slug).then((value) => {
-          if (value) {
-            setVals(value);
-            setDbVals(value);
-            console.log(value);
-            trackPromise(
-              api.ricerca_interventi(2, value.tecnico).then((val) => {
-                if (val) {
-                  setDesigners(val);
-                }
-              })
-            );
-          }
-        })
-      );
-    }
+    if (slug === "nuovo") return;
+    trackPromise(
+      apiGiornata.dettaglio_giornata(slug).then((value) => {
+        if (value) {
+          setVals(value);
+          setDbVals(value);
+        }
+      })
+    );
   }, [slug]);
 
   useEffect(() => {
-    if (!slug) return;
     if (!vals.tecnico) return;
-    if (slug !== "nuovo" && vals.tecnico) {
-      trackPromise(
-        api.ricerca_interventi(2, vals.tecnico).then((val) => {
-          if (val) {
-            setDesigners(val);
-          }
-        })
-      );
-    }
+    trackPromise(
+      apiIntervento.ricerca_interventi(2, vals.tecnico).then((value) => {
+        if (value) {
+          setInterventi(value);
+        }
+      })
+    );
   }, [vals.tecnico]);
 
   return (
@@ -79,24 +58,14 @@ export default function EditCollection({ router = {}, user, permission }) {
         onSave={handleSubmit}
         toggle={modifying}
       />
-
-      <PageTitle className="pt-10" page right={<></>}>
-        <div className="m-0 p-0 ">
-          <Link
-            style={{ pointerEvents: "auto" }}
-            className="mt-0 mr-16"
-            href="/giornate"
-          >
-            <div className="btn btn-outline-secondary button_header_inner">
-              <img src="/media/icon/freccia_header_sinistra.svg"></img>
-            </div>
-          </Link>
-
-          <h4 className="d-inline font-24 lh-24 bolder">
-            {formatDate(vals.data)}
-          </h4>
-        </div>
-      </PageTitle>
+      <TitoloPagina
+        titolo={
+          slug === "nuovo"
+            ? "Nuova Giornata"
+            : vals.tecnico && vals.tecnico.nome + " - " + formatDate(vals.data)
+        }
+        urlIndietro="/giornate"
+      />
 
       <Card className="mb-32 p-24">
         <div className="row mt-0">
@@ -153,92 +122,7 @@ export default function EditCollection({ router = {}, user, permission }) {
             </Button>
           )}
 
-          <Card className={"mt-32"}>
-            <HeaderTab>
-              <a className={"nav-link active"} href="#">
-                Candidati (tutti quelli in stato nuovo oppure assegnato al
-                tecnico corrente)
-              </a>
-            </HeaderTab>
-
-            <div className="row table_header pr-24">
-              <div
-                style={{ width: "16px", paddingTop: "2px" }}
-                className="ml-24 mr-8"
-              >
-                <input
-                  onChange={() => {
-                    if (designers.length === selected_ids.length)
-                      setSelectedIds([]);
-                    else setSelectedIds(designers.map((single) => single.id));
-                  }}
-                  checked={
-                    selected_ids.length > 0 &&
-                    designers.length === selected_ids.length
-                  }
-                  type="checkbox"
-                />
-              </div>
-              <div style={{ cursor: "pointer" }} className=" col my-auto">
-                Cliente
-              </div>
-              <div style={{ cursor: "pointer" }} className=" col my-auto">
-                Data Chiamata
-              </div>
-              <div
-                style={{ cursor: "pointer" }}
-                className="col pr-0 my-auto ml-auto text-end"
-              >
-                Stato
-              </div>
-            </div>
-            <div
-              onScroll={(e) => {
-                infiniteScroll(e);
-              }}
-              id="rowcontainer"
-              className={"row_container "}
-            >
-              {designers.map((element, index) => {
-                return (
-                  <div className="row table_row h-56">
-                    <div
-                      onClick={(e) => e.stopPropagation()}
-                      style={{ width: "16px", paddingTop: "2px" }}
-                      className="ml-24 mr-8"
-                    >
-                      <input
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        onChange={() => {
-                          manageSelect(element.id);
-                        }}
-                        checked={selected_ids.indexOf(element.id) > -1}
-                        type="checkbox"
-                      />
-                    </div>
-                    <div className="col my-auto">
-                      <p
-                        style={{ width: "90%" }}
-                        className="tooltip_bold bold my-0 text-truncate d-block"
-                        title={element.name}
-                      >
-                        {element.cliente &&
-                          element.cliente.nome + " " + element.cliente.cognome}
-                      </p>
-                    </div>
-                    <div className=" col my-auto">
-                      {formatDate(element.data_chiamata)}
-                    </div>
-                    <div className="text-end col my-auto pr-24">
-                      {element.stato}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </Card>
+          <ListaInterventi interventi={interventi} />
         </>
       )}
 
@@ -256,20 +140,6 @@ export default function EditCollection({ router = {}, user, permission }) {
           }
         })
     );
-  }
-
-  function manageSelect(id) {
-    //setModifying(true);
-    var newSelectedIds;
-    if (selected_ids.indexOf(id) > -1) {
-      newSelectedIds = selected_ids.filter((single) => {
-        return single !== id;
-      });
-      setSelectedIds(newSelectedIds);
-    } else {
-      newSelectedIds = selected_ids.concat(id);
-      setSelectedIds(newSelectedIds);
-    }
   }
 
   function onRemove() {

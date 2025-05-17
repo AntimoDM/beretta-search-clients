@@ -1,22 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import PageTitle from "@/src/components/molecules/PageTitle";
 import ModifyHeader from "@/src/components/molecules/ModifyHeader";
 import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
-import Card from "@/src/components/atoms/Card";
-import { default as Link } from "next/link";
-import TableCouponIds from "@/src/components/organisms/TableIds/TableIds";
-import {
-  createRequestVals,
-  formatDate,
-  generaOpzioniClienti,
-} from "@/src/utils/utility";
-import HeaderTab from "@/src/components/atoms/HeaderTab/HeaderTab";
-import SearchBar from "@/src/components/molecules/SearchBar/SearchBar";
+import { createRequestVals, formatDate } from "@/src/utils/utility";
 import Swal from "sweetalert2";
 import apiGaranzia from "@/src/utils/api/garanzia";
-import apiCliente from "@/src/utils/api/cliente";
-import Button from "@/src/components/atoms/Button/Button";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import FormAssociaCliente from "@/src/components/molecules/Cliente/FormAssociaCliente";
 import FormGaranzia from "@/src/components/molecules/Garanzia/FormGaranzia";

@@ -1,7 +1,13 @@
 import Link from "next/link";
 import Button from "../../atoms/Button/Button";
 
-const TitoloPagina = ({ titolo, urlAggiungi, urlIndietro, ctaElimina }) => {
+const TitoloPagina = ({
+  titolo,
+  urlAggiungi,
+  urlIndietro,
+  ctaElimina,
+  ctaCompleta,
+}) => {
   return (
     <div className="row p-0 align-items-center mb-24">
       <div className="col-6 p-0 m-0 d-flex justify-content-start align-items-center gap-16">
@@ -20,6 +26,7 @@ const TitoloPagina = ({ titolo, urlAggiungi, urlIndietro, ctaElimina }) => {
             <Button>Aggiungi</Button>
           </Link>
         )}
+        {ctaCompleta && <Button onClick={() => ctaCompleta()}>Completa</Button>}
         {ctaElimina && (
           <Button onClick={() => ctaElimina()} color="red">
             Elimina

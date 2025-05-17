@@ -2,17 +2,12 @@ import Link from "next/link";
 import Card from "../../atoms/Card";
 import HeaderTab from "../../atoms/HeaderTab/HeaderTab";
 import CardToolbar from "../CardToolbar/CardToolbar";
-import {
-  generaOpzioniTecnici,
-  visualizzaStatoIntervento,
-} from "@/src/utils/utility";
+import { formatDate, generaOpzioniTecnici } from "@/src/utils/utility";
 import { useEffect, useState } from "react";
-import apiCliente from "@/src/utils/api/cliente";
 import apiTecnico from "@/src/utils/api/tecnico";
 
-const ListaInterventi = ({ className, onFilter, interventi }) => {
+const ListaGiornate = ({ className, onFilter, giornate }) => {
   const [opzioniTecnici, setOpzioniTecnici] = useState([]);
-  const [statoAttivo, setStatoAttivo] = useState(0);
 
   useEffect(() => {
     resettaSelect();
@@ -26,45 +21,8 @@ const ListaInterventi = ({ className, onFilter, interventi }) => {
   return (
     <Card className={` ${className}`}>
       <HeaderTab>
-        <a
-          onClick={() => {
-            onFilter("stato", 0);
-            setStatoAttivo(0);
-          }}
-          className={"nav-link " + (statoAttivo === 0 ? "active" : "")}
-          href="#"
-        >
+        <a className={"nav-link actove"} href="#">
           Tutti
-        </a>
-        <a
-          onClick={() => {
-            onFilter("stato", 1);
-            setStatoAttivo(1);
-          }}
-          className={"nav-link " + (statoAttivo === 1 ? "active" : "")}
-          href="#"
-        >
-          Nuovi
-        </a>
-        <a
-          onClick={() => {
-            onFilter("stato", 2);
-            setStatoAttivo(2);
-          }}
-          className={"nav-link " + (statoAttivo === 2 ? "active" : "")}
-          href="#"
-        >
-          Assegnati
-        </a>
-        <a
-          onClick={() => {
-            onFilter("stato", 3);
-            setStatoAttivo(3);
-          }}
-          className={"nav-link " + (statoAttivo === 3 ? "active" : "")}
-          href="#"
-        >
-          Completi
         </a>
       </HeaderTab>
 
@@ -90,25 +48,19 @@ const ListaInterventi = ({ className, onFilter, interventi }) => {
         >
           <input type="checkbox" />
         </div>
-        <div className=" col my-auto">
-          <label className="m-0">Cliente</label>
-        </div>
         <div className="col my-auto">
-          <label className="m-0">Data Chiamata</label>
-        </div>
-        <div className="col my-auto">
-          <label className="m-0">Tecnico</label>
+          <label className="m-0">Giorno</label>
         </div>
         <div className="col pr-0 my-auto ml-auto text-end">
-          <label className="m-0">Stato</label>
+          <label className="m-0">Tecnico</label>
         </div>
       </div>
       <div id="rowcontainer" className={"row_container "}>
-        {interventi &&
-          interventi.map((element, index) => {
+        {giornate &&
+          giornate.map((element, index) => {
             return (
               <Link
-                href={"/interventi/" + element.id}
+                href={"/giornate/" + element.id}
                 key={index}
                 className="row table_row h-56"
               >
@@ -124,18 +76,10 @@ const ListaInterventi = ({ className, onFilter, interventi }) => {
                     type="checkbox"
                   />
                 </div>
-                <div className="col my-auto">
-                  {element.cliente &&
-                    element.cliente.nome + " " + element.cliente.cognome}
-                </div>
-                <div className="col my-auto">
-                  {formatDate(element.data_chiamata)}
-                </div>
-                <div className="col my-auto">
-                  {element.tecnico && element.tecnico.nome}
-                </div>
+                <div className="col my-auto">{formatDate(element.data)}</div>
+
                 <div className="text-end col my-auto pr-24">
-                  {visualizzaStatoIntervento(element.stato)}
+                  {element.tecnico && element.tecnico.nome}
                 </div>
               </Link>
             );
@@ -150,4 +94,4 @@ const ListaInterventi = ({ className, onFilter, interventi }) => {
   }
 };
 
-export default ListaInterventi;
+export default ListaGiornate;

@@ -11,7 +11,6 @@ import ListaClienti from "@/src/components/molecules/Cliente/ListaClienti";
 export default function Clienti({}) {
   const [vals, setVals] = useState({});
   const [clienti, setClienti] = useState([]);
-
   return (
     <div className="page-container-new">
       <TitoloPagina titolo="Clienti" urlAggiungi="/clienti/nuovo" />
@@ -31,7 +30,6 @@ export default function Clienti({}) {
       <LoadingIndicator />
     </div>
   );
-
   function ricercaGenerica() {
     trackPromise(
       apiCliente.ricerca_clienti(vals).then((value) => {

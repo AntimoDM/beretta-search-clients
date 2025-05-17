@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { BASE_URL, creaQueryParams } from "../utility";
 axios.defaults.withCredentials = false;
 
-const api = {
+const apiManutenzione = {
   ricerca_manutenzioni: async function (params) {
     try {
       const res = await axios.get(
@@ -53,5 +53,4 @@ const api = {
     }
   },
 };
-
-export default api;
+export default apiManutenzione;

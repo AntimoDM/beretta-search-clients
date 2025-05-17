@@ -3,7 +3,6 @@ import style from "../../styles/common.module.scss";
 import $ from "jquery";
 import Swal from "sweetalert2";
 import { useRef, useEffect } from "react";
-import { STATI } from "../model/Tecnici";
 
 export const BASE_URL = process.env.BACKEND_URL;
 

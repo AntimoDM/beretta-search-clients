@@ -1,5 +1,4 @@
 import Card from "../../atoms/Card";
-import FormRicercaPuntuale from "./FormRicercaPuntuale";
 
 const FormAnagraficaCliente = ({ className, onChange, vals }) => {
   return (
