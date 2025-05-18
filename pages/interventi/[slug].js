@@ -41,7 +41,7 @@ export default function DettaglioIntervento({ router = {} }) {
       <TitoloPagina
         titolo={
           slug !== "nuovo"
-            ? "Intervento del" + formatDate(vals.data_chiamata)
+            ? "Intervento del " + formatDate(vals.data_chiamata)
             : "Nuovo Intervento"
         }
         urlIndietro="/interventi"
@@ -54,7 +54,7 @@ export default function DettaglioIntervento({ router = {} }) {
         onChange={(chiave, valore) => gestisciInput(chiave, valore)}
       />
       <FormIntervento
-        onChange={(chiave, valore) => handleInput(chiave, valore)}
+        onChange={(chiave, valore) => gestisciInput(chiave, valore)}
         vals={vals}
       />
     </div>
@@ -67,7 +67,7 @@ export default function DettaglioIntervento({ router = {} }) {
     setModifying(false);
   }
 
-  function handleInput(key, value) {
+  function gestisciInput(key, value) {
     if (!modifying) setModifying(true);
     setVals({ ...vals, [key]: value });
     if (!keys.includes(key)) setKeys([...keys, key]);
@@ -75,7 +75,7 @@ export default function DettaglioIntervento({ router = {} }) {
 
   function handleSubmit() {
     if (slug !== "nuovo") {
-      api
+      apiIntervento
         .aggiorna_intervento(slug, createRequestVals(vals, keys))
         .then((value) => {
           if (value) {
@@ -83,7 +83,7 @@ export default function DettaglioIntervento({ router = {} }) {
           }
         });
     } else {
-      api.crea_intervento(vals).then((value) => {
+      apiIntervento.crea_intervento(vals).then((value) => {
         if (value) {
           router.push("/interventi/" + value.id);
         }

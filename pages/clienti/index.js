@@ -7,12 +7,13 @@ import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import FormRicercaPuntuale from "@/src/components/molecules/Cliente/FormRicercaPuntuale";
 import FormRicercaGenerica from "@/src/components/molecules/Cliente/FormRicercaGenerica";
 import ListaClienti from "@/src/components/molecules/Cliente/ListaClienti";
+import Pagina from "@/src/components/atoms/Pagina/Pagina";
 
-export default function Clienti({}) {
+export default function Clienti({ router = {} }) {
   const [vals, setVals] = useState({});
   const [clienti, setClienti] = useState([]);
   return (
-    <div className="page-container-new">
+    <Pagina>
       <TitoloPagina titolo="Clienti" urlAggiungi="/clienti/nuovo" />
       <FormRicercaPuntuale
         className="mb-32"
@@ -27,8 +28,7 @@ export default function Clienti({}) {
         vals={vals}
       />
       {clienti && clienti.length > 0 && <ListaClienti clienti={clienti} />}
-      <LoadingIndicator />
-    </div>
+    </Pagina>
   );
   function ricercaGenerica() {
     trackPromise(

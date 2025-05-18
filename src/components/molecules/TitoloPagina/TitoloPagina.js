@@ -28,7 +28,7 @@ const TitoloPagina = ({
         )}
         {ctaCompleta && <Button onClick={() => ctaCompleta()}>Completa</Button>}
         {ctaElimina && (
-          <Button onClick={() => ctaElimina()} color="red">
+          <Button onClick={() => ctaElimina()} color="rosso">
             Elimina
           </Button>
         )}

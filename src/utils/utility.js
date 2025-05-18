@@ -17,6 +17,28 @@ export function creaQueryParams(oggetto) {
   return queryParams;
 }
 
+export function gestisciErroreDjango(errore) {
+  if (!errore instanceof Object) {
+    Swal.fire("Errore", "Errore generico", "error");
+  } else if (Object.keys(errore).length === 0) {
+    Swal.fire("Errore", "Errore generico", "error");
+  } else {
+    let oggettoErrori = errore.response.data;
+    let messaggioErrore = "<ul> Ci sono stati errori :";
+    Object.keys(oggettoErrori).forEach((chiave) => {
+      messaggioErrore +=
+        "<li>" + chiave + " -> " + oggettoErrori[chiave] + "</li>";
+    });
+    messaggioErrore += "</ul>";
+    Swal.fire("Errore", messaggioErrore, "error");
+  }
+}
+
+export function resettaSelect(id) {
+  const select = document.getElementById(id);
+  if (select) select.selectedIndex = 0;
+}
+
 export function renderPulseState(status) {
   if (status) {
     switch (status.toUpperCase()) {
@@ -439,6 +461,11 @@ export function visualizzaStatoIntervento(stato) {
   switch (stato) {
     case 1:
       return <span className={style.status + " " + style.orange}>Nuovo</span>;
+    case 2:
+      return (
+        <span className={style.status + " " + style.orange}>Assegnato</span>
+      );
+
     default:
       return <span className={style.status + " " + style.orange}>DEFAULT</span>;
   }
@@ -467,7 +494,7 @@ export function generaOpzioniTecnici(sezione, tecnici) {
       </option>
       {tecnici &&
         tecnici.map((t) => {
-          return <option value={t.value}>{t.label}</option>;
+          return <option value={t.id}>{t.nome}</option>;
         })}
       {sezione === "interventi" ? (
         <option value="0">Non Assegnato</option>

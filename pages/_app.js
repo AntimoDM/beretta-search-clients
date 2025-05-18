@@ -6,7 +6,7 @@ import Link from "next/link";
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const pathSenzaNavbar = ["/login", "/"];
-  const urlDaUtenteLoggato = "/ricerca";
+  const urlDaUtenteLoggato = "/clienti";
   const urlDaUtenteNonLoggato = "/login";
 
   useEffect(() => {

@@ -1,7 +1,8 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-import { BASE_URL, creaQueryParams } from "../utility";
+import { BASE_URL, creaQueryParams, gestisciErroreDjango } from "../utility";
 axios.defaults.withCredentials = false;
+axios.defaults.headers.common["Accept-Language"] = "it";
 
 const apiCliente = {
   ricerca_clienti: async function (params) {
@@ -12,7 +13,7 @@ const apiCliente = {
       let resArray = res.data;
       return resArray;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.res, "error");
+      gestisciErroreDjango(error);
     }
   },
   ricerca_clienti_per_searchbar: async function () {
@@ -33,11 +34,7 @@ const apiCliente = {
       });
       return resArray;
     } catch (error) {
-      try {
-        Swal.fire("Errore", await error.response.data.res, "error");
-      } catch (err) {
-        console.log("errore");
-      }
+      gestisciErroreDjango(error);
     }
   },
   crea_cliente: async function (vals) {
@@ -46,7 +43,7 @@ const apiCliente = {
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.res, "error");
+      gestisciErroreDjango(error);
     }
   },
   dettaglio_cliente: async function (telefono) {
@@ -68,7 +65,7 @@ const apiCliente = {
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.res, "error");
+      gestisciErroreDjango(error);
     }
   },
   elimina_cliente: async function (id) {
@@ -77,7 +74,7 @@ const apiCliente = {
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.res, "error");
+      gestisciErroreDjango(error);
     }
   },
 };

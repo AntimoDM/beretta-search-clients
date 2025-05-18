@@ -2,6 +2,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { BASE_URL, creaQueryParams } from "../utility";
 axios.defaults.withCredentials = false;
+axios.defaults.headers.common["Accept-Language"] = "it";
 
 const apiManutenzione = {
   ricerca_manutenzioni: async function (params) {

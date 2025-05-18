@@ -2,26 +2,12 @@ import Link from "next/link";
 import Card from "../../atoms/Card";
 import HeaderTab from "../../atoms/HeaderTab/HeaderTab";
 import CardToolbar from "../CardToolbar/CardToolbar";
-import {
-  generaOpzioniTecnici,
-  visualizzaStatoIntervento,
-} from "@/src/utils/utility";
-import { useEffect, useState } from "react";
-import apiCliente from "@/src/utils/api/cliente";
-import apiTecnico from "@/src/utils/api/tecnico";
+import { formatDate, visualizzaStatoIntervento } from "@/src/utils/utility";
+import { useState } from "react";
+import SelectTecnici from "../../atoms/SelectTecnici/SelectTecnici";
 
 const ListaInterventi = ({ className, onFilter, interventi }) => {
-  const [opzioniTecnici, setOpzioniTecnici] = useState([]);
   const [statoAttivo, setStatoAttivo] = useState(0);
-
-  useEffect(() => {
-    resettaSelect();
-    apiTecnico.ricerca_tecnici().then((value) => {
-      if (value) {
-        setOpzioniTecnici(value);
-      }
-    });
-  }, []);
 
   return (
     <Card className={` ${className}`}>
@@ -69,19 +55,7 @@ const ListaInterventi = ({ className, onFilter, interventi }) => {
       </HeaderTab>
 
       <CardToolbar className="align-items-center pl-24">
-        <select
-          onChange={(e) => {
-            onFilter("tecnico", e.target.value);
-            if (e.target.value === "0") {
-              resettaSelect();
-            }
-          }}
-          id="miaSelect"
-          style={{ display: "block", width: "25%" }}
-          className="h-40 pl-0"
-        >
-          {generaOpzioniTecnici(opzioniTecnici)}
-        </select>
+        <SelectTecnici className="w-25" onFilter={onFilter} />
       </CardToolbar>
       <div className="row table_header pr-24">
         <div
@@ -143,11 +117,6 @@ const ListaInterventi = ({ className, onFilter, interventi }) => {
       </div>
     </Card>
   );
-
-  function resettaSelect() {
-    const miaSelect = document.getElementById("miaSelect");
-    miaSelect.selectedIndex = 0;
-  }
 };
 
 export default ListaInterventi;
