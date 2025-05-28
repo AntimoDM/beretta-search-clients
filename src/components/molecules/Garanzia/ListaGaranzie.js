@@ -2,7 +2,7 @@ import Link from "next/link";
 import Card from "../../atoms/Card";
 import HeaderTab from "../../atoms/HeaderTab/HeaderTab";
 import CardToolbar from "../CardToolbar/CardToolbar";
-import { generaOpzioniClienti } from "@/src/utils/utility";
+import { formatDate, generaOpzioniClienti } from "@/src/utils/utility";
 import { useEffect, useState } from "react";
 import apiCliente from "@/src/utils/api/cliente";
 

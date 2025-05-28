@@ -37,7 +37,7 @@ export default function Clienti({ router = {} }) {
           setClienti(value);
           if (value.length === 0) {
             Swal.fire(
-              "Attenzione",
+              "",
               "Non sono stati trovati clienti, prova a modificare i parametri di ricerca",
               "warning"
             );

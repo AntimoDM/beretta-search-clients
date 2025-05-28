@@ -1,0 +1,37 @@
+import { generaOpzioniClienti } from "@/src/utils/utility";
+import Card from "../../atoms/Card";
+import apiCliente from "@/src/utils/api/cliente";
+import { useEffect, useState } from "react";
+import SelectTecnici from "../../atoms/SelectTecnici/SelectTecnici";
+
+const FormAssociaGiornata = ({ className, onChange, vals }) => {
+  return (
+    <Card className={`p-24 ${className}`}>
+      <h3>Associa Giornata</h3>
+      <div className="row mt-24">
+        <div className="col-6 pl-0 pr-16">
+          <label className="font-18 lh-24 bold">Tecnico</label>
+          <SelectTecnici
+            onFilter={onChange}
+            value={vals.tecnico && (vals.tecnico.id || vals.tecnico)}
+          />
+        </div>
+        <div className="col-6 pl-16 pr-0">
+          <label className="font-18 lh-24 bold">Giorno</label>
+          <input
+            className="w-100 h-40"
+            id="data_chiamata"
+            type="date"
+            placeholder="Data Chiamata"
+            value={vals.data || ""}
+            onChange={(e) => {
+              onChange("data", e.target.value);
+            }}
+          />
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+export default FormAssociaGiornata;

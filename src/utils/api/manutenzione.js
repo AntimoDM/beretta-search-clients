@@ -19,7 +19,7 @@ const apiManutenzione = {
   },
   crea_manutenzione: async function (vals) {
     try {
-      const res = await axios.post(BASE_URL + "/manutenzione", vals);
+      const res = await axios.post(BASE_URL + "/manutenzione/", vals);
       const data = res.data;
       return data;
     } catch (error) {

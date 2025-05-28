@@ -34,9 +34,86 @@ export function gestisciErroreDjango(errore) {
   }
 }
 
-export function resettaSelect(id) {
-  const select = document.getElementById(id);
-  if (select) select.selectedIndex = 0;
+export function visualizzaNomeCliente(cliente) {
+  if (cliente) {
+    if (cliente.nome || cliente.cognome) {
+      return cliente.nome + " " + cliente.cognome;
+    } else {
+      return cliente.nome_cognome_import;
+    }
+  }
+}
+
+export function visualizzaStatoIntervento(stato) {
+  switch (stato) {
+    case 1:
+      return <span className="tag_stato nuovo">Nuovo</span>;
+    case 2:
+      return <span className="tag_stato assegnato">Assegnato</span>;
+    case 3:
+      return <span className="tag_stato pianificato">Pianificato</span>;
+    case 4:
+      return <span className="tag_stato completo">Completo</span>;
+    default:
+      return <span className="tag_stato nuovo">{stato}</span>;
+  }
+}
+
+export function effettuaLogin(user) {
+  switch (user.username) {
+    case "cristina":
+      return user.password === "ufficio";
+    case "nunzia":
+      return user.password === "ufficio";
+    case "mimmo":
+      return user.password === "tecnico";
+    case "mimmo":
+      return user.password === "tecnico";
+    default:
+      return false;
+  }
+}
+
+export function generaOpzioniTecnici(sezione, tecnici) {
+  return (
+    <>
+      <option key={0} value="opzioneNascosta" disabled hidden>
+        Seleziona un tecnico
+      </option>
+      {tecnici &&
+        tecnici.map((t) => {
+          return (
+            <option key={t.id} value={t.id}>
+              {t.nome}
+            </option>
+          );
+        })}
+      {sezione === "interventi" ? (
+        <option key={10} value="0">
+          Non Assegnato
+        </option>
+      ) : (
+        <option key={11} value="0">
+          Annulla
+        </option>
+      )}
+    </>
+  );
+}
+
+export function generaOpzioniClienti(clienti) {
+  return (
+    <>
+      <option value="" disabled hidden>
+        Seleziona un cliente
+      </option>
+      {clienti &&
+        clienti.map((c) => {
+          return <option value={c.value}>{c.label}</option>;
+        })}
+      <option value="0">Nessun Cliente</option>
+    </>
+  );
 }
 
 export function renderPulseState(status) {
@@ -445,77 +522,4 @@ export function adaptConditionDomainVals(domainVals) {
   vals["child_ids"] = childs;
 
   return vals;
-}
-
-export function visualizzaNomeCliente(cliente) {
-  if (cliente) {
-    if (cliente.nome || cliente.cognome) {
-      return cliente.nome + " " + cliente.cognome;
-    } else {
-      return cliente.nome_cognome_import;
-    }
-  }
-}
-
-export function visualizzaStatoIntervento(stato) {
-  switch (stato) {
-    case 1:
-      return <span className={style.status + " " + style.orange}>Nuovo</span>;
-    case 2:
-      return (
-        <span className={style.status + " " + style.orange}>Assegnato</span>
-      );
-
-    default:
-      return <span className={style.status + " " + style.orange}>DEFAULT</span>;
-  }
-}
-
-export function effettuaLogin(user) {
-  switch (user.username) {
-    case "cristina":
-      return user.password === "ufficio";
-    case "nunzia":
-      return user.password === "ufficio";
-    case "mimmo":
-      return user.password === "tecnico";
-    case "mimmo":
-      return user.password === "tecnico";
-    default:
-      return false;
-  }
-}
-
-export function generaOpzioniTecnici(sezione, tecnici) {
-  return (
-    <>
-      <option value="" disabled hidden>
-        Seleziona un tecnico
-      </option>
-      {tecnici &&
-        tecnici.map((t) => {
-          return <option value={t.id}>{t.nome}</option>;
-        })}
-      {sezione === "interventi" ? (
-        <option value="0">Non Assegnato</option>
-      ) : (
-        <option value="0">Annulla</option>
-      )}
-    </>
-  );
-}
-
-export function generaOpzioniClienti(clienti) {
-  return (
-    <>
-      <option value="" disabled hidden>
-        Seleziona un cliente
-      </option>
-      {clienti &&
-        clienti.map((c) => {
-          return <option value={c.value}>{c.label}</option>;
-        })}
-      <option value="0">Nessun Cliente</option>
-    </>
-  );
 }

@@ -8,7 +8,7 @@ const FormRicercaGenerica = ({ className, onChange, ctaRicerca, vals }) => {
 
       <div className="row mt-24">
         <div className="col-6 pl-0 pr-16">
-          <label className="font-18 lh-24 bold">Strada</label>
+          <label className="font-18 lh-24 bold">Via</label>
           <input
             value={vals.strada || ""}
             onChange={(e) => {

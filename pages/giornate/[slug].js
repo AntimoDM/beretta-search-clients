@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
 import ModifyHeader from "@/src/components/molecules/ModifyHeader";
-import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
-import Card from "@/src/components/atoms/Card";
-import TableCouponIds from "@/src/components/organisms/TableIds/TableIds";
-import {
-  createRequestVals,
-  formatDate,
-  generaOpzioniTecnici,
-} from "@/src/utils/utility";
+import { createRequestVals, formatDate } from "@/src/utils/utility";
 import apiGiornata from "@/src/utils/api/giornata";
 import apiIntervento from "@/src/utils/api/intervento";
-import Button from "@/src/components/atoms/Button/Button";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import ListaInterventi from "@/src/components/molecules/Interventi/ListaInterventi";
+import FormAssociaGiornata from "@/src/components/molecules/Giornate/FormAssociaGiornata";
+import Pagina from "@/src/components/atoms/Pagina/Pagina";
 
 export default function DettaglioGiornata({ router = {} }) {
   const { slug } = router.query || {};
-  const [vals, setVals] = useState({ modificabile: true });
-  const [dbVals, setDbVals] = useState({ modificabile: true });
+  const [vals, setVals] = useState({});
+  const [dbVals, setDbVals] = useState({});
   const [keys, setKeys] = useState([]);
-  const [interventi, setInterventi] = useState([]);
+  const [interventiAssociabili, setInterventiAssociabili] = useState([]);
   const [modifying, setModifying] = useState(false);
-  const [selected_ids, setSelectedIds] = useState([]);
+  const [idInterventiDaAssociare, setIdInterventiDaAssociare] = useState([]);
+  const [idInterventiDaDisassociare, setIdInterventiDaDisassociare] = useState(
+    []
+  );
 
   useEffect(() => {
     if (!slug) return;
@@ -30,8 +27,7 @@ export default function DettaglioGiornata({ router = {} }) {
     trackPromise(
       apiGiornata.dettaglio_giornata(slug).then((value) => {
         if (value) {
-          setVals(value);
-          setDbVals(value);
+          aggiornaValori(value);
         }
       })
     );
@@ -40,19 +36,21 @@ export default function DettaglioGiornata({ router = {} }) {
   useEffect(() => {
     if (!vals.tecnico) return;
     trackPromise(
-      apiIntervento.ricerca_interventi(2, vals.tecnico).then((value) => {
-        if (value) {
-          setInterventi(value);
-        }
-      })
+      apiIntervento
+        .ricerca_interventi_da_associare(
+          vals.tecnico && (vals.tecnico.id || vals.tecnico),
+          vals.id
+        )
+        .then((value) => {
+          if (value) {
+            setInterventiAssociabili(value);
+          }
+        })
     );
   }, [vals.tecnico]);
 
   return (
-    <div
-      style={vals.modificabile ? {} : { pointerEvents: "none" }}
-      className="page-container-new"
-    >
+    <Pagina>
       <ModifyHeader
         onRemove={onRemove}
         onSave={handleSubmit}
@@ -65,81 +63,72 @@ export default function DettaglioGiornata({ router = {} }) {
             : vals.tecnico && vals.tecnico.nome + " - " + formatDate(vals.data)
         }
         urlIndietro="/giornate"
+        ctaAggiungiInterventi={
+          idInterventiDaAssociare.length > 0 && aggiungiInterventi
+        }
+        ctaRimuoviInterventi={
+          idInterventiDaDisassociare.length > 0 && rimuoviInterventi
+        }
       />
-
-      <Card className="mb-32 p-24">
-        <div className="row mt-0">
-          <div className="col-6 pl-0 pr-16">
-            <label className="font-18 lh-24 bold">Tecnico</label>
-            <select
-              onChange={(e) => {
-                const value = e.target.value;
-                handleInput("tecnico", value);
-
-                if (value === "0") {
-                  resettaSelect();
-                }
-              }}
-              id="miaSelect"
-              placeholder={"Tecnico"}
-              className="h-40 pl-0"
-            >
-              {generaOpzioniTecnici()}
-            </select>
-          </div>
-          <div className="col-6 pl-16 pr-0">
-            <label className="font-18 lh-24 bold">Giorno</label>
-            <input
-              className="w-100 h-40"
-              id="data_chiamata"
-              type="date"
-              placeholder="Data Chiamata"
-              value={vals.data ? vals.data : ""}
-              onChange={(e) => {
-                handleInput("data", e.target.value);
-              }}
-            />
-          </div>
-        </div>
-      </Card>
-
+      <FormAssociaGiornata
+        className="mb-32"
+        onChange={(chiave, valore) => gestisciInput(chiave, valore)}
+        vals={vals}
+      />
       {slug !== "nuovo" && (
         <>
-          <Card className="mb-32 p-24">
-            <h2 className="bold lh-24">Interventi</h2>
-            <div className="row mt-24">
-              <TableCouponIds interventi={vals.interventi} edit={false} />
-            </div>
-          </Card>
-
-          {selected_ids.length > 0 && (
-            <Button
-              onClick={() => gestisciAggiuntaIntervento()}
-              className="ml-auto"
-              color="green"
-            >
-              Aggiungi
-            </Button>
-          )}
-
-          <ListaInterventi interventi={interventi} />
+          <ListaInterventi
+            className="mb-32"
+            internoPagina={true}
+            interventi={vals.interventi}
+            mostraFiltri={false}
+            titolo="Interventi Associati"
+            onSelectCheckbox={(id) =>
+              setIdInterventiDaDisassociare([...idInterventiDaDisassociare, id])
+            }
+          />
+          <ListaInterventi
+            internoPagina={true}
+            interventi={interventiAssociabili}
+            mostraFiltri={false}
+            titolo="Interventi Associabili"
+            onSelectCheckbox={(id) =>
+              setIdInterventiDaAssociare([...idInterventiDaAssociare, id])
+            }
+          />
         </>
       )}
-
-      <LoadingIndicator />
-    </div>
+    </Pagina>
   );
 
-  function gestisciAggiuntaIntervento() {
-    trackPromise(
-      api
-        .aggiungi_intervento_a_giornata(vals.id, selected_ids)
-        .then((value) => {
-          if (value) {
-            _get(value);
-          }
-        })
-    );
+  function aggiungiInterventi() {
+    if (idInterventiDaAssociare.length > 0) {
+      trackPromise(
+        apiGiornata
+          .aggiungi_intervento_a_giornata(vals.id, idInterventiDaAssociare)
+          .then((value) => {
+            if (value) {
+              setIdInterventiDaAssociare([]);
+              aggiornaValori(value);
+            }
+          })
+      );
+    }
+  }
+
+  function rimuoviInterventi() {
+    if (idInterventiDaDisassociare.length > 0) {
+      trackPromise(
+        apiGiornata
+          .rimuovi_intervento_da_giornata(vals.id, idInterventiDaDisassociare)
+          .then((value) => {
+            if (value) {
+              setIdInterventiDaDisassociare([]);
+              aggiornaValori(value);
+            }
+          })
+      );
+    }
   }
 
   function onRemove() {
@@ -149,7 +138,7 @@ export default function DettaglioGiornata({ router = {} }) {
     setModifying(false);
   }
 
-  function handleInput(key, value) {
+  function gestisciInput(key, value) {
     if (!modifying) setModifying(true);
     setVals({ ...vals, [key]: value });
     if (!keys.includes(key)) setKeys([...keys, key]);
@@ -157,30 +146,27 @@ export default function DettaglioGiornata({ router = {} }) {
 
   function handleSubmit() {
     if (slug !== "nuovo") {
-      api
+      apiGiornata
         .aggiorna_giornata(slug, createRequestVals(vals, keys, []))
         .then((value) => {
           if (value) {
-            _get(value);
+            aggiornaValori(value);
           }
         });
     } else {
-      api.crea_giornata(createRequestVals(vals, keys, [])).then((value) => {
-        if (value) {
-          router.push("/giornate/" + value.id);
-        }
-      });
+      apiGiornata
+        .crea_giornata(createRequestVals(vals, keys, []))
+        .then((value) => {
+          if (value) {
+            router.push("/giornate/" + value.id);
+          }
+        });
     }
   }
 
-  function _get(value) {
+  function aggiornaValori(value) {
     setVals(value);
     setDbVals(value);
     setModifying(false);
-  }
-
-  function resettaSelect() {
-    const miaSelect = document.getElementById("miaSelect");
-    miaSelect.selectedIndex = 0;
   }
 }

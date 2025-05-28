@@ -18,7 +18,7 @@ const apiGiornata = {
   },
   crea_giornata: async function (vals) {
     try {
-      const res = await axios.post(BASE_URL + "/giornata", vals);
+      const res = await axios.post(BASE_URL + "/giornata/", vals);
       const data = res.data;
       return data;
     } catch (error) {
@@ -45,9 +45,26 @@ const apiGiornata = {
   },
   aggiungi_intervento_a_giornata: async function (id, interventiIds) {
     try {
-      const res = await axios.post(BASE_URL + "/giornata/interventi/" + id, {
-        ids: interventiIds,
-      });
+      const res = await axios.post(
+        BASE_URL + "/giornata/interventi/" + id + "/aggiungi",
+        {
+          ids: interventiIds,
+        }
+      );
+      const data = res.data;
+      return data;
+    } catch (error) {
+      Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  rimuovi_intervento_da_giornata: async function (id, interventiIds) {
+    try {
+      const res = await axios.post(
+        BASE_URL + "/giornata/interventi/" + id + "/rimuovi",
+        {
+          ids: interventiIds,
+        }
+      );
       const data = res.data;
       return data;
     } catch (error) {

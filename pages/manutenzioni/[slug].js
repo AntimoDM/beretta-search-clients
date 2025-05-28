@@ -39,7 +39,7 @@ export default function DettaglioManutenzione({ router = {} }) {
       <TitoloPagina
         titolo={
           slug !== "nuovo"
-            ? "Manutenzione del" + formatDate(vals.data_rapporto)
+            ? "Manutenzione del " + formatDate(vals.data_rapporto)
             : "Nuova Manutenzione"
         }
         urlIndietro="/manutenzioni"

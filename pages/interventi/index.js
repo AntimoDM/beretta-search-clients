@@ -1,9 +1,9 @@
-import React, { use, useEffect, useState } from "react";
-import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
+import React, { useEffect, useState } from "react";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import ListaInterventi from "@/src/components/molecules/Interventi/ListaInterventi";
 import apiIntervento from "@/src/utils/api/intervento";
 import { trackPromise } from "react-promise-tracker";
+import Pagina from "@/src/components/atoms/Pagina/Pagina";
 
 export default function Interventi({}) {
   const [interventi, setInterventi] = useState([]);
@@ -20,7 +20,7 @@ export default function Interventi({}) {
   }, [filters]);
 
   return (
-    <div className="page-container-new">
+    <Pagina>
       <TitoloPagina titolo="Interventi" urlAggiungi="/interventi/nuovo" />
       <ListaInterventi
         interventi={interventi}
@@ -28,7 +28,6 @@ export default function Interventi({}) {
           setFilters({ ...filters, [chiave]: valore })
         }
       />
-      <LoadingIndicator />
-    </div>
+    </Pagina>
   );
 }

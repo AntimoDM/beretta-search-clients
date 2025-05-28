@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
 import ModifyHeader from "@/src/components/molecules/ModifyHeader";
-import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import Card from "@/src/components/atoms/Card";
 import TableCouponIds from "@/src/components/organisms/TableIds/TableIds";
 import Swal from "sweetalert2";
@@ -11,13 +10,22 @@ import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import FormAnagraficaCliente from "@/src/components/molecules/Cliente/FormAnagraficaCliente";
 import FormManutenzione from "@/src/components/molecules/Manutenzione/FormManutenzione";
 import FormGaranzia from "@/src/components/molecules/Garanzia/FormGaranzia";
+import Pagina from "@/src/components/atoms/Pagina/Pagina";
+import FormIntervento from "@/src/components/molecules/Interventi/FormIntervento";
+import ListaInterventi from "@/src/components/molecules/Interventi/ListaInterventi";
+import Modal from "@/src/components/atoms/Modal/Modal";
+import apiIntervento from "@/src/utils/api/intervento";
 
 export default function DettaglioCliente({ router = {} }) {
   const { slug } = router.query || {};
   const [vals, setVals] = useState({});
   const [dbVals, setDbVals] = useState({});
   const [keys, setKeys] = useState([]);
+  const [keysIntervento, setKeysIntervento] = useState([]);
   const [modifying, setModifying] = useState(false);
+  const [interventoSelezionato, setInterventoSelezionato] = useState({});
+  const [interventoSelezionatoDB, setInterventoSelezionatoDB] = useState({});
+  const [apriModaleIntervento, setApriModaleIntervento] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -32,7 +40,7 @@ export default function DettaglioCliente({ router = {} }) {
   }, [slug]);
 
   return (
-    <div className="page-container-new">
+    <Pagina>
       <ModifyHeader
         onRemove={onRemove}
         onSave={handleSubmit}
@@ -53,27 +61,48 @@ export default function DettaglioCliente({ router = {} }) {
         vals={vals}
       />
       {slug !== "nuovo" && (
-        <Card className="mb-32 p-24">
-          <h2 className="bold lh-24">Interventi</h2>
-          <div className="row mt-24">
-            <TableCouponIds clienteID={vals.id} interventi={vals.interventi} />
-          </div>
-        </Card>
+        <ListaInterventi
+          ctaSeleziona={selezionaIntervento}
+          rendirizzamento={false}
+          ctaAggiungi={aggiungiIntervento}
+          titolo="Interventi"
+          mostraFiltri={false}
+          className="mb-32"
+          interventi={vals.interventi}
+        />
       )}
+
       {vals.manutenzione && (
-        <FormManutenzione disabled={true} vals={vals.manutenzione} />
+        <FormManutenzione
+          className="mb-32"
+          disabled={true}
+          vals={vals.manutenzione}
+        />
       )}
       {vals.garanzia && <FormGaranzia disabled={true} vals={vals.garanzia} />}
-      <LoadingIndicator />
-    </div>
+      <Modal id={"modale_gestisci_intervento_" + interventoSelezionato.id}>
+        {apriModaleIntervento && (
+          <FormIntervento
+            onChange={(chiave, valore) =>
+              gestisciInputIntervento(chiave, valore)
+            }
+            ctaSalva={aggiornaIntervento}
+            ctaAnnulla={annullaAggiornamentoIntervento}
+            ctaElimina={eliminaIntervento}
+            ctaChiudi={chiudiModale}
+            modale={true}
+            vals={interventoSelezionato}
+          />
+        )}
+      </Modal>
+    </Pagina>
   );
 
   function elimina() {
     Swal.fire({
-      customClass: "swal_support",
+      showCancelButton: true,
       title: "Attenzione",
       text: "L'eliminazione è irreversibile. Procedere?",
-      confirmButtonAriaLabel: "Elimina",
       confirmButtonText: "Elimina",
       confirmButtonColor: "#E22623",
       cancelButtonText: "Annulla",
@@ -101,6 +130,7 @@ export default function DettaglioCliente({ router = {} }) {
     if (slug !== "nuovo") {
       setVals(dbVals);
     } else setVals({});
+    setKeys([]);
     setModifying(false);
   }
 
@@ -108,6 +138,11 @@ export default function DettaglioCliente({ router = {} }) {
     if (!modifying) setModifying(true);
     setVals({ ...vals, [key]: value });
     if (!keys.includes(key)) setKeys([...keys, key]);
+  }
+
+  function gestisciInputIntervento(key, value) {
+    setInterventoSelezionato({ ...interventoSelezionato, [key]: value });
+    if (!keysIntervento.includes(key)) setKeysIntervento([...keys, key]);
   }
 
   function handleSubmit() {
@@ -140,5 +175,105 @@ export default function DettaglioCliente({ router = {} }) {
     setVals(value);
     setDbVals(value);
     setModifying(false);
+  }
+
+  function aggiungiIntervento() {
+    setApriModaleIntervento(true);
+    setInterventoSelezionato({
+      id: 0,
+      indirizzo: vals.strada,
+      cliente: vals.id,
+      data_chiamata: new Date().toISOString().split("T")[0],
+    });
+    setInterventoSelezionatoDB({
+      id: 0,
+      indirizzo: vals.strada,
+      cliente: vals.id,
+      data_chiamata: new Date().toISOString().split("T")[0],
+    });
+    toggleModale();
+  }
+
+  function chiudiModale() {
+    setApriModaleIntervento(false);
+    toggleModale();
+    setInterventoSelezionato({});
+    setInterventoSelezionatoDB({});
+  }
+
+  function selezionaIntervento(intervento) {
+    setApriModaleIntervento(true);
+    setInterventoSelezionato(intervento);
+    setInterventoSelezionatoDB(intervento);
+    toggleModale();
+  }
+
+  function toggleModale() {
+    $("#modale_gestisci_intervento_" + interventoSelezionato.id).modal(
+      "toggle"
+    );
+  }
+
+  function annullaAggiornamentoIntervento() {
+    setInterventoSelezionato(interventoSelezionatoDB);
+    setKeysIntervento([]);
+  }
+
+  function aggiornaIntervento() {
+    if (interventoSelezionato.id === 0) {
+      trackPromise(
+        apiIntervento.crea_intervento(interventoSelezionato).then((value) => {
+          if (value) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 500);
+          }
+        })
+      );
+    } else {
+      trackPromise(
+        apiIntervento
+          .aggiorna_intervento(
+            interventoSelezionato.id,
+            createRequestVals(interventoSelezionato, keysIntervento)
+          )
+          .then((value) => {
+            if (value) {
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
+            }
+          })
+      );
+    }
+  }
+
+  function eliminaIntervento() {
+    Swal.fire({
+      title: "Attenzione",
+      text: "L'eliminazione è irreversibile. Procedere?",
+      confirmButtonText: "Elimina",
+      confirmButtonColor: "#E22623",
+      cancelButtonText: "Annulla",
+      reverseButtons: true,
+    }).then((value) => {
+      if (value.isConfirmed) {
+        trackPromise(
+          apiIntervento.elimina_intervento(vals.id).then((value) => {
+            if (value) {
+              Swal.fire(
+                "Successo",
+                "L'eliminazione ha avuto successo",
+                "success"
+              ).then((value) => {
+                setTimeout(() => {
+                  window.location.reload();
+                }, 500);
+              });
+            }
+          })
+        );
+      }
+    });
   }
 }

@@ -41,6 +41,7 @@ const FormManutenzione = ({ className, onChange, vals, disabled = false }) => {
             onChange={(e) => {
               onChange("data_scadenza", e.target.value);
             }}
+            disabled={disabled}
             id="data_scadenza"
           />
         </div>
@@ -52,6 +53,7 @@ const FormManutenzione = ({ className, onChange, vals, disabled = false }) => {
             onChange={(e) => {
               onChange("tipologia", e.target.value);
             }}
+            disabled={disabled}
             id="tipologia"
           />
         </div>

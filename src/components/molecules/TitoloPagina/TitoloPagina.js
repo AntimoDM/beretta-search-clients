@@ -7,6 +7,8 @@ const TitoloPagina = ({
   urlIndietro,
   ctaElimina,
   ctaCompleta,
+  ctaAggiungiInterventi,
+  ctaRimuoviInterventi,
 }) => {
   return (
     <div className="row p-0 align-items-center mb-24">
@@ -27,6 +29,16 @@ const TitoloPagina = ({
           </Link>
         )}
         {ctaCompleta && <Button onClick={() => ctaCompleta()}>Completa</Button>}
+        {ctaAggiungiInterventi && (
+          <Button onClick={() => ctaAggiungiInterventi()}>
+            Aggiungi Interventi
+          </Button>
+        )}
+        {ctaRimuoviInterventi && (
+          <Button onClick={() => ctaRimuoviInterventi()}>
+            Rimuovi Interventi
+          </Button>
+        )}
         {ctaElimina && (
           <Button onClick={() => ctaElimina()} color="rosso">
             Elimina

@@ -7,11 +7,12 @@ import apiIntervento from "@/src/utils/api/intervento";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import FormAssociaCliente from "@/src/components/molecules/Cliente/FormAssociaCliente";
 import FormIntervento from "@/src/components/molecules/Interventi/FormIntervento";
+import Pagina from "@/src/components/atoms/Pagina/Pagina";
 
 export default function DettaglioIntervento({ router = {} }) {
   const STATO_INIZIALE_VALS = {
     data_chiamata: new Date().toISOString().split("T")[0],
-    stato: 2,
+    stato: 1,
   };
   const { slug } = router.query || {};
   const [vals, setVals] = useState(STATO_INIZIALE_VALS);
@@ -32,7 +33,7 @@ export default function DettaglioIntervento({ router = {} }) {
   }, [slug]);
 
   return (
-    <div className="page-container-new">
+    <Pagina>
       <ModifyHeader
         onRemove={onRemove}
         onSave={handleSubmit}
@@ -57,7 +58,7 @@ export default function DettaglioIntervento({ router = {} }) {
         onChange={(chiave, valore) => gestisciInput(chiave, valore)}
         vals={vals}
       />
-    </div>
+    </Pagina>
   );
 
   function onRemove() {
@@ -91,33 +92,6 @@ export default function DettaglioIntervento({ router = {} }) {
     }
   }
 
-  function completa() {
-    Swal.fire({
-      customClass: "swal_support",
-      title: "Attenzione",
-      text: "L'intervento è stato completato. Procedere?",
-      confirmButtonAriaLabel: "Conferma",
-      confirmButtonText: "Conferma",
-      confirmButtonColor: "#E22623",
-      cancelButtonText: "Annulla",
-      reverseButtons: true,
-    }).then((value) => {
-      if (value.isConfirmed) {
-        trackPromise(
-          api.aggiorna_intervento(vals.id, { stato: 3 }).then((value) => {
-            if (value) {
-              Swal.fire("Successo", "", "success").then((value) => {
-                if (value) {
-                  _get(value);
-                }
-              });
-            }
-          })
-        );
-      }
-    });
-  }
-
   function elimina() {
     Swal.fire({
       customClass: "swal_support",
@@ -131,7 +105,7 @@ export default function DettaglioIntervento({ router = {} }) {
     }).then((value) => {
       if (value.isConfirmed) {
         trackPromise(
-          api.elimina_intervento(vals.id).then((value) => {
+          apiIntervento.elimina_intervento(vals.id).then((value) => {
             if (value) {
               Swal.fire(
                 "Successo",
@@ -142,6 +116,35 @@ export default function DettaglioIntervento({ router = {} }) {
               });
             }
           })
+        );
+      }
+    });
+  }
+
+  function completa() {
+    Swal.fire({
+      customClass: "swal_support",
+      title: "Attenzione",
+      text: "L'intervento è stato completato. Procedere?",
+      confirmButtonAriaLabel: "Conferma",
+      confirmButtonText: "Conferma",
+      confirmButtonColor: "#E22623",
+      cancelButtonText: "Annulla",
+      reverseButtons: true,
+    }).then((value) => {
+      if (value.isConfirmed) {
+        trackPromise(
+          apiIntervento
+            .aggiorna_intervento(vals.id, { stato: 3 })
+            .then((value) => {
+              if (value) {
+                Swal.fire("Successo", "", "success").then((value) => {
+                  if (value) {
+                    _get(value);
+                  }
+                });
+              }
+            })
         );
       }
     });

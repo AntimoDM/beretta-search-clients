@@ -21,7 +21,40 @@ $container-max-widths: (
 
 @import "./../node_modules/bootstrap";
 
-
+.tag_stato {
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 24px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 20px;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  white-space: nowrap;
+  color: #323232;
+  min-width: 140px;
+  @media (max-width: 1320px) {
+    font-size: 12px;
+    min-width: none;
+    width: 100%;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  &.nuovo {
+    background: rgb(243, 166, 0);
+  }
+  &.pianificato{
+    background: rgb(189, 182, 214);
+  }
+  &.assegnato {
+    background: #ffdc8e;
+  }
+  &.completo {
+    background: #a7dcbe93;
+  }
+  
+}
 
 html {
   height: 100%;
@@ -794,6 +827,9 @@ ul.row_container {
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently */
+  &.interno_pagina{
+    height: 200px;
+  }
 }
 .Mui-button {
   min-width: 15px !important;
@@ -1849,6 +1885,13 @@ small {
     min-width: 100px;
     height: 40px !important;
   }
+}
+
+.riga_modale{
+  &:hover{
+      border: 1px solid #66b2ff;
+      //box-shadow: 4px 4px 4px 4px rgba(102, 178, 255, 0.3); /* sfumatura azzurra */
+    }
 }
 
 .card_support {

@@ -6,11 +6,9 @@ axios.defaults.headers.common["Accept-Language"] = "it";
 const apiTecnico = {
   ricerca_tecnici: async function (params = {}) {
     try {
-      console.log("api tecnici");
       const res = await axios.get(
         BASE_URL + "/tecnico" + creaQueryParams(params)
       );
-      console.log("chiamo lista tecnici", res);
       const data = res.data;
       let resArray = data;
       return resArray;

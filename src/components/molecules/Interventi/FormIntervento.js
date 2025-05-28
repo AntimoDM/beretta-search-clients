@@ -1,37 +1,40 @@
-import { useEffect, useState } from "react";
+import Button from "../../atoms/Button/Button";
 import Card from "../../atoms/Card";
-import apiTecnico from "@/src/utils/api/tecnico";
-import { generaOpzioniTecnici } from "@/src/utils/utility";
+import SelectTecnici from "../../atoms/SelectTecnici/SelectTecnici";
 
-const FormIntervento = ({ className, onChange, vals, disabled = false }) => {
-  const [opzioniTecnici, setOpzioniTecnici] = useState([]);
-
-  useEffect(() => {
-    resettaSelect();
-    apiTecnico.ricerca_tecnici().then((value) => {
-      if (value) {
-        setOpzioniTecnici(value);
-      }
-    });
-  }, []);
-
+const FormIntervento = ({
+  className,
+  onChange,
+  vals,
+  disabled = false,
+  modale = false,
+  ctaElimina = null,
+  ctaSalva = null,
+  ctaAnnulla = null,
+  ctaChiudi = null,
+}) => {
   return (
     <Card className={`p-24 ${className}`}>
-      <h3>Dettaglio Intervento</h3>
+      <div className="row m-0 p-0">
+        <div className="col-6 m-0 p-0">
+          <h3>Dettaglio Intervento</h3>
+        </div>
+        {ctaChiudi && (
+          <div className="col-6 m-0 p-0 text-end">
+            <h3 onClick={() => ctaChiudi()} className="d-inline pointer">
+              X
+            </h3>
+          </div>
+        )}
+      </div>
 
       <div className="row mt-24">
         <div className="col-6 pl-0 pr-16">
           <label className="font-18 lh-24 bold">Tecnico</label>
-          <select
-            onChange={(e) => {
-              const value = e.target.value;
-              onChange("tecnico", value);
-            }}
-            id="miaSelect"
-            className="h-40 pl-0"
-          >
-            {generaOpzioniTecnici("interventi", opzioniTecnici)}
-          </select>
+          <SelectTecnici
+            value={vals.tecnico && (vals.tecnico.id || vals.tecnico)}
+            onFilter={onChange}
+          />
         </div>
         <div className="col-6 pl-16 pr-0">
           <label className="font-18 lh-24 bold">Data Assegnamento</label>
@@ -76,6 +79,18 @@ const FormIntervento = ({ className, onChange, vals, disabled = false }) => {
 
       <div className="row mt-24">
         <div className="col-6 pl-0 pr-16">
+          <label className="font-18 lh-24 bold">Indirizzo Intervento</label>
+          <input
+            type="indirizzo"
+            value={vals.indirizzo || ""}
+            onChange={(e) => {
+              onChange("indirizzo", e.target.value);
+            }}
+            id="indirizzo"
+          />
+        </div>
+        {/** TODO -> utenti ufficio in sola lettura, utenti tecnici scrittura */}
+        <div className="col-6 pl-16 pr-0">
           <label className="font-18 lh-24 bold">Motivazione</label>
           <textarea
             value={vals.motivazione || ""}
@@ -83,16 +98,6 @@ const FormIntervento = ({ className, onChange, vals, disabled = false }) => {
               onChange("motivazione", e.target.value);
             }}
             id="motivazione"
-          />
-        </div>
-        <div className="col-6 pl-16 pr-0">
-          <label className="font-18 lh-24 bold">Note per il tecnico</label>
-          <textarea
-            value={vals.note_per_tecnico || ""}
-            onChange={(e) => {
-              onChange("note_per_tecnico", e.target.value);
-            }}
-            id="note_per_tecnico"
           />
         </div>
       </div>
@@ -108,14 +113,37 @@ const FormIntervento = ({ className, onChange, vals, disabled = false }) => {
             id="note_del_tecnico"
           />
         </div>
+        <div className="col-6 pl-16 pr-0">
+          <label className="font-18 lh-24 bold">Note per il tecnico</label>
+          <textarea
+            value={vals.note_per_tecnico || ""}
+            onChange={(e) => {
+              onChange("note_per_tecnico", e.target.value);
+            }}
+            id="note_per_tecnico"
+          />
+        </div>
       </div>
+      {modale && (
+        <div className="row mt-24">
+          <div className="col-6 pl-0 pr-16"></div>
+          <div className="col-6 p-0 m-0 d-flex justify-content-end align-items-center gap-16">
+            {ctaElimina && (
+              <Button color={"rosso"} onClick={() => ctaElimina()}>
+                Elimina
+              </Button>
+            )}
+            {ctaAnnulla && (
+              <Button color={"grigio"} onClick={() => ctaAnnulla()}>
+                Annulla
+              </Button>
+            )}
+            {ctaSalva && <Button onClick={() => ctaSalva()}>Salva</Button>}
+          </div>
+        </div>
+      )}
     </Card>
   );
-
-  function resettaSelect() {
-    const miaSelect = document.getElementById("miaSelect");
-    miaSelect.selectedIndex = 0;
-  }
 };
 
 export default FormIntervento;

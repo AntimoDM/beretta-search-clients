@@ -1,8 +1,8 @@
 import apiTecnico from "@/src/utils/api/tecnico";
-import { generaOpzioniTecnici, resettaSelect } from "@/src/utils/utility";
+import { generaOpzioniTecnici } from "@/src/utils/utility";
 import React, { useEffect, useState } from "react";
 
-const SelectTecnici = ({ onFilter = () => null, className }) => {
+const SelectTecnici = ({ onFilter = () => null, className, value }) => {
   const [opzioniTecnici, setOpzioniTecnici] = useState([]);
   const id = "selectTecnici";
 
@@ -17,11 +17,12 @@ const SelectTecnici = ({ onFilter = () => null, className }) => {
   return (
     <select
       onChange={(e) => {
-        onFilter("tecnico", e.target.value);
+        onFilter("tecnico", Number(e.target.value));
         if (e.target.value === "0") {
           resetSelect();
         }
       }}
+      value={value === "0" ? "opzioneNascosta" : value}
       id={id}
       className={`h-40 pl-0 " ${className}`}
       style={{ display: "block" }}
