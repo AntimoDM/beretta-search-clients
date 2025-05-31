@@ -85,7 +85,7 @@ function MyApp({ Component, pageProps }) {
   function puthead() {
     return (
       <Head>
-        <title>Zio Mimmo Search</title>
+        <title>Meteo System</title>
       </Head>
     );
   }

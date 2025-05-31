@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import ModifyHeader from "@/src/components/molecules/ModifyHeader";
 import { createRequestVals, formatDate } from "@/src/utils/utility";
 import Swal from "sweetalert2";
 import apiIntervento from "@/src/utils/api/intervento";
@@ -8,6 +7,7 @@ import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import FormAssociaCliente from "@/src/components/molecules/Cliente/FormAssociaCliente";
 import FormIntervento from "@/src/components/molecules/Interventi/FormIntervento";
 import Pagina from "@/src/components/atoms/Pagina/Pagina";
+import HeaderModifiche from "@/src/components/molecules/HeaderModifiche/HeaderModifiche";
 
 export default function DettaglioIntervento({ router = {} }) {
   const STATO_INIZIALE_VALS = {
@@ -26,7 +26,7 @@ export default function DettaglioIntervento({ router = {} }) {
     trackPromise(
       apiIntervento.dettaglio_intervento(slug).then((value) => {
         if (value) {
-          _get(value);
+          aggiornaValori(value);
         }
       })
     );
@@ -34,10 +34,10 @@ export default function DettaglioIntervento({ router = {} }) {
 
   return (
     <Pagina>
-      <ModifyHeader
-        onRemove={onRemove}
-        onSave={handleSubmit}
-        toggle={modifying}
+      <HeaderModifiche
+        ctaAnnulla={annullaModifiche}
+        ctaSalva={salvaModifiche}
+        mostra={modifying}
       />
       <TitoloPagina
         titolo={
@@ -51,7 +51,7 @@ export default function DettaglioIntervento({ router = {} }) {
       />
       <FormAssociaCliente
         className="mb-32"
-        vals={vals.cliente || {}}
+        vals={vals}
         onChange={(chiave, valore) => gestisciInput(chiave, valore)}
       />
       <FormIntervento
@@ -61,7 +61,7 @@ export default function DettaglioIntervento({ router = {} }) {
     </Pagina>
   );
 
-  function onRemove() {
+  function annullaModifiche() {
     if (slug !== "nuovo") {
       setVals(dbVals);
     } else setVals(STATO_INIZIALE_VALS);
@@ -74,13 +74,13 @@ export default function DettaglioIntervento({ router = {} }) {
     if (!keys.includes(key)) setKeys([...keys, key]);
   }
 
-  function handleSubmit() {
+  function salvaModifiche() {
     if (slug !== "nuovo") {
       apiIntervento
         .aggiorna_intervento(slug, createRequestVals(vals, keys))
         .then((value) => {
           if (value) {
-            _get(value);
+            aggiornaValori(value);
           }
         });
     } else {
@@ -140,7 +140,7 @@ export default function DettaglioIntervento({ router = {} }) {
               if (value) {
                 Swal.fire("Successo", "", "success").then((value) => {
                   if (value) {
-                    _get(value);
+                    aggiornaValori(value);
                   }
                 });
               }
@@ -150,7 +150,7 @@ export default function DettaglioIntervento({ router = {} }) {
     });
   }
 
-  function _get(value) {
+  function aggiornaValori(value) {
     setVals(value);
     setDbVals(value);
     setModifying(false);

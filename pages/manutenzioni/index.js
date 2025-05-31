@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import apiManutenzione from "@/src/utils/api/manutenzione";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import ListaManutenzioni from "@/src/components/molecules/Manutenzione/ListaManutenzioni";
+import Pagina from "@/src/components/atoms/Pagina/Pagina";
 
 export default function Manutenzioni({}) {
   const [manutenzioni, setManutenzioni] = useState([]);
@@ -20,7 +20,7 @@ export default function Manutenzioni({}) {
   }, [filters]);
 
   return (
-    <div className="page-container-new">
+    <Pagina>
       <TitoloPagina titolo="Manutenzioni" urlAggiungi="/manutenzioni/nuovo" />
       <ListaManutenzioni
         onFilter={(chiave, valore) =>
@@ -28,7 +28,6 @@ export default function Manutenzioni({}) {
         }
         manutenzioni={manutenzioni}
       />
-      <LoadingIndicator />
-    </div>
+    </Pagina>
   );
 }

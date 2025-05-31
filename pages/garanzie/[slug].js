@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import ModifyHeader from "@/src/components/molecules/ModifyHeader";
-import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import { createRequestVals, formatDate } from "@/src/utils/utility";
 import Swal from "sweetalert2";
 import apiGaranzia from "@/src/utils/api/garanzia";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import FormAssociaCliente from "@/src/components/molecules/Cliente/FormAssociaCliente";
 import FormGaranzia from "@/src/components/molecules/Garanzia/FormGaranzia";
+import Pagina from "@/src/components/atoms/Pagina/Pagina";
+import HeaderModifiche from "@/src/components/molecules/HeaderModifiche/HeaderModifiche";
 
 export default function DettaglioGaranzia({ router = {} }) {
   const { slug } = router.query || {};
@@ -22,19 +22,18 @@ export default function DettaglioGaranzia({ router = {} }) {
     trackPromise(
       apiGaranzia.dettaglio_garanzia(slug).then((value) => {
         if (value) {
-          setVals(value);
-          setDbVals(value);
+          aggiornaValori(value);
         }
       })
     );
   }, [slug]);
 
   return (
-    <div className="page-container-new">
-      <ModifyHeader
-        onRemove={onRemove}
-        onSave={handleSubmit}
-        toggle={modifying}
+    <Pagina>
+      <HeaderModifiche
+        ctaAnnulla={annullaModifiche}
+        ctaSalva={salvaModifiche}
+        mostra={modifying}
       />
       <TitoloPagina
         titolo={
@@ -47,15 +46,14 @@ export default function DettaglioGaranzia({ router = {} }) {
       />
       <FormAssociaCliente
         className="mb-32"
-        vals={vals.cliente || {}}
+        vals={vals}
         onChange={(chiave, valore) => gestisciInput(chiave, valore)}
       />
       <FormGaranzia
         onChange={(chiave, valore) => gestisciInput(chiave, valore)}
         vals={vals}
       />
-      <LoadingIndicator />
-    </div>
+    </Pagina>
   );
 
   function elimina() {
@@ -87,7 +85,7 @@ export default function DettaglioGaranzia({ router = {} }) {
     });
   }
 
-  function onRemove() {
+  function annullaModifiche() {
     if (slug !== "nuovo") {
       setVals(dbVals);
     } else setVals({});
@@ -100,13 +98,13 @@ export default function DettaglioGaranzia({ router = {} }) {
     if (!keys.includes(key)) setKeys([...keys, key]);
   }
 
-  function handleSubmit() {
+  function salvaModifiche() {
     if (slug !== "nuovo") {
       apiGaranzia
         .aggiorna_garanzia(slug, createRequestVals(vals, keys, []))
         .then((value) => {
           if (value) {
-            _get(value);
+            aggiornaValori(value);
           }
         });
     } else {
@@ -120,7 +118,7 @@ export default function DettaglioGaranzia({ router = {} }) {
     }
   }
 
-  function _get(value) {
+  function aggiornaValori(value) {
     setVals(value);
     setDbVals(value);
     setModifying(false);

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import apiGaranzia from "@/src/utils/api/garanzia";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import ListaGaranzie from "@/src/components/molecules/Garanzia/ListaGaranzie";
+import Pagina from "@/src/components/atoms/Pagina/Pagina";
 
 export default function Garanzie({}) {
   const [garanzie, setGaranzie] = useState([]);
@@ -20,7 +20,7 @@ export default function Garanzie({}) {
   }, [filters]);
 
   return (
-    <div className="page-container-new">
+    <Pagina>
       <TitoloPagina titolo="Garanzie" urlAggiungi="/garanzie/nuovo" />
       <ListaGaranzie
         garanzie={garanzie}
@@ -28,7 +28,6 @@ export default function Garanzie({}) {
           setFilters({ ...filters, [chiave]: valore })
         }
       />
-      <LoadingIndicator />
-    </div>
+    </Pagina>
   );
 }

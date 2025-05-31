@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import ModifyHeader from "@/src/components/molecules/ModifyHeader";
-import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import Swal from "sweetalert2";
 import apiManutenzione from "@/src/utils/api/manutenzione";
 import { createRequestVals, formatDate } from "@/src/utils/utility";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import FormManutenzione from "@/src/components/molecules/Manutenzione/FormManutenzione";
 import FormAssociaCliente from "@/src/components/molecules/Cliente/FormAssociaCliente";
+import Pagina from "@/src/components/atoms/Pagina/Pagina";
+import HeaderModifiche from "@/src/components/molecules/HeaderModifiche/HeaderModifiche";
 
 export default function DettaglioManutenzione({ router = {} }) {
   const { slug } = router.query || {};
@@ -30,11 +30,11 @@ export default function DettaglioManutenzione({ router = {} }) {
   }, [slug]);
 
   return (
-    <div className="page-container-new">
-      <ModifyHeader
-        onRemove={onRemove}
-        onSave={handleSubmit}
-        toggle={modifying}
+    <Pagina>
+      <HeaderModifiche
+        ctaAnnulla={annullaModifiche}
+        ctaSalva={salvaModifiche}
+        mostra={modifying}
       />
       <TitoloPagina
         titolo={
@@ -47,15 +47,14 @@ export default function DettaglioManutenzione({ router = {} }) {
       />
       <FormAssociaCliente
         className="mb-32"
-        vals={vals.cliente || {}}
+        vals={vals}
         onChange={(chiave, valore) => gestisciInput(chiave, valore)}
       />
       <FormManutenzione
         onChange={(chiave, valore) => gestisciInput(chiave, valore)}
         vals={vals}
       />
-      <LoadingIndicator />
-    </div>
+    </Pagina>
   );
 
   function elimina() {
@@ -87,7 +86,7 @@ export default function DettaglioManutenzione({ router = {} }) {
     });
   }
 
-  function onRemove() {
+  function annullaModifiche() {
     if (slug !== "nuovo") {
       setVals(dbVals);
     } else setVals({});
@@ -100,13 +99,13 @@ export default function DettaglioManutenzione({ router = {} }) {
     if (!keys.includes(key)) setKeys([...keys, key]);
   }
 
-  function handleSubmit() {
+  function salvaModifiche() {
     if (slug !== "nuovo") {
       apiManutenzione
         .aggiorna_manutenzione(slug, createRequestVals(vals, keys, []))
         .then((value) => {
           if (value) {
-            _get(value);
+            aggiornaValori(value);
           }
         });
     } else {
@@ -114,13 +113,14 @@ export default function DettaglioManutenzione({ router = {} }) {
         .crea_manutenzione(createRequestVals(vals, keys, []))
         .then((value) => {
           if (value) {
+            aggiornaValori(value);
             router.push("/manutenzioni/" + value.id);
           }
         });
     }
   }
 
-  function _get(value) {
+  function aggiornaValori(value) {
     setVals(value);
     setDbVals(value);
     setModifying(false);

@@ -51,7 +51,7 @@ const FormIntervento = ({
         </div>
       </div>
 
-      <div className="row mt-8">
+      <div className="row mt-24">
         <div className="col-6 pl-0 pr-16">
           <label className="font-18 lh-24 bold">Data Chiamata</label>
           <input
@@ -89,7 +89,6 @@ const FormIntervento = ({
             id="indirizzo"
           />
         </div>
-        {/** TODO -> utenti ufficio in sola lettura, utenti tecnici scrittura */}
         <div className="col-6 pl-16 pr-0">
           <label className="font-18 lh-24 bold">Motivazione</label>
           <textarea
@@ -124,6 +123,7 @@ const FormIntervento = ({
           />
         </div>
       </div>
+
       {modale && (
         <div className="row mt-24">
           <div className="col-6 pl-0 pr-16"></div>

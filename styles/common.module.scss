@@ -52,9 +52,6 @@
   color: $gray4 !important;
 }
 
-.cardtoolbar {
-  max-height: 13px;
-}
 
 .dropdown {
   -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.18);
@@ -184,24 +181,18 @@
 
 .modify_header {
   position: fixed;
-  top: -10px;
+  top: 0px;
   left: 0px;
-  padding-top: 10px;
   background: $green;
-  z-index: 9999;
-  height: 85px;
+  z-index: 2;
   width: 100%;
   transition: all 0.3s ease-in-out;
+  transform: translateY(-86px);
 
-  border-bottom-right-radius: 12px;
-  transform: translateY(-78px);
-  .navbar_brand {
-    width: 366px;
-  }
   &.active {
+    display: inline;
     transform: translateY(0);
     transform-origin: top;
-    height: 80px;
     transition: all 0.3s ease-in-out;
   }
 }

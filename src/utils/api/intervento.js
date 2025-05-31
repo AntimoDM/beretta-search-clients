@@ -77,7 +77,7 @@ const apiIntervento = {
 };
 
 function interventoAssociabile(intervento, tecnico, giornata) {
-  if (intervento.stato === 3) {
+  if (intervento.stato === 4) {
     //se l'intervento è completo
     return false;
   }

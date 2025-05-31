@@ -1,15 +1,15 @@
-import apiTecnico from "@/src/utils/api/tecnico";
+import apiCliente from "@/src/utils/api/cliente";
 import React, { useEffect, useState } from "react";
 
-const SelectTecnici = ({ onFilter = () => null, className, value }) => {
-  const [opzioniTecnici, setOpzioniTecnici] = useState([]);
-  const id = "selectTecnici";
+const SelectClienti = ({ onFilter = () => null, className, value }) => {
+  const [opzioniClienti, setOpzioniClienti] = useState([]);
+  const id = "selectClienti";
 
   useEffect(() => {
     resetSelect();
-    apiTecnico.ricerca_tecnici_per_searchbar().then((value) => {
+    apiCliente.ricerca_clienti_per_searchbar().then((value) => {
       if (value) {
-        setOpzioniTecnici(value);
+        setOpzioniClienti(value);
       }
     });
   }, []);
@@ -17,7 +17,7 @@ const SelectTecnici = ({ onFilter = () => null, className, value }) => {
   return (
     <select
       onChange={(e) => {
-        onFilter("tecnico", Number(e.target.value));
+        onFilter("cliente", Number(e.target.value));
         if (e.target.value === "0") {
           resetSelect();
         }
@@ -28,19 +28,14 @@ const SelectTecnici = ({ onFilter = () => null, className, value }) => {
       style={{ display: "block" }}
     >
       <option key={0} value="opzioneNascosta" disabled hidden>
-        Seleziona un tecnico
+        Seleziona un cliente
       </option>
-      {opzioniTecnici &&
-        opzioniTecnici.map((t) => {
-          return (
-            <option key={t.id} value={t.id}>
-              {t.nome}
-            </option>
-          );
+      {opzioniClienti &&
+        opzioniClienti.map((c) => {
+          return <option value={c.value}>{c.label}</option>;
         })}
-
       <option key={100} value="0">
-        Annulla
+        Nessun Cliente
       </option>
     </select>
   );
@@ -51,4 +46,4 @@ const SelectTecnici = ({ onFilter = () => null, className, value }) => {
   }
 };
 
-export default SelectTecnici;
+export default SelectClienti;

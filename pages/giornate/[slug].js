@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import ModifyHeader from "@/src/components/molecules/ModifyHeader";
 import { createRequestVals, formatDate } from "@/src/utils/utility";
 import apiGiornata from "@/src/utils/api/giornata";
 import apiIntervento from "@/src/utils/api/intervento";
@@ -8,6 +7,7 @@ import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import ListaInterventi from "@/src/components/molecules/Interventi/ListaInterventi";
 import FormAssociaGiornata from "@/src/components/molecules/Giornate/FormAssociaGiornata";
 import Pagina from "@/src/components/atoms/Pagina/Pagina";
+import HeaderModifiche from "@/src/components/molecules/HeaderModifiche/HeaderModifiche";
 
 export default function DettaglioGiornata({ router = {} }) {
   const { slug } = router.query || {};
@@ -51,10 +51,10 @@ export default function DettaglioGiornata({ router = {} }) {
 
   return (
     <Pagina>
-      <ModifyHeader
-        onRemove={onRemove}
-        onSave={handleSubmit}
-        toggle={modifying}
+      <HeaderModifiche
+        ctaAnnulla={annullaModifiche}
+        ctaSalva={salvaModifiche}
+        mostra={modifying}
       />
       <TitoloPagina
         titolo={
@@ -76,27 +76,27 @@ export default function DettaglioGiornata({ router = {} }) {
         vals={vals}
       />
       {slug !== "nuovo" && (
-        <>
-          <ListaInterventi
-            className="mb-32"
-            internoPagina={true}
-            interventi={vals.interventi}
-            mostraFiltri={false}
-            titolo="Interventi Associati"
-            onSelectCheckbox={(id) =>
-              setIdInterventiDaDisassociare([...idInterventiDaDisassociare, id])
-            }
-          />
-          <ListaInterventi
-            internoPagina={true}
-            interventi={interventiAssociabili}
-            mostraFiltri={false}
-            titolo="Interventi Associabili"
-            onSelectCheckbox={(id) =>
-              setIdInterventiDaAssociare([...idInterventiDaAssociare, id])
-            }
-          />
-        </>
+        <ListaInterventi
+          className="mb-32"
+          internoPagina={true}
+          interventi={vals.interventi}
+          mostraFiltri={false}
+          titolo="Interventi Associati"
+          onSelectCheckbox={(id) =>
+            setIdInterventiDaDisassociare([...idInterventiDaDisassociare, id])
+          }
+        />
+      )}
+      {slug !== "nuovo" && (
+        <ListaInterventi
+          internoPagina={true}
+          interventi={interventiAssociabili}
+          mostraFiltri={false}
+          titolo="Interventi Associabili"
+          onSelectCheckbox={(id) =>
+            setIdInterventiDaAssociare([...idInterventiDaAssociare, id])
+          }
+        />
       )}
     </Pagina>
   );
@@ -131,7 +131,7 @@ export default function DettaglioGiornata({ router = {} }) {
     }
   }
 
-  function onRemove() {
+  function annullaModifiche() {
     if (slug !== "new") {
       setVals(dbVals);
     } else setVals({});
@@ -144,7 +144,7 @@ export default function DettaglioGiornata({ router = {} }) {
     if (!keys.includes(key)) setKeys([...keys, key]);
   }
 
-  function handleSubmit() {
+  function salvaModifiche() {
     if (slug !== "nuovo") {
       apiGiornata
         .aggiorna_giornata(slug, createRequestVals(vals, keys, []))

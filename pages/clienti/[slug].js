@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import ModifyHeader from "@/src/components/molecules/ModifyHeader";
-import Card from "@/src/components/atoms/Card";
-import TableCouponIds from "@/src/components/organisms/TableIds/TableIds";
 import Swal from "sweetalert2";
 import apiCliente from "@/src/utils/api/cliente";
 import { createRequestVals } from "@/src/utils/utility";
@@ -15,6 +12,7 @@ import FormIntervento from "@/src/components/molecules/Interventi/FormIntervento
 import ListaInterventi from "@/src/components/molecules/Interventi/ListaInterventi";
 import Modal from "@/src/components/atoms/Modal/Modal";
 import apiIntervento from "@/src/utils/api/intervento";
+import HeaderModifiche from "@/src/components/molecules/HeaderModifiche/HeaderModifiche";
 
 export default function DettaglioCliente({ router = {} }) {
   const { slug } = router.query || {};
@@ -33,7 +31,7 @@ export default function DettaglioCliente({ router = {} }) {
     trackPromise(
       apiCliente.dettaglio_cliente(slug).then((value) => {
         if (value) {
-          _get(value);
+          aggiornaValori(value);
         }
       })
     );
@@ -41,10 +39,10 @@ export default function DettaglioCliente({ router = {} }) {
 
   return (
     <Pagina>
-      <ModifyHeader
-        onRemove={onRemove}
-        onSave={handleSubmit}
-        toggle={modifying}
+      <HeaderModifiche
+        ctaAnnulla={annullaModifiche}
+        ctaSalva={salvaModifiche}
+        mostra={modifying}
       />
       <TitoloPagina
         titolo={
@@ -71,7 +69,6 @@ export default function DettaglioCliente({ router = {} }) {
           interventi={vals.interventi}
         />
       )}
-
       {vals.manutenzione && (
         <FormManutenzione
           className="mb-32"
@@ -126,7 +123,7 @@ export default function DettaglioCliente({ router = {} }) {
     });
   }
 
-  function onRemove() {
+  function annullaModifiche() {
     if (slug !== "nuovo") {
       setVals(dbVals);
     } else setVals({});
@@ -142,16 +139,17 @@ export default function DettaglioCliente({ router = {} }) {
 
   function gestisciInputIntervento(key, value) {
     setInterventoSelezionato({ ...interventoSelezionato, [key]: value });
-    if (!keysIntervento.includes(key)) setKeysIntervento([...keys, key]);
+    if (!keysIntervento.includes(key))
+      setKeysIntervento([...keysIntervento, key]);
   }
 
-  function handleSubmit() {
+  function salvaModifiche() {
     if (slug !== "nuovo") {
       apiCliente
         .aggiorna_cliente(slug, createRequestVals(vals, keys))
         .then((value) => {
           if (value) {
-            _get(value);
+            aggiornaValori(value);
           }
         });
     } else {
@@ -171,7 +169,7 @@ export default function DettaglioCliente({ router = {} }) {
     }
   }
 
-  function _get(value) {
+  function aggiornaValori(value) {
     setVals(value);
     setDbVals(value);
     setModifying(false);

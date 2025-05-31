@@ -4,7 +4,7 @@ axios.defaults.withCredentials = false;
 axios.defaults.headers.common["Accept-Language"] = "it";
 
 const apiTecnico = {
-  ricerca_tecnici: async function (params = {}) {
+  ricerca_tecnici_per_searchbar: async function (params = {}) {
     try {
       const res = await axios.get(
         BASE_URL + "/tecnico" + creaQueryParams(params)

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
 import ListaGiornate from "@/src/components/molecules/Giornate/ListaGiornate";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import apiGiornata from "@/src/utils/api/giornata";
+import Pagina from "@/src/components/atoms/Pagina/Pagina";
 
 export default function Giornate({}) {
   const [giornate, setGiornate] = useState([]);
@@ -20,7 +20,7 @@ export default function Giornate({}) {
   }, [filters]);
 
   return (
-    <div className="page-container-new">
+    <Pagina>
       <TitoloPagina titolo="Giornate" urlAggiungi="/giornate/nuovo" />
       <ListaGiornate
         giornate={giornate}
@@ -28,7 +28,6 @@ export default function Giornate({}) {
           setFilters({ ...filters, [chiave]: valore });
         }}
       />
-      <LoadingIndicator />
-    </div>
+    </Pagina>
   );
 }

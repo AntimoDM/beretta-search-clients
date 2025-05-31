@@ -1,6 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-import { BASE_URL, creaQueryParams } from "../utility";
+import { BASE_URL, creaQueryParams, gestisciErroreDjango } from "../utility";
 axios.defaults.withCredentials = false;
 axios.defaults.headers.common["Accept-Language"] = "it";
 
@@ -14,7 +14,7 @@ const apiManutenzione = {
       let resArray = data;
       return resArray;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.res, "error");
+      gestisciErroreDjango(error);
     }
   },
   crea_manutenzione: async function (vals) {
@@ -23,7 +23,7 @@ const apiManutenzione = {
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.res, "error");
+      gestisciErroreDjango(error);
     }
   },
   dettaglio_manutenzione: async function (id) {
@@ -32,7 +32,7 @@ const apiManutenzione = {
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.res, "error");
+      gestisciErroreDjango(error);
     }
   },
   aggiorna_manutenzione: async function (id, vals) {
@@ -41,7 +41,7 @@ const apiManutenzione = {
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.res, "error");
+      gestisciErroreDjango(error);
     }
   },
   elimina_manutenzione: async function (id) {
@@ -50,7 +50,7 @@ const apiManutenzione = {
       const data = res.data;
       return data;
     } catch (error) {
-      Swal.fire("Errore", await error.response.data.res, "error");
+      gestisciErroreDjango(error);
     }
   },
 };

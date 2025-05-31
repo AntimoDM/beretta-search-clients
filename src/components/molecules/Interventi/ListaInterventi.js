@@ -1,7 +1,5 @@
 import Link from "next/link";
 import Card from "../../atoms/Card";
-import HeaderTab from "../../atoms/HeaderTab/HeaderTab";
-import CardToolbar from "../CardToolbar/CardToolbar";
 import { formatDate, visualizzaStatoIntervento } from "@/src/utils/utility";
 import { useState } from "react";
 import SelectTecnici from "../../atoms/SelectTecnici/SelectTecnici";
@@ -13,9 +11,8 @@ const ListaInterventi = ({
   interventi,
   mostraFiltri = true,
   titolo,
-  internoPagina = true,
+  internoPagina = false,
   ctaAggiungi = null,
-  ctaChiudi = null,
   rendirizzamento = true,
   ctaSeleziona = null,
 }) => {
@@ -24,10 +21,9 @@ const ListaInterventi = ({
   return (
     <Card className={` ${className}`}>
       {titolo && <h3 className="mt-24 ml-24">{titolo}</h3>}
-      {ctaChiudi && <h3 className="mt-24 ml-24 text-right">X</h3>}
       {mostraFiltri && (
-        <>
-          <HeaderTab>
+        <ul className="nav nav-tabs m-0 p-0">
+          <li key={0} className="nav-item ">
             <a
               onClick={() => {
                 onFilter("stato", 0);
@@ -38,6 +34,8 @@ const ListaInterventi = ({
             >
               Tutti
             </a>
+          </li>
+          <li key={1} className="nav-item ">
             <a
               onClick={() => {
                 onFilter("stato", 1);
@@ -48,6 +46,8 @@ const ListaInterventi = ({
             >
               Nuovi
             </a>
+          </li>
+          <li key={2} className="nav-item ">
             <a
               onClick={() => {
                 onFilter("stato", 2);
@@ -58,6 +58,8 @@ const ListaInterventi = ({
             >
               Assegnati
             </a>
+          </li>
+          <li key={3} className="nav-item ">
             <a
               onClick={() => {
                 onFilter("stato", 3);
@@ -66,38 +68,48 @@ const ListaInterventi = ({
               className={"nav-link " + (statoAttivo === 3 ? "active" : "")}
               href="#"
             >
+              Pianificati
+            </a>
+          </li>
+          <li key={4} className="nav-item ">
+            <a
+              onClick={() => {
+                onFilter("stato", 4);
+                setStatoAttivo(4);
+              }}
+              className={"nav-link " + (statoAttivo === 4 ? "active" : "")}
+              href="#"
+            >
               Completi
             </a>
-          </HeaderTab>
-
-          <CardToolbar className="align-items-center pl-24">
-            <SelectTecnici className="w-25" onFilter={onFilter} />
-          </CardToolbar>
-        </>
+          </li>
+        </ul>
       )}
-      <div className="row table_header pr-24">
-        <div
-          style={{ width: "16px", paddingTop: "2px" }}
-          className="ml-24 mr-8"
-        >
+      {mostraFiltri && (
+        <div className="row p-24 align-items-center">
+          <SelectTecnici className="w-25" onFilter={onFilter} />
+        </div>
+      )}
+      <div className="row p-24 align-items-center">
+        <div className="col-1 pl-0 pr-16">
           <input type="checkbox" />
         </div>
-        <div className="col my-auto">
+        <div className="col-2 pl-0 pr-16 text-break">
           <label className="m-0">Cliente</label>
         </div>
-        <div className="col my-auto">
+        <div className="col-2 pl-0 pr-16 text-break">
           <label className="m-0">Data Chiamata</label>
         </div>
-        <div className="col my-auto">
+        <div className="col-2 pl-0 pr-16 text-break">
           <label className="m-0">Indirizzo</label>
         </div>
-        <div className="col my-auto">
+        <div className="col-1 pl-0 pr-16 text-break">
           <label className="m-0">Tecnico</label>
         </div>
-        <div className="col my-auto">
+        <div className="col-2 pl-0 pr-16 text-break">
           <label className="m-0">Giornata</label>
         </div>
-        <div className="col pr-0 my-auto ml-auto text-end">
+        <div className="col-2 pl-0 pr-0 text-end text-break">
           <label className="m-0">Stato</label>
         </div>
       </div>
@@ -108,9 +120,16 @@ const ListaInterventi = ({
         {interventi &&
           interventi.map((element, index) => {
             return rendirizzamento ? (
-              <RigaRendirizzamento element={element} index={index} />
+              <RigaRendirizzamento
+                key={index}
+                onSelectCheckbox={onSelectCheckbox}
+                element={element}
+                index={index}
+              />
             ) : (
               <RigaModale
+                key={index}
+                onSelectCheckbox={onSelectCheckbox}
                 ctaSeleziona={ctaSeleziona}
                 element={element}
                 index={index}
@@ -120,9 +139,9 @@ const ListaInterventi = ({
         {ctaAggiungi && (
           <div
             onClick={() => ctaAggiungi()}
-            className="row table_row h-56 pointer riga_modale"
+            className="row align-items-center p-24 riga_modale pointer"
           >
-            <div className="col my-auto">Aggiungi...</div>
+            <div className="col-3 pl-0 pr-16 text-break">Aggiungi...</div>
           </div>
         )}
       </div>
@@ -130,39 +149,38 @@ const ListaInterventi = ({
   );
 };
 
-const RigaRendirizzamento = ({ element, index }) => {
+const RigaRendirizzamento = ({ element, index, onSelectCheckbox }) => {
   return (
     <Link
       href={"/interventi/" + element.id}
       key={index}
-      className="row table_row h-56"
+      style={{ borderTop: "1px solid #e0e0dd" }}
+      className="row align-items-center p-24"
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{ width: "16px", paddingTop: "2px" }}
-        className="ml-24 mr-8"
-      >
+      <div onClick={(e) => e.stopPropagation()} className="col-1 pl-0 pr-16">
         <input
           onClick={(e) => {
             e.stopPropagation();
-            onSelectCheckbox(element.id);
+            onSelectCheckbox(e);
           }}
           type="checkbox"
         />
       </div>
-      <div className="col my-auto">
+      <div className="col-2 pl-0 pr-16 text-break">
         {element.cliente &&
           element.cliente.nome + " " + element.cliente.cognome}
       </div>
-      <div className="col my-auto">{formatDate(element.data_chiamata)}</div>
-      <div className="col my-auto">{element.indirizzo}</div>
-      <div className="col my-auto">
+      <div className="col-2 pl-0 pr-16 text-break">
+        {formatDate(element.data_chiamata)}
+      </div>
+      <div className="col-2 pl-0 pr-16 text-break">{element.indirizzo}</div>
+      <div className="col-1 pl-0 pr-16 text-break">
         {element.tecnico && element.tecnico.nome}
       </div>
-      <div className="col my-auto">
+      <div className="col-2 pl-0 pr-16 text-break">
         {element.giornata && formatDate(element.giornata.data)}
       </div>
-      <div className="text-end col my-auto pr-24">
+      <div className="col-2 pl-0 pr-0 text-end text-break">
         {visualizzaStatoIntervento(element.stato)}
       </div>
     </Link>
@@ -174,34 +192,32 @@ const RigaModale = ({ element, index, ctaSeleziona = null }) => {
     <div
       onClick={() => ctaSeleziona(element)}
       key={index}
-      className="row table_row h-56 riga_modale pointer"
+      style={{ borderTop: "1px solid #e0e0dd" }}
+      className="row align-items-center p-24 riga_modale pointer"
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{ width: "16px", paddingTop: "2px" }}
-        className="ml-24 mr-8"
-      >
+      <div onClick={(e) => e.stopPropagation()} className="col-1  pl-0 pr-16">
         <input
           onClick={(e) => {
             e.stopPropagation();
-            onSelectCheckbox(element.id);
           }}
           type="checkbox"
         />
       </div>
-      <div className="col my-auto">
+      <div className="col-2 pl-0 pr-16 text-break">
         {element.cliente &&
           element.cliente.nome + " " + element.cliente.cognome}
       </div>
-      <div className="col my-auto">{formatDate(element.data_chiamata)}</div>
-      <div className="col my-auto">{element.indirizzo}</div>
-      <div className="col my-auto">
+      <div className="col-2 pl-0 pr-16 text-break">
+        {formatDate(element.data_chiamata)}
+      </div>
+      <div className="col-2 pl-0 pr-16 text-break">{element.indirizzo}</div>
+      <div className="col-1 pl-0 pr-16 text-break">
         {element.tecnico && element.tecnico.nome}
       </div>
-      <div className="col my-auto">
+      <div className="col-2 pl-0 pr-16 text-break">
         {element.giornata && formatDate(element.giornata.data)}
       </div>
-      <div className="text-end col my-auto pr-24">
+      <div className="col-2 pl-0 pr-0 text-end text-break">
         {visualizzaStatoIntervento(element.stato)}
       </div>
     </div>

@@ -55,7 +55,7 @@ export default function Clienti({ router = {} }) {
       })
     );
   }
-  function getisciInput(key, value) {
-    setVals({ ...vals, [key]: value });
+  function getisciInput(chiave, valore) {
+    setVals({ ...vals, [chiave]: valore });
   }
 }

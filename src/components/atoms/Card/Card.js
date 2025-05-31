@@ -1,17 +1,6 @@
 import stylecard from "../../../../styles/common.module.scss";
 import React from "react";
-const Card = ({
-  children,
-  className,
-  right,
-  key,
-  style,
-  id,
-  rightclassName,
-  contentClassName,
-  rightStyle,
-  onClickLeft,
-}) => {
+const Card = ({ children, className, style, id }) => {
   return (
     <div
       style={style ? style : { border: "1px solid #CED4DA " }}

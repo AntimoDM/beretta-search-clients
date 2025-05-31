@@ -1,7 +1,4 @@
-import { generaOpzioniClienti } from "@/src/utils/utility";
 import Card from "../../atoms/Card";
-import apiCliente from "@/src/utils/api/cliente";
-import { useEffect, useState } from "react";
 import SelectTecnici from "../../atoms/SelectTecnici/SelectTecnici";
 
 const FormAssociaGiornata = ({ className, onChange, vals }) => {
