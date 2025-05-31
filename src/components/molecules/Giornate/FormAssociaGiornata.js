@@ -1,9 +1,9 @@
-import Card from "../../atoms/Card";
+import Carta from "../../atoms/Carta/Carta";
 import SelectTecnici from "../../atoms/SelectTecnici/SelectTecnici";
 
 const FormAssociaGiornata = ({ className, onChange, vals }) => {
   return (
-    <Card className={`p-24 ${className}`}>
+    <Carta className={`p-24 ${className}`}>
       <h3>Associa Giornata</h3>
       <div className="row mt-24">
         <div className="col-6 pl-0 pr-16">
@@ -16,7 +16,6 @@ const FormAssociaGiornata = ({ className, onChange, vals }) => {
         <div className="col-6 pl-16 pr-0">
           <label className="font-18 lh-24 bold">Giorno</label>
           <input
-            className="w-100 h-40"
             id="data_chiamata"
             type="date"
             placeholder="Data Chiamata"
@@ -27,7 +26,7 @@ const FormAssociaGiornata = ({ className, onChange, vals }) => {
           />
         </div>
       </div>
-    </Card>
+    </Carta>
   );
 };
 

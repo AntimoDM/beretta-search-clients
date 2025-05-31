@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import LoadingIndicator from "@/src/components/atoms/Load/LoadPromise";
+import LoadingIndicator from "@/src/components/atoms/Loader/Loader";
 import Swal from "sweetalert2";
 import apiCliente from "@/src/utils/api/cliente";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";

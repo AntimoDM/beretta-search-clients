@@ -1,8 +1,8 @@
-import Card from "../../atoms/Card";
+import Carta from "../../atoms/Carta/Carta";
 
 const FormRicercaPuntuale = ({ className, onChange, ctaRicerca, vals }) => {
   return (
-    <Card className={`p-24 ${className}`}>
+    <Carta className={`p-24 ${className}`}>
       <h3>Ricerca Puntuale</h3>
 
       <div className="row mt-24">
@@ -18,7 +18,7 @@ const FormRicercaPuntuale = ({ className, onChange, ctaRicerca, vals }) => {
           />
         </div>
       </div>
-    </Card>
+    </Carta>
   );
 };
 

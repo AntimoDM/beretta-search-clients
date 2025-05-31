@@ -1,8 +1,8 @@
-import Card from "../../atoms/Card";
+import Carta from "../../atoms/Carta/Carta";
 
 const FormManutenzione = ({ className, onChange, vals, disabled = false }) => {
   return (
-    <Card className={`p-24 ${className}`}>
+    <Carta className={`p-24 ${className}`}>
       <h3>Dati Manutenzione</h3>
 
       <div className="row mt-24">
@@ -36,7 +36,6 @@ const FormManutenzione = ({ className, onChange, vals, disabled = false }) => {
           <label className="font-18 lh-24 bold">Scadenza</label>
           <input
             type="date"
-            className="w-100"
             value={vals.data_scadenza || ""}
             onChange={(e) => {
               onChange("data_scadenza", e.target.value);
@@ -48,7 +47,6 @@ const FormManutenzione = ({ className, onChange, vals, disabled = false }) => {
         <div className="col-6 pl-16 pr-0">
           <label className="font-18 lh-24 bold">Tipologia</label>
           <input
-            className="w-100"
             value={vals.tipologia || ""}
             onChange={(e) => {
               onChange("tipologia", e.target.value);
@@ -60,7 +58,7 @@ const FormManutenzione = ({ className, onChange, vals, disabled = false }) => {
       </div>
 
       <div className="row mt-8"></div>
-    </Card>
+    </Carta>
   );
 };
 

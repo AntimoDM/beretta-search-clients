@@ -1,8 +1,8 @@
-import Card from "../../atoms/Card";
+import Carta from "../../atoms/Carta/Carta";
 
 const FormAnagraficaCliente = ({ className, onChange, vals }) => {
   return (
-    <Card className={`p-24 ${className}`}>
+    <Carta className={`p-24 ${className}`}>
       <h3>Anagrafica</h3>
 
       <div className="row mt-24">
@@ -32,7 +32,6 @@ const FormAnagraficaCliente = ({ className, onChange, vals }) => {
         <div className="col-6 pl-0 pr-16">
           <label className="font-18 lh-24 bold">Telefono</label>
           <input
-            className="w-100"
             value={vals.telefono}
             onChange={(e) => {
               onChange("telefono", e.target.value);
@@ -44,7 +43,6 @@ const FormAnagraficaCliente = ({ className, onChange, vals }) => {
         <div className="col-6 pr-0 pl-16">
           <label className="font-18 lh-24 bold">Email</label>
           <input
-            className="w-100"
             value={vals.email || ""}
             onChange={(e) => {
               onChange("email", e.target.value);
@@ -113,7 +111,7 @@ const FormAnagraficaCliente = ({ className, onChange, vals }) => {
           />
         </div>
       </div>
-    </Card>
+    </Carta>
   );
 };
 

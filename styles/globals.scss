@@ -1810,6 +1810,7 @@ small {
 }
 
 .riga_modale{
+  border-top: 1px solid #e0e0dd;
   &:hover{
       border: 1px solid #66b2ff;
       //box-shadow: 4px 4px 4px 4px rgba(102, 178, 255, 0.3); /* sfumatura azzurra */
@@ -1842,6 +1843,7 @@ small {
       box-shadow: 0 0 0 4px rgba(102, 178, 255, 0.3); /* sfumatura azzurra */
     }
   }
+
   .textarea{
     &:disabled {
       background-color: #f5f5f5;  

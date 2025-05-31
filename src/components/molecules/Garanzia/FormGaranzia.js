@@ -1,8 +1,8 @@
-import Card from "../../atoms/Card";
+import Carta from "../../atoms/Carta/Carta";
 
 const FormGaranzia = ({ className, onChange, vals, disabled = false }) => {
   return (
-    <Card className={`p-24 ${className}`}>
+    <Carta className={`p-24 ${className}`}>
       <h3>Dati Garanzia</h3>
 
       <div className="row mt-24">
@@ -58,7 +58,7 @@ const FormGaranzia = ({ className, onChange, vals, disabled = false }) => {
       </div>
 
       <div className="row mt-8"></div>
-    </Card>
+    </Carta>
   );
 };
 

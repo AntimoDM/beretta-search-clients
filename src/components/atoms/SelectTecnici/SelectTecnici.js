@@ -24,7 +24,7 @@ const SelectTecnici = ({ onFilter = () => null, className, value }) => {
       }}
       value={value === "0" ? "opzioneNascosta" : value}
       id={id}
-      className={`h-40 pl-0 " ${className}`}
+      className={`pl-0 " ${className}`}
       style={{ display: "block" }}
     >
       <option key={0} value="opzioneNascosta" disabled hidden>

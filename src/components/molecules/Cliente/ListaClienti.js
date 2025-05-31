@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Card from "../../atoms/Card";
+import Carta from "../../atoms/Carta/Carta";
 
 const ListaClienti = ({ className, clienti }) => {
   return (
-    <Card className={` ${className}`}>
+    <Carta className={` ${className}`}>
       <h3 className="mt-24 ml-24">Clienti Trovati</h3>
 
       <ul className="nav nav-tabs m-0 p-0">
@@ -81,7 +81,7 @@ const ListaClienti = ({ className, clienti }) => {
             );
           })}
       </div>
-    </Card>
+    </Carta>
   );
 };
 

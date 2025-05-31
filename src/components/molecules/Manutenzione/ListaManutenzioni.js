@@ -1,11 +1,11 @@
 import Link from "next/link";
-import Card from "../../atoms/Card";
 import { formatDate } from "@/src/utils/utility";
 import SelectClienti from "../../atoms/SelectClienti/SelectClienti";
+import Carta from "../../atoms/Carta/Carta";
 
 const ListaManutenzioni = ({ className, onFilter, manutenzioni }) => {
   return (
-    <Card className={` ${className}`}>
+    <Carta className={` ${className}`}>
       <ul className="nav nav-tabs m-0 p-0">
         <li key={0} className="nav-item ">
           <a className={"nav-link active"} href="#">
@@ -66,7 +66,7 @@ const ListaManutenzioni = ({ className, onFilter, manutenzioni }) => {
             );
           })}
       </div>
-    </Card>
+    </Carta>
   );
 };
 

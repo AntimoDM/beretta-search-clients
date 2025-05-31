@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styles from "@/styles/common.module.scss";
-import Card from "../Card";
 import Swal from "sweetalert2";
 import Button from "../Button/Button";
+import Carta from "../Carta/Carta";
 export default function Login({ onClick = () => null }) {
   const [user, setUser] = useState({});
   return (
-    <Card className={"p-24 " + styles.login}>
+    <Carta className={"p-24 " + styles.login}>
       <h2>Bentornato</h2>
       <h4 className={styles.sub_title}>
         Effettua il login con le tue credenziali
@@ -34,7 +34,7 @@ export default function Login({ onClick = () => null }) {
       >
         Login
       </Button>
-    </Card>
+    </Carta>
   );
 
   function effettuaLogin() {

@@ -1,5 +1,5 @@
 import Button from "../../atoms/Button/Button";
-import Card from "../../atoms/Card";
+import Carta from "../../atoms/Carta/Carta";
 import SelectTecnici from "../../atoms/SelectTecnici/SelectTecnici";
 
 const FormIntervento = ({
@@ -14,7 +14,7 @@ const FormIntervento = ({
   ctaChiudi = null,
 }) => {
   return (
-    <Card className={`p-24 ${className}`}>
+    <Carta className={`p-24 ${className}`}>
       <div className="row m-0 p-0">
         <div className="col-6 m-0 p-0">
           <h3>Dettaglio Intervento</h3>
@@ -41,7 +41,6 @@ const FormIntervento = ({
           <input
             disabled
             type="date"
-            className="w-100"
             value={vals.data_assegnamento}
             onChange={(e) => {
               onChange("data_assegnamento", e.target.value);
@@ -142,7 +141,7 @@ const FormIntervento = ({
           </div>
         </div>
       )}
-    </Card>
+    </Carta>
   );
 };
 

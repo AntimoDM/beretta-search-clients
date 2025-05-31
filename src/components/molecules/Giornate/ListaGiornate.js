@@ -1,11 +1,11 @@
 import Link from "next/link";
-import Card from "../../atoms/Card";
 import { formatDate } from "@/src/utils/utility";
 import SelectTecnici from "../../atoms/SelectTecnici/SelectTecnici";
+import Carta from "../../atoms/Carta/Carta";
 
 const ListaGiornate = ({ className, onFilter, giornate }) => {
   return (
-    <Card className={` ${className}`}>
+    <Carta className={` ${className}`}>
       <ul className="nav nav-tabs m-0 p-0">
         <li key={0} className="nav-item ">
           <a className={"nav-link active"} href="#">
@@ -60,7 +60,7 @@ const ListaGiornate = ({ className, onFilter, giornate }) => {
             );
           })}
       </div>
-    </Card>
+    </Carta>
   );
 };
 

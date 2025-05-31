@@ -8,10 +8,7 @@ const apiGaranzia = {
   ricerca_garanzie: async function (params) {
     try {
       const res = await axios.get(
-        BASE_URL + "/garanzia" + creaQueryParams(params),
-        {
-          withCredentials: false,
-        }
+        BASE_URL + "/garanzia" + creaQueryParams(params)
       );
       const data = res.data;
       let resArray = data;

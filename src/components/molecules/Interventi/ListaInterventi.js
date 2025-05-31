@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Card from "../../atoms/Card";
 import { formatDate, visualizzaStatoIntervento } from "@/src/utils/utility";
 import { useState } from "react";
 import SelectTecnici from "../../atoms/SelectTecnici/SelectTecnici";
+import Carta from "../../atoms/Carta/Carta";
 
 const ListaInterventi = ({
   className,
@@ -19,7 +19,7 @@ const ListaInterventi = ({
   const [statoAttivo, setStatoAttivo] = useState(0);
 
   return (
-    <Card className={` ${className}`}>
+    <Carta className={` ${className}`}>
       {titolo && <h3 className="mt-24 ml-24">{titolo}</h3>}
       {mostraFiltri && (
         <ul className="nav nav-tabs m-0 p-0">
@@ -145,7 +145,7 @@ const ListaInterventi = ({
           </div>
         )}
       </div>
-    </Card>
+    </Carta>
   );
 };
 
@@ -192,7 +192,6 @@ const RigaModale = ({ element, index, ctaSeleziona = null }) => {
     <div
       onClick={() => ctaSeleziona(element)}
       key={index}
-      style={{ borderTop: "1px solid #e0e0dd" }}
       className="row align-items-center p-24 riga_modale pointer"
     >
       <div onClick={(e) => e.stopPropagation()} className="col-1  pl-0 pr-16">
