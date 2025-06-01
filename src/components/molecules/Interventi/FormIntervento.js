@@ -1,4 +1,4 @@
-import Button from "../../atoms/Button/Button";
+import Bottone from "../../atoms/Bottone/Bottone";
 import Carta from "../../atoms/Carta/Carta";
 import SelectTecnici from "../../atoms/SelectTecnici/SelectTecnici";
 
@@ -128,16 +128,16 @@ const FormIntervento = ({
           <div className="col-6 pl-0 pr-16"></div>
           <div className="col-6 p-0 m-0 d-flex justify-content-end align-items-center gap-16">
             {ctaElimina && (
-              <Button color={"rosso"} onClick={() => ctaElimina()}>
+              <Bottone color={"rosso"} onClick={() => ctaElimina()}>
                 Elimina
-              </Button>
+              </Bottone>
             )}
             {ctaAnnulla && (
-              <Button color={"grigio"} onClick={() => ctaAnnulla()}>
+              <Bottone color={"grigio"} onClick={() => ctaAnnulla()}>
                 Annulla
-              </Button>
+              </Bottone>
             )}
-            {ctaSalva && <Button onClick={() => ctaSalva()}>Salva</Button>}
+            {ctaSalva && <Bottone onClick={() => ctaSalva()}>Salva</Bottone>}
           </div>
         </div>
       )}

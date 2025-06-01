@@ -1,9 +1,10 @@
 import React from "react";
 import Loader from "../Loader/Loader";
+import "./pagina.scss";
 
 const Pagina = ({ children, className }) => {
   return (
-    <div className={`page-container-new " ${className}`}>
+    <div className={`pagina ${className}`}>
       {children}
       <Loader />
     </div>

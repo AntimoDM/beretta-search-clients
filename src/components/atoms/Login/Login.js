@@ -1,45 +1,45 @@
 import React, { useState } from "react";
-import styles from "@/styles/common.module.scss";
 import Swal from "sweetalert2";
-import Button from "../Button/Button";
+import Bottone from "../Bottone/Bottone";
+import "./login.scss";
 import Carta from "../Carta/Carta";
-export default function Login({ onClick = () => null }) {
-  const [user, setUser] = useState({});
+export default function Login({ ctaLogin = () => null }) {
+  const [utente, setUtente] = useState({});
   return (
-    <Carta className={"p-24 " + styles.login}>
+    <Carta className="pl-24 pr-24 pt-32 pb-32 m-auto login">
       <h2>Bentornato</h2>
-      <h4 className={styles.sub_title}>
-        Effettua il login con le tue credenziali
-      </h4>
-      <div className="form-group mb-16 h-56">
+      <h4>Effettua il login con le tue credenziali</h4>
+      <div className="mt-24">
         <input
-          value={user.username || ""}
+          value={utente.nome_utente || ""}
           placeholder="Utente"
-          onChange={(e) => setUser({ ...user, username: e.target.value })}
+          onChange={(e) =>
+            setUtente({ ...utente, nome_utente: e.target.value })
+          }
         />
       </div>
-      <div className="form-group mb-24 h-56">
+      <div className="mt-24">
         <input
-          value={user.password || ""}
+          value={utente.password || ""}
           placeholder="Password"
           type="password"
-          onChange={(e) => setUser({ ...user, password: e.target.value })}
+          onChange={(e) => setUtente({ ...utente, password: e.target.value })}
         />
       </div>
-      <Button
+      <Bottone
         onClick={() => {
           effettuaLogin();
         }}
-        className="w-100 h-64"
+        className="w-100 mt-24"
       >
         Login
-      </Button>
+      </Bottone>
     </Carta>
   );
 
   function effettuaLogin() {
-    if (user.username && user.password()) {
-      onClick(user);
+    if (utente.nome_utente && utente.password) {
+      ctaLogin(utente);
     } else {
       Swal.fire(
         "Credenziali mancanti",

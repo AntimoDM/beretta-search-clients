@@ -1,0 +1,14 @@
+.filtro_header_lista{
+    border-color: transparent;
+    color: #ccccc9;
+    border: none;
+    width: fit-content;
+    &:hover{
+        color: #323232;
+    }
+    &.attivo{
+        color: #323232;
+    }
+}
+
+

@@ -3,6 +3,7 @@ import { formatDate, visualizzaStatoIntervento } from "@/src/utils/utility";
 import { useState } from "react";
 import SelectTecnici from "../../atoms/SelectTecnici/SelectTecnici";
 import Carta from "../../atoms/Carta/Carta";
+import FiltroHeaderLista from "../../atoms/FiltroHeaderLista/FiltroHeaderLista";
 
 const ListaInterventi = ({
   className,
@@ -22,68 +23,51 @@ const ListaInterventi = ({
     <Carta className={` ${className}`}>
       {titolo && <h3 className="mt-24 ml-24">{titolo}</h3>}
       {mostraFiltri && (
-        <ul className="nav nav-tabs m-0 p-0">
-          <li key={0} className="nav-item ">
-            <a
-              onClick={() => {
-                onFilter("stato", 0);
-                setStatoAttivo(0);
-              }}
-              className={"nav-link " + (statoAttivo === 0 ? "active" : "")}
-              href="#"
-            >
-              Tutti
-            </a>
-          </li>
-          <li key={1} className="nav-item ">
-            <a
-              onClick={() => {
-                onFilter("stato", 1);
-                setStatoAttivo(1);
-              }}
-              className={"nav-link " + (statoAttivo === 1 ? "active" : "")}
-              href="#"
-            >
-              Nuovi
-            </a>
-          </li>
-          <li key={2} className="nav-item ">
-            <a
-              onClick={() => {
-                onFilter("stato", 2);
-                setStatoAttivo(2);
-              }}
-              className={"nav-link " + (statoAttivo === 2 ? "active" : "")}
-              href="#"
-            >
-              Assegnati
-            </a>
-          </li>
-          <li key={3} className="nav-item ">
-            <a
-              onClick={() => {
-                onFilter("stato", 3);
-                setStatoAttivo(3);
-              }}
-              className={"nav-link " + (statoAttivo === 3 ? "active" : "")}
-              href="#"
-            >
-              Pianificati
-            </a>
-          </li>
-          <li key={4} className="nav-item ">
-            <a
-              onClick={() => {
-                onFilter("stato", 4);
-                setStatoAttivo(4);
-              }}
-              className={"nav-link " + (statoAttivo === 4 ? "active" : "")}
-              href="#"
-            >
-              Completi
-            </a>
-          </li>
-        </ul>
+        <div
+          style={{ borderBottom: "1px solid #e0e0dd" }}
+          className="row m-0 pl-24 pr-24 pb-16 pt-16 gap-24"
+        >
+          <FiltroHeaderLista
+            nome="Tutti"
+            attivo={statoAttivo === 0}
+            onClick={() => {
+              onFilter("stato", 0);
+              setStatoAttivo(0);
+            }}
+          />
+          <FiltroHeaderLista
+            nome="Nuovi"
+            attivo={statoAttivo === 1}
+            onClick={() => {
+              onFilter("stato", 1);
+              setStatoAttivo(1);
+            }}
+          />
+          <FiltroHeaderLista
+            nome="Assegnati"
+            attivo={statoAttivo === 2}
+            onClick={() => {
+              onFilter("stato", 2);
+              setStatoAttivo(2);
+            }}
+          />
+          <FiltroHeaderLista
+            nome="Pianificati"
+            attivo={statoAttivo === 3}
+            onClick={() => {
+              onFilter("stato", 3);
+              setStatoAttivo(3);
+            }}
+          />
+          <FiltroHeaderLista
+            nome="Completati"
+            attivo={statoAttivo === 4}
+            onClick={() => {
+              onFilter("stato", 4);
+              setStatoAttivo(4);
+            }}
+          />
+        </div>
       )}
       {mostraFiltri && (
         <div className="row p-24 align-items-center">

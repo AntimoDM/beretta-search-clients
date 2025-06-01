@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Button from "../../atoms/Button/Button";
+import Bottone from "../../atoms/Bottone/Bottone";
 
 const TitoloPagina = ({
   titolo,
@@ -15,9 +15,9 @@ const TitoloPagina = ({
       <div className="col-6 p-0 m-0 d-flex justify-content-start align-items-center gap-16">
         {urlIndietro && (
           <Link href={urlIndietro}>
-            <Button color="trasparente">
+            <Bottone color="trasparente">
               <img src="/media/icon/freccia_header_sinistra.svg"></img>
-            </Button>
+            </Bottone>
           </Link>
         )}
         <h2>{titolo}</h2>
@@ -25,24 +25,26 @@ const TitoloPagina = ({
       <div className="col-6 p-0 m-0 d-flex justify-content-end align-items-center gap-16">
         {urlAggiungi && (
           <Link href={urlAggiungi}>
-            <Button>Aggiungi</Button>
+            <Bottone>Aggiungi</Bottone>
           </Link>
         )}
-        {ctaCompleta && <Button onClick={() => ctaCompleta()}>Completa</Button>}
+        {ctaCompleta && (
+          <Bottone onClick={() => ctaCompleta()}>Completa</Bottone>
+        )}
         {ctaAggiungiInterventi && (
-          <Button onClick={() => ctaAggiungiInterventi()}>
+          <Bottone onClick={() => ctaAggiungiInterventi()}>
             Aggiungi Interventi
-          </Button>
+          </Bottone>
         )}
         {ctaRimuoviInterventi && (
-          <Button onClick={() => ctaRimuoviInterventi()}>
+          <Bottone onClick={() => ctaRimuoviInterventi()}>
             Rimuovi Interventi
-          </Button>
+          </Bottone>
         )}
         {ctaElimina && (
-          <Button onClick={() => ctaElimina()} color="rosso">
+          <Bottone onClick={() => ctaElimina()} color="rosso">
             Elimina
-          </Button>
+          </Bottone>
         )}
       </div>
     </div>

@@ -8,7 +8,7 @@ const Loader = ({ area }) => {
     return (
       <div
         style={{ zIndex: "10" }}
-        className="loader_outer h-100 w-100 d-flex justify-content-center align-items-center"
+        className="loader h-100 w-100 d-flex justify-content-center align-items-center"
       >
         <div className="lds-ellipsis">
           <div></div>

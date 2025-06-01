@@ -1,4 +1,5 @@
 import React from "react";
+import "./modal.scss";
 const Modal = ({ id, children }) => {
   return (
     <div

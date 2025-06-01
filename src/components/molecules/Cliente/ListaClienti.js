@@ -1,18 +1,18 @@
 import Link from "next/link";
 import Carta from "../../atoms/Carta/Carta";
+import FiltroHeaderLista from "../../atoms/FiltroHeaderLista/FiltroHeaderLista";
 
 const ListaClienti = ({ className, clienti }) => {
   return (
     <Carta className={` ${className}`}>
       <h3 className="mt-24 ml-24">Clienti Trovati</h3>
 
-      <ul className="nav nav-tabs m-0 p-0">
-        <li key={0} className="nav-item ">
-          <a className={"nav-link active"} href="#">
-            Tutti
-          </a>
-        </li>
-      </ul>
+      <div
+        style={{ borderBottom: "1px solid #e0e0dd" }}
+        className="row m-0 pl-24 pr-24 pb-16 pt-16 gap-24"
+      >
+        <FiltroHeaderLista nome="Tutti" attivo={true} />
+      </div>
 
       <div className="row p-24 align-items-center">
         <div className="col-1 pl-0 pr-16">

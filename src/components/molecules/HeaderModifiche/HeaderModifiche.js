@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../../atoms/Button/Button";
+import Bottone from "../../atoms/Bottone/Bottone";
 import "./headerModifiche.scss";
 
 const HeaderModifiche = ({ mostra, ctaSalva, ctaAnnulla }) => {
@@ -14,11 +14,11 @@ const HeaderModifiche = ({ mostra, ctaSalva, ctaAnnulla }) => {
       </div>
       <div className="col-6 p-0 m-0 d-flex justify-content-end align-items-center gap-16">
         {ctaAnnulla && (
-          <Button color="grigio" onClick={() => ctaAnnulla()}>
+          <Bottone color="grigio" onClick={() => ctaAnnulla()}>
             Annulla
-          </Button>
+          </Bottone>
         )}
-        {ctaSalva && <Button onClick={() => ctaSalva()}>Salva</Button>}
+        {ctaSalva && <Bottone onClick={() => ctaSalva()}>Salva</Bottone>}
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ export default function PaginaLogin({ router }) {
   return (
     <div style={{ paddingTop: "150px" }} className="page-container-new">
       <Login
-        onClick={(user) => {
+        ctaLogin={(user) => {
           if (effettuaLogin(user)) {
             localStorage.setItem("user", user.username);
             router.push("/clienti");
