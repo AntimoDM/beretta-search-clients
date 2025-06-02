@@ -62,6 +62,7 @@ export default function DettaglioGiornata({ router = {} }) {
             ? "Nuova Giornata"
             : vals.tecnico && vals.tecnico.nome + " - " + formatDate(vals.data)
         }
+        ctaStampa={stampa}
         urlIndietro="/giornate"
         ctaAggiungiInterventi={
           idInterventiDaAssociare.length > 0 && aggiungiInterventi
@@ -169,5 +170,15 @@ export default function DettaglioGiornata({ router = {} }) {
     setVals(value);
     setDbVals(value);
     setModifying(false);
+  }
+
+  function stampa() {
+    trackPromise(
+      apiGiornata.genera_pdf_giornata(vals.id).then((value) => {
+        if (value) {
+          return null;
+        }
+      })
+    );
   }
 }

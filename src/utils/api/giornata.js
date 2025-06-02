@@ -1,6 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-import { BASE_URL, creaQueryParams } from "../utility";
+import { BASE_URL, creaQueryParams, gestisciErroreDjango } from "../utility";
 axios.defaults.withCredentials = false;
 axios.defaults.headers.common["Accept-Language"] = "it";
 
@@ -70,6 +70,36 @@ const apiGiornata = {
       return data;
     } catch (error) {
       Swal.fire("Errore", await error.response.data.res, "error");
+    }
+  },
+  genera_pdf_giornata: async function (id) {
+    try {
+      const res = await axios.get(BASE_URL + "/giornata/pdf/" + id, {
+        responseType: "blob", // importantissimo per ricevere un file binario
+      });
+
+      const blob = res.data;
+
+      // Estrae filename dalla header 'Content-Disposition'
+      const contentDisposition = res.headers["content-disposition"];
+      let filename = "giornata.pdf";
+      const match =
+        contentDisposition && contentDisposition.match(/filename="(.+)"/);
+      if (match && match[1]) {
+        filename = match[1];
+      }
+
+      // Crea URL temporaneo per il blob
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      gestisciErroreDjango(error);
     }
   },
 };

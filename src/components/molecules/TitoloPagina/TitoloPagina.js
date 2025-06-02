@@ -9,6 +9,7 @@ const TitoloPagina = ({
   ctaCompleta,
   ctaAggiungiInterventi,
   ctaRimuoviInterventi,
+  ctaStampa,
 }) => {
   return (
     <div className="row p-0 align-items-center mb-24 mt-8">
@@ -41,6 +42,7 @@ const TitoloPagina = ({
             Rimuovi Interventi
           </Bottone>
         )}
+        {ctaStampa && <Bottone onClick={() => ctaStampa()}>Stampa</Bottone>}
         {ctaElimina && (
           <Bottone onClick={() => ctaElimina()} color="rosso">
             Elimina
