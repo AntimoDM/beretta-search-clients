@@ -11,12 +11,12 @@ const TitoloPagina = ({
   ctaRimuoviInterventi,
 }) => {
   return (
-    <div className="row p-0 align-items-center mb-24">
+    <div className="row p-0 align-items-center mb-24 mt-8">
       <div className="col-6 p-0 m-0 d-flex justify-content-start align-items-center gap-16">
         {urlIndietro && (
           <Link href={urlIndietro}>
             <Bottone color="trasparente">
-              <img src="/media/icon/freccia_header_sinistra.svg"></img>
+              <img src="/freccia_header_sinistra.svg"></img>
             </Bottone>
           </Link>
         )}

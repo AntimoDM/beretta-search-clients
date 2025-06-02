@@ -3,3 +3,13 @@
   background: transparent;
   border: none;
 }
+
+.modal-open .modal {
+  overflow-x: visible;
+  overflow-y: auto;
+  z-index: 9999;
+}
+
+.modal-dialog {
+  max-width: 90% !important;
+}

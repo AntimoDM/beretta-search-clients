@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
 import Swal from "sweetalert2";
 import apiCliente from "@/src/utils/api/cliente";
-import { createRequestVals } from "@/src/utils/utility";
+import {
+  createRequestVals,
+  prelevaIndirizzoPerIntervento,
+} from "@/src/utils/utility";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
 import FormAnagraficaCliente from "@/src/components/molecules/Cliente/FormAnagraficaCliente";
 import FormManutenzione from "@/src/components/molecules/Manutenzione/FormManutenzione";
@@ -179,13 +182,13 @@ export default function DettaglioCliente({ router = {} }) {
     setApriModaleIntervento(true);
     setInterventoSelezionato({
       id: 0,
-      indirizzo: vals.strada,
+      indirizzo: prelevaIndirizzoPerIntervento(vals),
       cliente: vals.id,
       data_chiamata: new Date().toISOString().split("T")[0],
     });
     setInterventoSelezionatoDB({
       id: 0,
-      indirizzo: vals.strada,
+      indirizzo: prelevaIndirizzoPerIntervento(vals),
       cliente: vals.id,
       data_chiamata: new Date().toISOString().split("T")[0],
     });
@@ -257,19 +260,21 @@ export default function DettaglioCliente({ router = {} }) {
     }).then((value) => {
       if (value.isConfirmed) {
         trackPromise(
-          apiIntervento.elimina_intervento(vals.id).then((value) => {
-            if (value) {
-              Swal.fire(
-                "Successo",
-                "L'eliminazione ha avuto successo",
-                "success"
-              ).then((value) => {
-                setTimeout(() => {
-                  window.location.reload();
-                }, 500);
-              });
-            }
-          })
+          apiIntervento
+            .elimina_intervento(interventoSelezionato.id)
+            .then((value) => {
+              if (value) {
+                Swal.fire(
+                  "Successo",
+                  "L'eliminazione ha avuto successo",
+                  "success"
+                ).then((value) => {
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 500);
+                });
+              }
+            })
         );
       }
     });

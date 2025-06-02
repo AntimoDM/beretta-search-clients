@@ -68,7 +68,7 @@ const ListaClienti = ({ className, clienti }) => {
                   {element.strada}
                 </div>
                 <div className="col-2 pl-0 pr-16 text-break">
-                  {element.comnune}
+                  {element.comune}
                 </div>
                 <div className="col-2 pl-0 pr-16 text-break">
                   {element.telefono}

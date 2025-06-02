@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
-import { createRequestVals, formatDate } from "@/src/utils/utility";
+import {
+  createRequestVals,
+  formatDate,
+  traduciStatoIntervento,
+} from "@/src/utils/utility";
 import Swal from "sweetalert2";
 import apiIntervento from "@/src/utils/api/intervento";
 import TitoloPagina from "@/src/components/molecules/TitoloPagina/TitoloPagina";
@@ -42,12 +46,16 @@ export default function DettaglioIntervento({ router = {} }) {
       <TitoloPagina
         titolo={
           slug !== "nuovo"
-            ? "Intervento del " + formatDate(vals.data_chiamata)
+            ? "Intervento del " +
+              formatDate(vals.data_chiamata) +
+              " - " +
+              traduciStatoIntervento(vals.stato) +
+              (vals.giornata ? " (" + formatDate(vals.giornata.data) + ")" : "")
             : "Nuovo Intervento"
         }
         urlIndietro="/interventi"
         ctaElimina={slug !== "nuovo" && elimina}
-        ctaCompleta={vals.stato === 2 && completa}
+        ctaCompleta={vals.stato === 3 && completa}
       />
       <FormAssociaCliente
         className="mb-32"

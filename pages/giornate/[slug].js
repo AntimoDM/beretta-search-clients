@@ -102,6 +102,7 @@ export default function DettaglioGiornata({ router = {} }) {
   );
 
   function aggiungiInterventi() {
+    console.log("parto");
     if (idInterventiDaAssociare.length > 0) {
       trackPromise(
         apiGiornata

@@ -145,7 +145,7 @@ const RigaRendirizzamento = ({ element, index, onSelectCheckbox }) => {
         <input
           onClick={(e) => {
             e.stopPropagation();
-            onSelectCheckbox(e);
+            onSelectCheckbox(element.id);
           }}
           type="checkbox"
         />

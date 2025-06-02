@@ -44,6 +44,7 @@ const apiGiornata = {
     }
   },
   aggiungi_intervento_a_giornata: async function (id, interventiIds) {
+    console.log("arrivo qui", id, interventiIds);
     try {
       const res = await axios.post(
         BASE_URL + "/giornata/interventi/" + id + "/aggiungi",

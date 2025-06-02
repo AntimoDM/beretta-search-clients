@@ -4,7 +4,7 @@ import "./bottone.scss";
 const Bottone = ({ children, onClick, disabled = false, className, color }) => {
   return (
     <button
-      className={`btn ${className} ${color}`}
+      className={`bottone ${className} ${color}`}
       onClick={onClick}
       disabled={disabled}
     >

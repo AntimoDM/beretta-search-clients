@@ -46,8 +46,23 @@ export function visualizzaStatoIntervento(stato) {
   }
 }
 
+export function traduciStatoIntervento(stato) {
+  switch (stato) {
+    case 1:
+      return "Nuovo";
+    case 2:
+      return "Assegnato";
+    case 3:
+      return "Pianificato";
+    case 4:
+      return "Completo";
+    default:
+      return "Stato sconosciuto";
+  }
+}
+
 export function effettuaLogin(user) {
-  switch (user.username) {
+  switch (user.nome_utente) {
     case "cristina":
       return user.password === "ufficio";
     case "nunzia":
@@ -77,4 +92,14 @@ export function createRequestVals(vals = {}, keys = []) {
     requestVals[attr] = vals[attr];
   }
   return requestVals;
+}
+
+export function prelevaIndirizzoPerIntervento(cliente) {
+  let indirizzo_intervento = "";
+  if (cliente.strada) indirizzo_intervento += cliente.strada;
+  if (cliente.numero_civico)
+    indirizzo_intervento += ", " + cliente.numero_civico;
+  if (cliente.comune) indirizzo_intervento += " - " + cliente.comune;
+  if (cliente.provincia) indirizzo_intervento += " (" + cliente.provincia + ")";
+  return indirizzo_intervento;
 }
